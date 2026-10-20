@@ -1,0 +1,1137 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Descubre los derechos que ganas y quiénes pagan más con el programa económico del Frente Amplio: IRPF, patrimonio, herencias, IVA, vivienda, jornada de 37,5 horas, prestación por crianza y más.">
+<meta name="theme-color" content="#E23E27">
+<!-- Redes sociales: sustituye URL_DEL_SITIO por la dirección pública (p. ej. https://usuario.github.io/simulador) -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="¿Cuánto ganas con la propuesta económica del Frente Amplio?">
+<meta property="og:description" content="Descubre los derechos que ganas y quiénes pagan más con el programa económico del Frente Amplio: IRPF, patrimonio, herencias, IVA, vivienda, jornada de 37,5 horas, prestación por crianza y más.">
+<meta property="og:image" content="URL_DEL_SITIO/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="URL_DEL_SITIO/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="¿Cuánto ganas con la propuesta económica del Frente Amplio?">
+<meta name="twitter:description" content="Descubre los derechos que ganas y quiénes pagan más con el programa económico del Frente Amplio: IRPF, patrimonio, herencias, IVA, vivienda, jornada de 37,5 horas, prestación por crianza y más.">
+<meta name="twitter:image" content="URL_DEL_SITIO/og-image.png">
+<style>
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+img{max-width:100%}
+[hidden]{display:none!important}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+</style>
+<title>¿Cuánto ganas con la propuesta económica del Frente Amplio?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: banda bermellón con titular lima; debajo, formulario a la izquierda y resultado fijo (sticky) a la derecha; en móvil, barra inferior con el saldo. */
+:root{
+  --verm:#E23E27; --verm-ink:#B92A16; --lime:#C8F04A; --lime-ink:#3D7300;
+  --bg:#FFFFFF; --panel:#F6F2F0; --panel-2:#EFE8E5; --line:#E3D9D5;
+  --ink:#1D1412; --muted:#6E5F5A; --on-verm:#C8F04A; --on-verm-soft:#FFE9E3;
+  --gain:#3D7300; --gain-bg:#E7F6C4; --cost:#C2301B; --cost-bg:#FCE3DD;
+  --focus:#1D1412; --lime-stroke:3px #1D1412; --lime-stroke-s:1px #1D1412; --tot-bg:#E23E27; --tot-fg:#FFF6F2; --tot-line:rgba(255,255,255,.35); --tot-neg:#FFFFFF;
+  --f-display:"Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+  --f-body:"Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --verm:#D9381F; --verm-ink:#FF7A63; --lime:#C8F04A; --lime-ink:#C8F04A;
+  --bg:#150F0D; --panel:#201714; --panel-2:#2A1F1B; --line:#3A2C27;
+  --ink:#F7EFEB; --muted:#B7A49D; --on-verm:#D8FA6A; --on-verm-soft:#FFE3DB;
+  --gain:#C8F04A; --gain-bg:#2B3A0E; --cost:#FF7A63; --cost-bg:#3D1A12; --focus:#C8F04A; --lime-stroke:0 transparent; --lime-stroke-s:0 transparent; --tot-bg:#D9381F; --tot-fg:#FFF6F2; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --verm:#D9381F; --verm-ink:#FF7A63; --lime:#C8F04A; --lime-ink:#C8F04A;
+  --bg:#150F0D; --panel:#201714; --panel-2:#2A1F1B; --line:#3A2C27;
+  --ink:#F7EFEB; --muted:#B7A49D; --on-verm:#D8FA6A; --on-verm-soft:#FFE3DB;
+  --gain:#C8F04A; --gain-bg:#2B3A0E; --cost:#FF7A63; --cost-bg:#3D1A12; --focus:#C8F04A; --lime-stroke:0 transparent; --lime-stroke-s:0 transparent; --tot-bg:#D9381F; --tot-fg:#FFF6F2; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--verm)}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+a{color:var(--verm-ink)}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+
+/* Cabecera */
+.hero{background:var(--verm);color:var(--on-verm-soft)}
+.hero .wrap{padding-block:28px 26px;display:grid;gap:14px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--on-verm-soft);opacity:.9}
+.hero h1{font-family:var(--f-display);font-weight:800;font-size:clamp(30px,5.4vw,60px);line-height:.98;letter-spacing:-.02em;margin:0;color:var(--on-verm);text-wrap:balance;max-width:20ch}
+.hero p{margin:0;max-width:68ch;font-size:16px}
+.badge{display:inline-flex;gap:8px;align-items:center;font-size:12.5px;background:rgba(0,0,0,.18);color:#FFF5F1;padding:6px 10px;border-radius:4px;width:fit-content}
+
+/* Pestañas y ejemplos */
+.controls{display:flex;flex-direction:column;gap:12px;align-items:flex-start;padding-block:18px 6px}
+.tabs{display:inline-flex;border:1.5px solid var(--ink);border-radius:6px;overflow:hidden;flex-wrap:wrap}
+.tabs button{appearance:none;border:0;background:transparent;color:var(--ink);font:600 14px var(--f-body);padding:9px 14px;cursor:pointer}
+.tabs button+button{border-left:1.5px solid var(--ink)}
+.tabs button[aria-selected="true"]{background:var(--verm);color:#FFFFFF}
+.presets{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.presets span{font-size:12.5px;color:var(--muted);margin-right:4px}
+.chip{appearance:none;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:500 13px var(--f-body);padding:5px 10px;border-radius:999px;cursor:pointer}
+.chip:hover{border-color:var(--verm-ink)}
+.chip[aria-pressed="true"]{background:var(--lime);color:#1D1412;border-color:var(--lime)}
+.example-note{font-size:12.5px;color:var(--muted);padding-bottom:10px}
+
+/* Rejilla principal */
+.main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,420px);gap:28px;align-items:start;padding-block:8px 40px}
+@media (max-width:960px){.main{grid-template-columns:minmax(0,1fr)}}
+
+/* Formulario */
+form{display:grid;gap:10px;min-width:0}
+.group-h{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;padding:10px 16px;border-radius:8px}
+.group-h:not(:first-child){margin-top:18px}
+.group-h span{font-family:var(--f-display);font-weight:800;font-size:22px;letter-spacing:-.01em}
+.group-h small{font-size:12.5px;opacity:.85}
+.group-h.g-gain{background:var(--lime);color:#1D1412} .group-h.g-pay{background:var(--verm);color:#FFFFFF}
+details.sec{border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+details.sec>summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;gap:12px;align-items:baseline;justify-content:space-between}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary h2{font-family:var(--f-display);font-weight:700;font-size:19px;margin:0;letter-spacing:-.01em}
+details.sec>summary .hint{font-size:12.5px;color:var(--muted);text-align:right}
+details.sec>summary::after{content:"+";font:500 20px var(--f-mono);color:var(--verm-ink);margin-left:6px}
+details.sec[open]>summary::after{content:"–"}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px 16px;padding:4px 16px 18px}
+.field{display:grid;gap:5px;align-content:start;min-width:0}
+.field label,.field .lbl{font-size:13px;font-weight:600}
+.field small{font-size:12px;color:var(--muted);line-height:1.35}
+.inp{display:flex;align-items:center;border:1.5px solid var(--line);border-radius:6px;background:var(--panel);overflow:hidden}
+.inp:focus-within{border-color:var(--ink)}
+.inp input,.inp select{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font:500 15px var(--f-mono);padding:9px 10px}
+.inp select{font-family:var(--f-body)}
+.inp .u{font:500 12px var(--f-mono);color:var(--muted);padding-right:10px;white-space:nowrap}
+.check{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;cursor:pointer}
+.field.disabled .check{opacity:.45;cursor:not-allowed}
+.check input{width:18px;height:18px;margin:1px 0 0;accent-color:var(--verm);flex:none}
+.sub{grid-column:1/-1;font:600 11.5px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--verm-ink);padding-top:6px;border-top:1px dashed var(--line);margin-top:2px}
+.sub:first-child{border-top:0;padding-top:0;margin-top:0}
+.tag{display:inline-block;font:600 10.5px var(--f-mono);letter-spacing:.05em;text-transform:uppercase;padding:1px 6px;border-radius:3px;background:var(--panel-2);color:var(--muted);vertical-align:1px;margin-left:4px}
+
+/* Resultado */
+.result{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);display:grid;gap:14px;min-width:0}
+@media (max-width:960px){.result{position:static}}
+.card{border-radius:10px;background:var(--panel);padding:18px;display:grid;gap:12px}
+.total.win{background:var(--lime);color:#1D1412}
+.total.lose{background:var(--verm);color:#FFFFFF}
+.total .k{font:600 11.5px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;opacity:.8}
+.total .big{font-family:var(--f-display);font-weight:800;font-size:clamp(40px,6vw,56px);line-height:1;letter-spacing:-.02em}
+.total .big,.total .split .v{color:inherit}
+.total .per{font-size:13.5px;opacity:.85}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.split>div{border-top:1px solid rgba(0,0,0,.2);padding-top:8px}
+.total.lose .split>div{border-top-color:rgba(255,255,255,.4)}
+.split .l{font-size:12px;opacity:.8}
+.split .v{font:600 17px var(--f-mono)}
+.nomina{display:grid;grid-template-columns:1fr auto 1fr;gap:6px 12px;align-items:end}
+.nomina .l{font-size:12px;color:var(--muted)}
+.nomina .v{font:600 22px var(--f-mono);letter-spacing:-.02em}
+.nomina .arrow{font:500 18px var(--f-mono);color:var(--muted);padding-bottom:3px}
+.card h3{font-family:var(--f-display);font-weight:700;font-size:17px;margin:0}
+.rows{display:grid;gap:2px}
+.row{display:grid;grid-template-columns:minmax(0,1fr) 110px 92px;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.row:last-child{border-bottom:0}
+.row .name small{display:block;font-size:11.5px;color:var(--muted)}
+.bar{position:relative;height:10px;background:linear-gradient(var(--line),var(--line)) center/1px 100% no-repeat}
+.bar i{position:absolute;top:1px;bottom:1px;border-radius:2px}
+.bar i.p{left:50%;background:var(--gain)} .bar i.n{right:50%;background:var(--cost)}
+.val{text-align:right;font:600 13.5px var(--f-mono)}
+.pos{color:var(--gain)} .neg{color:var(--cost)} .zero{color:var(--muted)}
+.row.zero-row{opacity:.55}
+.note{font-size:12px;color:var(--muted);line-height:1.45}
+details.liq summary{cursor:pointer;font-weight:600;font-size:13.5px;color:var(--verm-ink)}
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+td.n,th.n{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+th{font:600 11.5px var(--f-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+tr.strong td{font-weight:700}
+.info-list{display:grid;gap:8px;margin:0;padding:0;list-style:none;font-size:13px}
+.info-list li{padding-left:14px;position:relative}
+.info-list li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;background:var(--verm);border-radius:1px}
+
+/* Secciones de lectura */
+.readsec{padding-block:34px;border-top:1px solid var(--line)}
+.readsec h2{font-family:var(--f-display);font-weight:800;font-size:clamp(24px,3.4vw,34px);letter-spacing:-.02em;margin:0 0 6px;text-wrap:balance}
+.readsec .lead{color:var(--muted);max-width:70ch;margin:0 0 18px}
+.readsec{padding-block:22px}
+div.wrap+section.readsec{border-top:3px solid var(--ink);margin-top:8px}
+details.fold>summary{list-style:none;cursor:pointer;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;justify-content:space-between}
+details.fold>summary::-webkit-details-marker{display:none}
+details.fold>summary h2{margin:0;font-size:20px;letter-spacing:-.01em}
+details.fold>summary .hint{font-size:13px;color:var(--muted);flex:1}
+details.fold>summary::after{content:"+";font:500 20px var(--f-mono);color:var(--verm-ink)}
+details.fold[open]>summary::after{content:"–"}
+details.fold[open]>summary{margin-bottom:14px}
+.measures tr.grp td{font:600 11.5px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--verm-ink);background:var(--panel);padding-top:10px}
+.measures td:first-child{font-weight:600;min-width:150px}
+.st{font:600 10.5px var(--f-mono);letter-spacing:.05em;text-transform:uppercase;padding:2px 6px;border-radius:3px;white-space:nowrap}
+.st.m{background:var(--gain-bg);color:var(--gain)} .st.s{background:var(--panel-2);color:var(--ink)} .st.x{background:var(--cost-bg);color:var(--cost)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px 32px}
+.cols h3{font-family:var(--f-display);font-size:18px;margin:0 0 6px}
+.cols p,.cols li{font-size:14px;max-width:65ch}
+.cols ul{padding-left:18px;margin:0}
+footer{padding-block:24px 90px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--line)}
+
+/* Barra inferior móvil */
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--tot-bg);color:var(--tot-fg);display:none;border-top:2px solid var(--lime)}
+.dock .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-block:10px calc(10px + env(safe-area-inset-bottom,0px))}
+.dock .v{font:700 20px var(--f-mono)}
+.dock .v.pos,.dock .v.neg{color:#FFFFFF}
+.dock a{color:var(--tot-fg);font-size:13px;font-weight:600}
+.end-space{height:24px}
+@media (max-width:960px){.dock{display:block}.end-space{height:90px}}
+@media (prefers-reduced-motion:no-preference){.total .big{transition:color .2s}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Simulador fiscal · Elecciones 29N</div>
+    <h1>¿Cuánto ganas con la propuesta económica del Frente Amplio?</h1>
+    <p>Descubre los derechos que ganas y quiénes pagan más con el programa económico del Frente Amplio. Puedes elegir alguno de los ejemplos que proporcionamos o introducir los datos personalizados en los recuadros de la izquierda. En el recuadro de resultados obtendrás el resultado.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="controls">
+    <div class="tabs" role="tablist" aria-label="Tipo de contribuyente">
+      <button type="button" role="tab" id="tab-persona" data-mode="persona" aria-selected="true">Persona</button>
+      <button type="button" role="tab" id="tab-emp" data-mode="emp" aria-selected="false">Empresa</button>
+    </div>
+    <div class="presets" id="presets"></div>
+  </div>
+  <div class="example-note" id="example-note">Los datos de partida son un ejemplo. Cámbialos por los tuyos y el resultado se recalcula al momento.</div>
+
+  <div class="main">
+    <form id="form" autocomplete="off" novalidate></form>
+    <aside class="result" id="resultado" aria-live="polite"></aside>
+  </div>
+</div>
+
+<section class="readsec">
+  <div class="wrap">
+    <details class="fold" id="medidas-d">
+      <summary><h2>Las medidas, punto por punto</h2><span class="hint">Qué dice el programa y cómo lo calcula el simulador</span></summary>
+      <p class="lead">Ordenadas por bloques, como en el simulador. «Modelada» aplica la cifra del programa o de la norma; «Con supuesto» cierra con un criterio propio lo que el texto no cifra; «No modelada» se explica pero no se calcula.</p>
+      <div class="tbl-wrap">
+        <table class="measures" id="medidas"></table>
+      </div>
+    </details>
+  </div>
+</section>
+
+<section class="readsec">
+  <div class="wrap">
+    <details class="fold" id="metodo-d">
+      <summary><h2>Cómo se calcula</h2><span class="hint">Normativa de hoy, propuesta y lo que no se incluye</span></summary>
+      <div class="cols">
+    <div>
+      <h3>Cómo se calcula «Hoy»</h3>
+      <ul>
+        <li>IRPF 2026 con escala estatal y una autonómica igual a la estatal (19 % a 47 %). Gastos de 2.000 €, reducción por rendimientos del trabajo de hasta 7.302 €, mínimo personal de 5.550 € y mínimos por edad y descendientes. Pensiones y prestaciones por desempleo tributan como trabajo, sin cotizaciones.</li>
+        <li>Deducción para salarios bajos del RDL 5/2026: 590,89 € hasta 17.094 € brutos, que baja 0,20 € por cada euro hasta 20.048,45 €.</li>
+        <li>Cotizaciones del trabajador: 4,70 % contingencias comunes, 1,55 % desempleo (1,60 % temporal), 0,10 % formación y 0,15 % MEI, con base máxima de 5.101,20 €/mes y cuota de solidaridad.</li>
+        <li>Autónomos: cotización por tramos de rendimientos al 31,5 % y estimación directa simplificada (5 % de gastos de difícil justificación, máximo 2.000 €).</li>
+        <li>Patrimonio: escala estatal o bonificación total según la comunidad, más el Impuesto Temporal de Solidaridad de las Grandes Fortunas por encima de 3 M€ de base, descontando lo pagado en Patrimonio.</li>
+        <li>Sucesiones y donaciones: escala estatal con reducciones por parentesco, o bonificación del 99 % si tu comunidad la aplica.</li>
+        <li>Sociedades 2026: 19 %/21 % microempresas, 23 % reducida dimensión, 25 % general, 15 % nueva creación. Tributación mínima del 15 % (18 % banca y energía) de la base imponible si se facturan 20 M€ o más.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Cómo se calcula «Con la propuesta»</h3>
+      <ul>
+        <li>Se aplican las medidas con efecto directo en tu bolsillo. Las cifras salen del programa, de los detalles de los PGE y de los textos normativos; cuando falta el detalle, se usa un supuesto que se indica en la tabla.</li>
+        <li>Jornada máxima de 37,5 horas sin bajar el sueldo y registro digital que obliga a pagar las horas extra. Las horas ganadas se muestran aparte y no se convierten en euros. El IRPF y la cotización de las subidas de sueldo se restan de la propia subida.</li>
+        <li>Los servicios y las prestaciones se convierten en renta equivalente: lo que dejarías de pagar o pasarías a cobrar. Se suman al hogar, no a la nómina.</li>
+        <li>Algunas medidas son escenarios que solo cuentan si los activas: vivienda pública, escuela de 0 a 3 años, leasing de coche eléctrico y tope al gas. Otras se cobran o pagan una sola vez: permisos, audífonos, herencias y comisiones de hipoteca.</li>
+        <li>En los impuestos indirectos se supone que la bajada o la subida se traslada entera al precio.</li>
+        <li>En empresas, los cambios de Sociedades se aplican a partir de 20 M€ de cifra de negocios, porque el programa no sube la carga de las pymes. El gravamen energético, desde 1.000 M€.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Qué no se incluye</h3>
+      <ul>
+        <li>El impuesto a inmuebles de más de 1 M€ (sin tipos), las reducciones de Sucesiones por vivienda habitual o empresa familiar y el límite conjunto del 60 % entre IRPF, Patrimonio y grandes fortunas.</li>
+        <li>El destope de cotizaciones, la fiscalidad del tabaco, el carbono y el queroseno, la tasa a transacciones financieras, el régimen de SICAV y SOCIMI y los recargos del IBI a viviendas vacías.</li>
+        <li>El abono de media distancia, el efecto del IPREM en otras ayudas, la subida de pensiones mínimas por encima del IPC, las medidas del Código de Buenas Prácticas hipotecario y el tope del 2 % a la actualización de alquileres.</li>
+        <li>Los efectos de segunda ronda: cambios en salarios, precios o empleo que provoquen las medidas, y su forma de financiación.</li>
+      </ul>
+    </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<div class="end-space" aria-hidden="true"></div>
+
+<div class="dock" id="dock"><div class="wrap"><div><div style="font-size:11.5px;opacity:.75">Con la propuesta, al año</div><div class="v" id="dock-v">—</div></div><a href="#resultado">Ver el detalle</a></div></div>
+<script>
+/* ===== Motor de cálculo: normativa 2026 ("Hoy") vs propuesta Frente Amplio ("FA") ===== */
+const P = {
+  smi: 17094,
+  ss: { cc: 0.047, des: 0.0155, desTemp: 0.016, fp: 0.001, mei: 0.0015, baseMaxAnual: 5101.20 * 12, workerShareSolid: 4.70 / 28.30 },
+  escalaGen: [[12450, .19], [20200, .24], [35200, .30], [60000, .37], [300000, .45], [Infinity, .47]],
+  escalaAhHoy: [[6000, .19], [50000, .21], [200000, .23], [300000, .27], [Infinity, .30]],
+  escalaAhFA: [[6000, .19], [50000, .23], [120000, .26], [150000, .28], [200000, .30], [300000, .33], [Infinity, .40]],
+  escalaIP: [[167129.45, .002], [334252.88, .003], [668499.75, .005], [1336999.51, .009], [2673999.01, .013], [5347998.03, .017], [10695996.06, .021], [Infinity, .035]],
+  escalaITSGFHoy: [[3000000, 0], [5347998.03, .017], [10695996.06, .021], [Infinity, .035]],
+  escalaITSGFFA: [[1000000, 0], [5347998.03, .02], [10695996.06, .021], [Infinity, .035]],
+  reta: [[670, 653.59], [900, 718.95], [1166.70, 849.67], [1300, 950.98], [1500, 960.78], [1700, 960.78], [1850, 1143.79], [2030, 1209.15], [2330, 1274.51], [2760, 1356.21], [3190, 1437.91], [3620, 1519.61], [4050, 1601.31], [6000, 1732.03], [Infinity, 1928.10]],
+  retaTipo: 0.315,
+  // Rebaja FA trabajo: reducción que deja a cero al SMI y decrece hasta 25.000 € brutos
+  rnPrevSMI: 17094 * (1 - 0.065), rnPrev25k: 25000 * (1 - 0.065),
+};
+P.redSMI = P.rnPrevSMI - 2000 - 5550;
+
+function escala(base, tramos) {
+  let c = 0, prev = 0;
+  if (base <= 0) return 0;
+  for (const [lim, t] of tramos) { if (base <= prev) break; c += (Math.min(base, lim) - prev) * t; prev = lim; }
+  return c;
+}
+const clamp0 = x => Math.max(0, x);
+
+function cotizacionAsalariado(bruto, temporal) {
+  const s = P.ss, base = Math.min(bruto, s.baseMaxAnual);
+  let c = base * (s.cc + (temporal ? s.desTemp : s.des) + s.fp + s.mei);
+  const ex = clamp0(bruto - s.baseMaxAnual), bm = s.baseMaxAnual;
+  const solid = escala(ex, [[0.10 * bm, .0092], [0.50 * bm, .0100], [Infinity, .0117]]) * s.workerShareSolid;
+  return c + solid;
+}
+function cuotaRETA(ingresos, gastos, tarifaPlana) {
+  if (tarifaPlana) return 80 * 12;
+  const rnMes = clamp0(ingresos - gastos) * 0.93 / 12;
+  const base = P.reta.find(([lim]) => rnMes <= lim)[1];
+  return base * P.retaTipo * 12;
+}
+function redTrabajoHoy(rn) {
+  if (rn <= 14852) return 7302;
+  if (rn <= 17673.52) return 7302 - 1.75 * (rn - 14852);
+  if (rn <= 19747.5) return 2364.34 - 1.14 * (rn - 17673.52);
+  return 0;
+}
+function redTrabajoFA(rn) {
+  let extra = 0;
+  if (rn <= P.rnPrevSMI) extra = P.redSMI;
+  else if (rn < P.rnPrev25k) extra = P.redSMI * (P.rnPrev25k - rn) / (P.rnPrev25k - P.rnPrevSMI);
+  return Math.max(redTrabajoHoy(rn), extra);
+}
+function minimoFamiliar(d) {
+  const edad = d.edad || 35;
+  let m = 5550 + (edad >= 65 ? 1150 : 0) + (edad >= 75 ? 1400 : 0);
+  const n = d.h03 + d.h311 + d.h1217, imp = [2400, 2700, 4000, 4500];
+  let desc = 0;
+  for (let i = 0; i < n; i++) desc += imp[Math.min(i, 3)];
+  desc += 2800 * d.h03;
+  return m + desc * (d.minimoCompleto ? 1 : 0.5);
+}
+
+/* ---- IRPF persona física ---- */
+function irpf(d, fa, soloTrabajo) {
+  const L = {}; // liquidación
+  const mode = d.modo; // 'asal' | 'auto'
+  let rnTrab = 0, rnAct = 0, ss = 0, bruto = 0;
+  L.pension = 0;
+  if (mode === 'asal') {
+    bruto = d.bruto; ss = d.sinCot ? 0 : cotizacionAsalariado(bruto, d.temporal);
+    const rnPrev = clamp0(bruto - ss);
+    const red = fa ? redTrabajoFA(rnPrev) : redTrabajoHoy(rnPrev);
+    const otros = 2000;
+    rnTrab = clamp0(rnPrev - otros - red);
+    Object.assign(L, { bruto, ss, rnPrev, otros: Math.min(otros, rnPrev), red: Math.min(red, clamp0(rnPrev - otros)), rnTrab });
+  } else {
+    bruto = d.ingresos; ss = cuotaRETA(d.ingresos, d.gastos, d.tarifaPlana);
+    const rnPrev = d.ingresos - d.gastos - ss;
+    const gdj = rnPrev > 0 ? Math.min(2000, 0.05 * rnPrev) : 0;
+    const rn = rnPrev - gdj;
+    let red = rn > 0 ? (fa && d.rebajaAuto ? redTrabajoFA(rnPrev) : redTrabajoHoy(rn)) : 0;
+    red = Math.min(red, clamp0(rn));
+    rnAct = rn - red;
+    Object.assign(L, { bruto, ss, gastosAct: d.gastos, rnPrev, otros: gdj, red, rnTrab: rnAct });
+  }
+  // Alquileres (vivienda habitual del inquilino)
+  let rAlq = 0, rTur = 0, imput = 0;
+  if (!soloTrabajo) {
+    const redAlq = fa ? (d.alqBajoIndice ? d.alqRed : 0) : d.alqRed;
+    rAlq = d.alqRend > 0 ? d.alqRend * (1 - redAlq) : d.alqRend;
+    rTur = fa ? d.turIngresos : Math.max(0, d.turIngresos - d.turGastosFin);
+    imput = d.turVC * d.turVacio / 100 * (fa ? 0.20 : 0.011);
+  }
+  L.alq = rAlq; L.tur = rTur; L.imput = imput;
+  // Plan de pensiones individual
+  if (!soloTrabajo && !fa) L.pension = Math.min(d.pension, 1500, 0.3 * clamp0(rnTrab + rnAct + 2000));
+  const blg = clamp0(rnTrab + rnAct + rAlq + rTur + imput - L.pension);
+  const bla = soloTrabajo ? 0 : clamp0(d.intereses + d.dividendos + d.ganancias);
+  const minimo = minimoFamiliar(d);
+  const minG = Math.min(minimo, blg), minA = Math.min(minimo - minG, bla);
+  let escG = P.escalaGen;
+  if (fa) {
+    const pp = 0.02; // nuevo tramo: +2 puntos
+    escG = [[12450, .19], [20200, .24], [35200, .30], [60000, .37], [150000, .45], [300000, .45 + pp], [Infinity, .47 + pp]];
+  }
+  const cuotaGen = clamp0(escala(blg, escG) - escala(minG, escG));
+  const escA = fa ? P.escalaAhFA : P.escalaAhHoy;
+  const cuotaAh = clamp0(escala(bla, escA) - escala(minA, escA));
+  // Deducción SMI (solo rendimientos del trabajo)
+  let dSMI = 0;
+  const otrasRentas = soloTrabajo ? 0 : (d.intereses + d.dividendos + d.ganancias + Math.max(0, rAlq) + rTur + imput);
+  if (mode === 'asal' && bruto <= 20048.45 && otrasRentas <= 6500) {
+    dSMI = clamp0(590.89 - 0.2 * clamp0(bruto - 17094));
+    dSMI = Math.min(dSMI, cuotaGen);
+  }
+  const dMat = d.maternidad ? Math.min(1200 * d.h03, ss) : 0;
+  const total = cuotaGen - dSMI + cuotaAh - dMat;
+  return { ...L, blg, bla, minimo, cuotaGen, cuotaAh, dSMI, dMat, total, ss };
+}
+
+/* ---- Patrimonio ---- */
+function patrimonio(d, fa) {
+  const bl = clamp0(d.patNeto - Math.min(d.patVH, 300000) - 700000);
+  const ip = d.ipBonif ? 0 : escala(bl, P.escalaIP);
+  // Propuesta (articulado del RDL de vivienda): con 4 o más viviendas por más de 500.000 €, las viviendas forman una
+  // base inmobiliaria separada (vivienda habitual exenta hasta 300.000 €), con mínimo exento de 500.000 € y tipo del 5 %.
+  // El resto del patrimonio es la base no inmobiliaria, con mínimo de 700.000 €. Se descuenta el Patrimonio pagado.
+  const inmob = clamp0(d.patVH - 300000) + (d.valOtras || 0);
+  const separa = fa && d.nViv >= 4 && inmob > 500000;
+  const blNI = separa ? clamp0(d.patNeto - d.patVH - (d.valOtras || 0) - 700000) : bl;
+  const cuotaNI = escala(blNI, fa ? P.escalaITSGFFA : P.escalaITSGFHoy);
+  const cuotaI = separa ? 0.05 * (inmob - 500000) : 0;
+  const itsgf = clamp0(cuotaNI - ip);
+  const viv = clamp0(cuotaI - clamp0(ip - cuotaNI));
+  return { bl, ip, itsgf, viv, inmob, total: ip + itsgf + viv };
+}
+
+/* ---- Gravamen de solidaridad ambiental sobre bienes de lujo (supuesto: el programa no da tipos) ----
+   1 % anual del valor de los coches de más de 100.000 €; 2 % anual del de yates (más de 8 m) y aviones o helicópteros privados */
+function lujo(d, fa) {
+  if (!fa) return 0;
+  return 0.01 * clamp0(d.lujoCoche || 0) + 0.02 * (clamp0(d.lujoYate || 0) + clamp0(d.lujoAvion || 0));
+}
+
+/* ---- Herencias y donaciones (Impuesto sobre Sucesiones, escala estatal) ---- */
+const TARIFA_ISD = [[7993.46, .0765], [15980.91, .085], [23968.36, .0935], [31955.81, .102], [39943.26, .1105], [47930.72, .119], [55918.17, .1275], [63905.62, .136], [71893.07, .1445], [79880.52, .153], [119757.67, .1615], [159634.83, .187], [239389.13, .2125], [398777.54, .255], [797555.08, .2975], [Infinity, .34]];
+function herencia(d, fa) {
+  const h = clamp0(d.herencia || 0);
+  if (h <= 0) return { estatal: 0, ccaa: 0, total: 0 };
+  const g = d.parentesco || 'II';
+  const red = g === 'I' ? Math.min(47858.59, 15956.87 + 3990.72 * Math.max(0, 21 - (d.edad || 20))) : g === 'II' ? 15956.87 : g === 'III' ? 7993.46 : 0;
+  const pp = d.patNeto || 0; // patrimonio preexistente
+  const tramo = pp <= 402678.11 ? 0 : pp <= 2007380.43 ? 1 : pp <= 4020770.98 ? 2 : 3;
+  const coef = { I: [1, 1.05, 1.1, 1.2], II: [1, 1.05, 1.1, 1.2], III: [1.5882, 1.6676, 1.7471, 1.9059], IV: [2, 2.1, 2.2, 2.4] }[g][tramo];
+  const estatal = escala(clamp0(h - red), TARIFA_ISD) * coef;
+  const ccaa = estatal * (d.isdBonif ? 0.01 : 1); // bonificación autonómica del 99 % o escala estatal
+  // Propuesta: impuesto estatal a herencias de más de 1 M€ que cobra la diferencia con lo que fija la comunidad
+  const total = fa && h > 1e6 ? Math.max(ccaa, estatal) : ccaa;
+  return { estatal, ccaa, extra: total - ccaa, total };
+}
+
+/* ---- Consumo (IVA, luz, IPS, diésel) — anual, precio final ---- */
+function ivaLuzFA(kwhMes, personas) {
+  const pp = kwhMes / Math.max(1, personas);
+  const tr = [[50, 0], [100, .05], [150, .10], [Infinity, .16]];
+  return pp > 0 ? escala(pp, tr) / pp : 0;
+}
+function consumo(d, fa) {
+  const m = 12;
+  const r = {};
+  r.pelu = d.cPelu * m * (fa ? 1.10 / 1.21 : 1);
+  r.vet = d.cVet * m * (fa ? 1.10 / 1.21 : 1);
+  r.panal = d.cPanal * m * (fa ? 1.04 / 1.10 : 1);
+  r.gluten = d.cGluten * m * (fa ? 1.00 / 1.10 : 1);
+  const baseLuz = d.cLuz / 1.21;
+  r.luz = fa ? baseLuz * (1 + ivaLuzFA(d.kwh, d.personas)) * m : d.cLuz * m;
+  r.edu = d.cEdu * m * (fa ? 1.21 : 1);
+  r.seguro = d.cSeguro * m * (fa ? 1.08 : 1);
+  r.diesel = fa ? d.dieselL * m * 0.094 * 1.21 : 0;
+  r.total = Object.values(r).reduce((a, b) => a + b, 0);
+  return r;
+}
+
+/* ---- Gasto público traducido a renta (solo FA) ---- */
+function servicios(d, netoAnualFA) {
+  const s = {};
+  const nh = d.h03 + d.h311 + d.h1217;
+  s.crianza = 200 * 12 * nh;
+  s.comedor = d.publica && !d.becaComedor ? d.h311 * d.comedorMes * 9 : 0;
+  // Escenario: plaza pública gratuita de 0 a 3 años. Si hoy pagas escuela infantil, ahorras esa cuota (11 meses);
+  // si no tienes plaza, se valora al coste público de una plaza (4.911 €, detalle PGE 2026)
+  s.infantil = d.infantil ? d.h03 * (d.infantilMes > 0 ? d.infantilMes * 11 : 4911) : 0;
+  const e = d.edad;
+  const cerNuevo = e < 16 ? 0 : e < 26 ? 10 : 20;
+  s.trCer = clamp0(d.tCer - cerNuevo) * 12 * (d.tCer > 0 ? 1 : 0);
+  const fBus = e < 15 ? 0 : e < 26 ? 0.20 / 0.60 : 0.25 / 0.60;
+  s.trBus = d.tBus * (1 - fBus) * 12;
+  s.trLD = d.tLD * 0.5 * 12;
+  s.transporte = s.trCer + s.trBus + s.trLD;
+  let alq = 0;
+  if (d.alquiler > 0 && d.tensionada) {
+    const hogar = d.hogarNeto > 0 ? d.hogarNeto : netoAnualFA / 12;
+    alq = clamp0(d.alquiler - 0.30 * hogar) * 12;
+  }
+  if (d.alquiler > 0 && d.vivPublica) alq = Math.max(alq, clamp0(d.alquiler - 500) * 12);
+  s.alquiler = alq;
+  s.audif = d.audif * 1500; // 1.500 € de ayuda por audífono, una vez
+  // Leasing social de coche eléctrico: 100 € (urbano) o 150 € (familiar) al mes con bono de recarga
+  // Tope al gas (excepción ibérica), calibrado con el mecanismo de 2022: entre el 15 de junio y el 31 de diciembre de 2022
+  // la factura PVPC habría sido un 31,8 % más alta sin el tope (EsadeEcPol), es decir, un ahorro del 24,1 % de la factura.
+  const ivaLuz = 1 + ivaLuzFA(d.kwh, d.personas);
+  s.topeGas = d.topeGas && d.tarifaLuz !== 'fijo' ? (d.cLuz / 1.21) * ivaLuz * 12 * (1 - 1 / 1.318) : 0;
+  // Hipotecas: suspensión hasta 2029 de comisiones por amortización anticipada y por pasar de variable a fijo
+  let comAmort = 0;
+  // Solo hipotecas a tipo variable (art. 23.5 y 23.6 Ley 5/2019): 0,25 % los 3 primeros años o 0,15 % los 5 primeros
+  if (d.hipAmort > 0 && d.hipTipo !== 'fijo') comAmort = d.hipAnios < 3 ? 0.0025 : d.hipAnios < 5 ? 0.0015 : 0;
+  s.hipoteca = (d.hipAmort || 0) * comAmort + (d.hipCambio && d.hipTipo !== 'fijo' && d.hipAnios < 3 ? 0.0005 * (d.hipCapital || 0) : 0);
+  s.leasing = d.leasing ? clamp0(d.cocheGasto - parseFloat(d.leasingTipo || 100)) * 12 : 0;
+  const salDia = d.modo === 'asal' ? d.bruto / 365 : clamp0(d.ingresos - d.gastos) / 365;
+  s.permiso = d.permiso ? salDia * 28 : 0;
+  // 3 semanas más de permiso por nacimiento, pagadas al 100 % de la base (tope: base máxima), exentas de IRPF
+  s.nacimiento = d.nacimiento ? Math.min(salDia, P.ss.baseMaxAnual / 365) * 21 : 0;
+  s.total = s.crianza + s.comedor + s.infantil + s.transporte + s.alquiler + s.audif + s.leasing + s.topeGas + s.hipoteca + s.permiso + s.nacimiento;
+  return s;
+}
+
+/* ---- Jornada de 37,5 h y registro digital de horas extra (solo cuenta ajena) ---- */
+const SEMANAS = 1826 / 40; // semanas efectivas de trabajo al año (≈45,65)
+function jornada(d) {
+  const r = { horasGanadas: 0, parcialBruto: 0, extrasBruto: 0, horaHoy: 0, horaFA: 0, horasHoy: 0, horasFA: 0, iprBruto: d.iprBruto || 0 };
+  if (d.modo !== 'asal' || d.noJornada) return r;
+  const j = Math.max(1, d.jornada || 40);
+  r.horasHoy = j * SEMANAS;
+  r.horaHoy = d.bruto / r.horasHoy;
+  if (d.parcial && j < 37.5) {
+    // Tiempo parcial: mantiene sus horas y el sueldo sube en proporción (40 → 37,5 h)
+    r.parcialBruto = d.bruto * (40 / 37.5 - 1);
+    r.horasFA = r.horasHoy;
+  } else {
+    r.horasGanadas = Math.max(0, j - 37.5) * SEMANAS;
+    r.horasFA = Math.min(j, 37.5) * SEMANAS;
+  }
+  r.extrasBruto = Math.max(0, d.hExtra || 0) * SEMANAS * r.horaHoy;
+  r.horaFA = (d.bruto + r.parcialBruto) / r.horasFA;
+  return r;
+}
+
+function simularPersona(d) {
+  const out = {};
+  const jr = jornada(d);
+  out.jor = jr;
+  for (const k of ['hoy', 'fa']) {
+    const fa = k === 'fa';
+    const dd = fa && d.modo === 'asal' ? { ...d, bruto: d.bruto + jr.parcialBruto + jr.extrasBruto + jr.iprBruto } : d;
+    const ir = irpf(dd, fa, false);
+    const irT = irpf(dd, fa, true);
+    const pat = patrimonio(d, fa);
+    const her = herencia(d, fa);
+    const lux = lujo(d, fa);
+    const con = consumo(d, fa);
+    const netoTrab = ir.bruto - ir.ss - irT.total - (d.modo === 'auto' ? d.gastos : 0);
+    out[k] = { ir, irT, pat, her, lux, con, netoTrab };
+  }
+  // IRPF con la propuesta pero sin la subida salarial: separa el efecto de la reforma del IRPF que genera el aumento de sueldo
+  out.fa0 = d.modo === 'asal' ? irpf(d, true, false) : out.fa.ir;
+  out.serv = servicios(d, out.fa.netoTrab);
+  return out;
+}
+
+/* ---- Empresa: Impuesto sobre Sociedades + gravámenes sectoriales ---- */
+function tipoIS(d, BI) {
+  if (d.nueva) return BI * 0.15;
+  if (d.incn < 1e6) return escala(BI, [[50000, .19], [Infinity, .21]]);
+  if (d.incn < 10e6) return BI * 0.23;
+  return BI * 0.25;
+}
+function sociedades(d, fa) {
+  const grande = d.incn >= 20e6;
+  const aplicaFA = fa && grande; // "sin aumentar la carga fiscal de las pymes"
+  const r = {};
+  r.divExt = aplicaFA ? d.divExt : d.divExt * 0.05;
+  r.consol = aplicaFA ? 0 : d.perdGrupo;
+  let biPrev = d.rc + d.ajustes + r.divExt - r.consol;
+  // Compensación de bases negativas
+  const binDisp = aplicaFA ? clamp0(d.bin - d.binAntiguas) : d.bin;
+  const pct = d.incn >= 60e6 ? 0.25 : d.incn >= 20e6 ? 0.50 : 0.70;
+  const limite = biPrev > 0 ? Math.max(Math.min(biPrev, 1e6), pct * biPrev) : 0;
+  r.bin = Math.min(binDisp, limite);
+  r.bi = clamp0(biPrev - r.bin);
+  r.cuotaIntegra = tipoIS(d, r.bi);
+  const tipoMedio = r.bi > 0 ? r.cuotaIntegra / r.bi : 0;
+  r.bonifAlq = d.alqVivienda ? (fa && !d.alqAsequible ? 0 : 0.40 * tipoMedio * Math.min(d.rentaAlq, r.bi)) : 0;
+  r.deducciones = Math.min(d.deducciones, clamp0(r.cuotaIntegra - r.bonifAlq));
+  let cl = clamp0(r.cuotaIntegra - r.bonifAlq - r.deducciones);
+  r.minimo = 0;
+  if (grande && !d.nueva) {
+    const minHoy = Math.min((d.sector === 'banca' || d.sector === 'energia' ? 0.18 : 0.15) * r.bi, r.cuotaIntegra);
+    r.minimo = aplicaFA ? Math.max(minHoy, 0.20 * clamp0(d.rc)) : minHoy;
+  }
+  r.cuotaLiquida = Math.max(cl, r.minimo);
+  // Gravámenes sectoriales
+  r.depositos = d.sector === 'banca' ? d.depositos * (fa ? 0.01 : 0.0003) : 0;
+  // Gravamen temporal energético (memoria del RDL Oriente Medio): tipo = 0,3 × subida en puntos del margen de explotación
+  // 2026 frente a 2025, sobre la cifra de negocios en España. Si el margen no sube, tipo 0. Solo operadores principales.
+  const subidaMargen = clamp0((d.margen26 || 0) - (d.margen25 || 0));
+  r.tipoEnerg = 0.3 * subidaMargen / 100;
+  // Exentos: cifra de negocios < 1.000 M€ o actividad energética ≤ 50 % de la cifra de negocios
+  const sujetoEnerg = d.sector === 'energia' && d.incn >= 1e9 && !d.energMinor;
+  const prest = fa && sujetoEnerg ? r.tipoEnerg * d.incn : 0;
+  // Minoración por reserva para inversiones estratégicas: 10 % de la reserva si no supera la prestación;
+  // si la supera, 30 % de la reserva con límite del (10 % + 0,2 × (reserva/prestación − 1)) de la prestación, máximo 60 %
+  const R = clamp0(d.reservaEstrat || 0);
+  let minor = 0;
+  if (prest > 0 && R > 0) {
+    if (R <= prest) minor = 0.10 * R;
+    else minor = Math.min(0.30 * R, Math.min(0.60, 0.10 + 0.2 * (R / prest - 1)) * prest);
+  }
+  r.minorEnerg = minor;
+  r.energetico = clamp0(prest - minor);
+  const dstAplica = d.sector === 'digital' && d.incnGlobal >= 750e6 && d.ingDigES >= 3e6;
+  r.dst = dstAplica ? d.ingDigES * (fa ? 0.15 : 0.03) : 0;
+  // Gravamen sobre márgenes excesivos (energéticas y gran distribución alimentaria):
+  // supuesto inspirado en la contribución solidaria de la UE de 2022: 33 % del beneficio que supere en un 20 % la media de años anteriores
+  const margenAplica = d.sector === 'alimentacion' && grande && d.benRef > 0;
+  r.margenes = fa && margenAplica ? 0.33 * clamp0(d.rc - 1.2 * d.benRef) : 0;
+  r.total = r.cuotaLiquida + r.depositos + r.energetico + r.dst + r.margenes;
+  r.tipoEf = d.rc > 0 ? r.total / d.rc : 0;
+  r.grande = grande;
+  return r;
+}
+
+
+/* ===== Interfaz ===== */
+const N = (k, label, def, o = {}) => ({ k, label, t: 'num', def, ...o });
+const C = (k, label, def, o = {}) => ({ k, label, t: 'chk', def, ...o });
+const S = (k, label, def, opts, o = {}) => ({ k, label, t: 'sel', def, opts, ...o });
+const SUB = (label) => ({ sub: label });
+
+const SEC_PERSONA_TRAB = {
+  asal: { id: 'trab', title: 'Tu trabajo', hint: 'Por cuenta ajena', open: true, fields: [
+    S('situacion', 'Situación laboral', 'asal', [['asal', 'Por cuenta ajena'], ['auto', 'Autónomo/a'], ['pension', 'Pensionista'], ['desempleo', 'Desempleado/a o sin empleo']]),
+    N('bruto', 'Salario bruto anual', 30000, { u: '€/año' }),
+    S('pagas', 'Número de pagas', '14', [['14', '14 pagas'], ['12', '12 pagas']]),
+    S('temporal', 'Tipo de contrato', '0', [['0', 'Indefinido'], ['1', 'Temporal']]),
+    N('edad', 'Edad', 35, { u: 'años' }),
+    SUB('Jornada'),
+    N('jornada', 'Horas semanales de contrato', 40, { u: 'h/semana' }),
+    C('parcial', 'Trabajo a tiempo parcial', false, { hint: 'Mantienes tus horas y el sueldo sube en proporción a la nueva jornada completa de 37,5 h.' }),
+    N('hExtra', 'Horas extra que haces y no te pagan', 0, { u: 'h/semana', tag: 'Registro digital', hint: 'Con el registro digital de jornada se computan y se pagan como mínimo al valor de la hora ordinaria.' }),
+  ]},
+  pension: { id: 'trab', title: 'Tu trabajo', hint: 'Pensionista', open: true, fields: [
+    S('situacion', 'Situación laboral', 'asal', [['asal', 'Por cuenta ajena'], ['auto', 'Autónomo/a'], ['pension', 'Pensionista'], ['desempleo', 'Desempleado/a o sin empleo']]),
+    N('pensionBruta', 'Pensión bruta anual', 16800, { u: '€/año' }),
+    S('pagasPen', 'Número de pagas', '14', [['14', '14 pagas'], ['12', '12 pagas']]),
+    N('edad', 'Edad', 70, { u: 'años', hint: 'A partir de 65 y 75 años sube el mínimo personal del IRPF.' }),
+  ]},
+  desempleo: { id: 'trab', title: 'Tu trabajo', hint: 'Desempleado/a o sin empleo', open: true, fields: [
+    S('situacion', 'Situación laboral', 'asal', [['asal', 'Por cuenta ajena'], ['auto', 'Autónomo/a'], ['pension', 'Pensionista'], ['desempleo', 'Desempleado/a o sin empleo']]),
+    S('tipoDes', 'Qué cobras', 'subsidio', [['subsidio', 'Subsidio por desempleo'], ['contributiva', 'Prestación contributiva (paro)'], ['ninguna', 'Nada (vivo de rentas o sin ingresos)']]),
+    N('desImporte', 'Importe mensual que cobras', 480, { u: '€/mes' }),
+    N('edad', 'Edad', 35, { u: 'años' }),
+  ]},
+  auto: { id: 'trab', title: 'Tu trabajo', hint: 'Autónomo/a', open: true, fields: [
+    S('situacion', 'Situación laboral', 'asal', [['asal', 'Por cuenta ajena'], ['auto', 'Autónomo/a'], ['pension', 'Pensionista'], ['desempleo', 'Desempleado/a o sin empleo']]),
+    N('ingresos', 'Ingresos anuales (sin IVA)', 32000, { u: '€/año' }),
+    N('gastos', 'Gastos deducibles de la actividad', 8000, { u: '€/año', hint: 'Sin contar tu cuota de autónomos, que se calcula aparte.' }),
+    N('edad', 'Edad', 35, { u: 'años' }),
+    C('tarifaPlana', 'Tengo tarifa plana (80 €/mes)', false),
+    C('rebajaAuto', 'Aplicar también a autónomos la rebaja de IRPF hasta 25.000 €', false, { tag: 'Supuesto', hint: 'El programa la plantea para rentas del trabajo; no dice si llega a autónomos.' }),
+  ]},
+};
+const SEC_COMUNES = [
+  { id: 'viv', title: 'Vivienda', hint: 'Alquiler', open: true, fields: [
+    N('alquiler', 'Alquiler que pagas', 950, { u: '€/mes', hint: 'Pon 0 si tienes vivienda en propiedad.' }),
+    C('tensionada', 'Vivo en una zona tensionada', true),
+    N('hogarNeto', 'Ingresos netos del hogar', 2600, { u: '€/mes', hint: 'Para el tope del 30 %. Con 0 se usa tu sueldo neto.' }),
+    C('vivPublica', 'Escenario: accedo a una vivienda pública de 400 a 600 €', false, { tag: 'Escenario', hint: 'Se calcula con 500 €/mes.' }),
+    SUB('Hipoteca'),
+    N('hipCapital', 'Capital pendiente de tu hipoteca', 0, { u: '€' }),
+    S('hipTipo', 'Tipo de interés', 'variable', [['variable', 'Variable'], ['fijo', 'Fijo']]),
+    N('hipAnios', 'Años desde que la firmaste', 0, { u: 'años' }),
+    N('hipAmort', 'Lo que adelantas (amortizas) este año', 0, { u: '€', tag: 'Sin comisión', hint: 'Hasta 2029, en hipotecas a tipo variable, no se cobra comisión por amortizar antes de tiempo.' }),
+    C('hipCambio', 'Este año paso mi hipoteca de variable a fijo', false, { tag: 'Sin comisión' }),
+  ]},
+  { id: 'fam', title: 'Familia', hint: 'Hijos y cuidados', open: true, fields: [
+    N('h03', 'Hijos/as de 0 a 3 años', 0, { u: 'nº', hint: 'Primer ciclo de infantil: aún no han cumplido 3 años.' }),
+    N('h311', 'Hijos/as de 3 a 11 años', 1, { u: 'nº', hint: 'Infantil (segundo ciclo) y Primaria.' }),
+    N('h1217', 'Hijos/as de 12 a 17 años', 0, { u: 'nº' }),
+    C('minimoCompleto', 'Aplico el mínimo por hijos completo (familia monoparental)', false),
+    C('maternidad', 'Soy madre trabajadora con hijos menores de 3 años', false),
+    SUB('Escuela infantil, comedor y permisos'),
+    C('infantil', 'Escenario: plaza pública gratuita de 0 a 3 años para mis hijos de 0 a 3', false, { tag: 'Escenario', hint: 'Universalización de la educación de 0 a 3 años.' }),
+    N('infantilMes', 'Lo que pagas hoy de escuela infantil por hijo/a', 0, { u: '€/mes', hint: 'Con 0 (sin plaza hoy) se valora al coste de una plaza pública: 4.911 € al año.' }),
+    C('publica', 'Mis hijos de 3 a 11 años van a un colegio público', true),
+    N('comedorMes', 'Lo que pagas de comedor por hijo/a', 110, { u: '€/mes' }),
+    C('becaComedor', 'Ya tengo beca de comedor completa', false),
+    C('nacimiento', 'Vamos a tener un hijo/a o adoptar este año', false, { tag: '+3 semanas', hint: 'El permiso por nacimiento sube 3 semanas, cobradas al 100 % de tu base y sin IRPF. Se valora una sola vez.' }),
+    C('permiso', 'Me tomaría el permiso parental retribuido (hijos menores de 8 años)', false, { hint: 'Se valoran las 4 primeras semanas pagadas, una sola vez.' }),
+  ]},
+  { id: 'mov', title: 'Movilidad y salud', hint: 'Abono único, audífonos y coche eléctrico', open: false, fields: [
+    N('tBus', 'Gasto actual en bus y metro', 30, { u: '€/mes' }),
+    N('tCer', 'Gasto actual en Cercanías', 0, { u: '€/mes' }),
+    N('tLD', 'Viajes recurrentes de larga distancia en Renfe', 0, { u: '€/mes' }),
+    N('audif', 'Audífonos que necesitáis comprar en tu hogar', 0, { u: 'nº', hint: 'Ayuda de 1.500 € por audífono. Un par son 2.' }),
+    SUB('Leasing social de coche eléctrico'),
+    C('leasing', 'Escenario: me acojo al leasing social de coche eléctrico', false, { tag: 'Escenario', hint: 'Alquiler con opción a compra para rentas bajas y medias, con bono de recarga incluido.' }),
+    S('leasingTipo', 'Tipo de coche', '100', [['100', 'Urbano: 100 €/mes'], ['150', 'Familiar: 150 €/mes']]),
+    N('cocheGasto', 'Lo que gastas hoy en tu coche (cuota y combustible)', 0, { u: '€/mes' }),
+  ]},
+  { id: 'cons', title: 'Consumo asequible', hint: 'IVA, luz y seguros', open: false, fields: [
+    N('cLuz', 'Factura de la luz', 70, { u: '€/mes' }),
+    N('kwh', 'Consumo eléctrico', 250, { u: 'kWh/mes' }),
+    S('tarifaLuz', 'Tipo de tarifa de luz', 'pvpc', [['pvpc', 'Regulada (PVPC) o indexada'], ['fijo', 'Precio fijo del mercado libre']]),
+    C('topeGas', 'Escenario: el gas supera 50 €/MWh y se activa el tope', false, { tag: 'Escenario', hint: 'Como en 2022, con la excepción ibérica la factura regulada bajó un 24 %. Se aplica ese ahorro a tu factura.' }),
+    N('personas', 'Personas en el hogar', 3, { u: 'nº' }),
+    N('cPelu', 'Peluquería', 25, { u: '€/mes' }),
+    N('cVet', 'Veterinario', 0, { u: '€/mes' }),
+    N('cPanal', 'Pañales', 0, { u: '€/mes' }),
+    N('cGluten', 'Productos sin gluten', 0, { u: '€/mes' }),
+    N('cEdu', 'Enseñanza privada (colegio, academia)', 0, { u: '€/mes' }),
+    N('cSeguro', 'Seguro médico privado', 0, { u: '€/mes' }),
+    N('dieselL', 'Gasóleo que repostas', 0, { u: 'litros/mes' }),
+  ]},
+  { id: 'aho', title: 'Ahorro e inversiones', hint: 'Intereses, dividendos, pensiones', open: false, fields: [
+    N('intereses', 'Intereses de cuentas y depósitos', 200, { u: '€/año' }),
+    N('dividendos', 'Dividendos', 0, { u: '€/año' }),
+    N('ganancias', 'Ganancias por venta de acciones, fondos o inmuebles', 0, { u: '€/año' }),
+    N('pension', 'Aportación a un plan de pensiones individual', 0, { u: '€/año', tag: 'Se elimina' }),
+  ]},
+  { id: 'prop', title: 'Si alquilas viviendas', hint: 'Como propietario/a', open: false, fields: [
+    SUB('Alquiler de vivienda habitual'),
+    N('alqRend', 'Rendimiento neto del alquiler', 0, { u: '€/año', hint: 'Ingresos menos gastos, antes de la reducción.' }),
+    S('alqRed', 'Reducción que aplicas hoy', '0.5', [['0.5', '50 %'], ['0.6', '60 %'], ['0.7', '70 %'], ['0.9', '90 %']]),
+    C('alqBajoIndice', 'La renta está por debajo del índice de referencia', false),
+    SUB('Piso turístico en zona tensionada'),
+    N('turIngresos', 'Rendimiento antes de intereses y amortización', 0, { u: '€/año' }),
+    N('turGastosFin', 'Intereses, amortización y mejoras', 0, { u: '€/año' }),
+    N('turVC', 'Valor catastral del piso', 0, { u: '€' }),
+    N('turVacio', 'Parte del año que está vacío', 0, { u: '%' }),
+  ]},
+  { id: 'pat', title: 'Patrimonio y herencias', hint: 'Grandes fortunas, viviendas, lujo y herencias', open: false, fields: [
+    N('patNeto', 'Patrimonio neto total', 0, { u: '€', hint: 'Bienes y derechos menos deudas, a valor fiscal.' }),
+    N('patVH', 'Valor de tu vivienda habitual', 0, { u: '€' }),
+    N('nViv', 'Número de viviendas en propiedad', 0, { u: 'nº' }),
+    N('valOtras', 'Valor de las viviendas distintas de la habitual', 0, { u: '€', hint: 'Con 4 o más viviendas por más de 500.000 €, pagan un 5 % sobre lo que pase de 500.000 € (la habitual cuenta a partir de 300.000 €).' }),
+    S('ipBonif', 'Impuesto sobre el Patrimonio en tu comunidad', '0', [['0', 'Se paga con la escala estatal'], ['1', 'Bonificado al 100 % (p. ej. Madrid)']]),
+    SUB('Bienes de lujo'),
+    N('lujoCoche', 'Valor de tus coches de más de 100.000 €', 0, { u: '€', tag: 'Gravamen de lujo' }),
+    N('lujoYate', 'Valor de yates o embarcaciones de recreo de más de 8 m', 0, { u: '€' }),
+    N('lujoAvion', 'Valor de aviones o helicópteros privados', 0, { u: '€', hint: 'Gravamen de solidaridad ambiental: 1 % anual en coches y 2 % en yates y aviones.' }),
+    SUB('Herencias y donaciones'),
+    N('herencia', 'Herencia o donación que recibes este año', 0, { u: '€', tag: 'Más de 1 M€', hint: 'Valor neto de lo que recibes tú, no de toda la herencia.' }),
+    S('parentesco', 'Parentesco con quien te la deja', 'II', [['II', 'Hijo/a, cónyuge, padre o madre'], ['I', 'Descendiente menor de 21 años'], ['III', 'Hermano/a, sobrino/a, tío/a'], ['IV', 'Otra persona']]),
+    S('isdBonif', 'Sucesiones en tu comunidad', '1', [['1', 'Bonificado al 99 % (p. ej. Madrid, Andalucía)'], ['0', 'Se paga con la escala estatal']]),
+  ]},
+];
+const SEC_EMPRESA = [
+  { id: 'emp1', title: 'Cuentas de la empresa', hint: 'Impuesto sobre Sociedades', open: true, fields: [
+    N('incn', 'Cifra de negocios', 2000000, { u: '€' }),
+    N('rc', 'Resultado contable antes de impuestos', 240000, { u: '€' }),
+    N('ajustes', 'Ajustes fiscales netos (exenciones, gastos no deducibles…)', 0, { u: '€' }),
+    N('deducciones', 'Deducciones y bonificaciones (I+D, etc.)', 5000, { u: '€' }),
+    C('nueva', 'Entidad de nueva creación (15 %)', false),
+  ]},
+  { id: 'emp2', title: 'Grupos y pérdidas', hint: 'Consolidación y bases negativas', open: false, fields: [
+    N('divExt', 'Dividendos y plusvalías de filiales fuera de la UE', 0, { u: '€', tag: 'Se grava' }),
+    N('perdGrupo', 'Pérdidas de otras sociedades del grupo que compensas al consolidar', 0, { u: '€', tag: 'Se elimina' }),
+    N('bin', 'Pérdidas de años anteriores que compensas este año', 0, { u: '€' }),
+    N('binAntiguas', 'De ellas, generadas hace más de 4 años', 0, { u: '€', tag: 'Límite 4 años' }),
+  ]},
+  { id: 'emp3', title: 'Sector', hint: 'Gravámenes específicos', open: true, fields: [
+    S('sector', 'Actividad', 'general', [['general', 'General'], ['banca', 'Banca'], ['energia', 'Energética o carburantes'], ['alimentacion', 'Producción o distribución de alimentos'], ['digital', 'Servicios digitales']]),
+    N('margen25', 'Margen de explotación 2025 (energía)', 0, { u: '%', tag: 'Gravamen energético', hint: 'Resultado bruto de explotación sobre ventas. Para refino, mayoristas de combustibles, gasolineras y comercializadoras de luz y gas.' }),
+    N('margen26', 'Margen de explotación 2026 (energía)', 0, { u: '%', hint: 'Tipo del gravamen: 0,3 × los puntos que suba el margen, sobre la cifra de negocios en España (sin actividades reguladas ni impuesto de hidrocarburos).' }),
+    N('reservaEstrat', 'Reserva para inversiones estratégicas (energía)', 0, { u: '€', hint: 'Hidrógeno renovable, biometano, almacenamiento, eficiencia… Rebaja el gravamen hasta un 60 %.' }),
+    C('energMinor', 'La actividad energética es la mitad o menos de mi cifra de negocios', false, { hint: 'En ese caso, o si facturas menos de 1.000 M€, estás exento del gravamen energético.' }),
+    N('benRef', 'Beneficio medio de años anteriores (alimentación)', 0, { u: '€', tag: 'Márgenes excesivos', hint: 'Tributa al 33 % el beneficio que supere en un 20 % esta media. Con 0 no se aplica.' }),
+    N('depositos', 'Depósitos de clientes (banca)', 0, { u: '€' }),
+    N('incnGlobal', 'Cifra de negocios mundial del grupo (digital)', 0, { u: '€' }),
+    N('ingDigES', 'Ingresos por servicios digitales en España', 0, { u: '€' }),
+    C('alqVivienda', 'Me dedico al arrendamiento de vivienda (bonificación del 40 %)', false),
+    N('rentaAlq', 'Beneficio procedente del alquiler', 0, { u: '€' }),
+    C('alqAsequible', 'Alquilo por debajo del índice de referencia', false, { hint: 'La bonificación del 40 % solo se mantiene si la renta no supera el índice. Se exige en los contratos nuevos.' }),
+  ]},
+];
+
+const PRESETS = {
+  asal: [
+    ['Familia con 30.000 €', {}],
+    ['Salario mínimo', { bruto: 17094, hExtra: 3, h311: 0, alquiler: 700, hogarNeto: 1300, personas: 1, cLuz: 45, kwh: 150, tBus: 40, cPelu: 15, intereses: 0 }],
+    ['22.000 € y 2 hijos', { bruto: 22000, h03: 1, h311: 1, maternidad: true, alquiler: 850, hogarNeto: 2100, personas: 4, cPanal: 40, cLuz: 80, kwh: 320, permiso: true, nacimiento: true }],
+    ['Pensionista con 1.200 €', { situacion: 'pension', pensionBruta: 16800, pagasPen: '14', edad: 72, h311: 0, alquiler: 0, personas: 2, audif: 2, cLuz: 60, kwh: 220, tBus: 20, cPelu: 20, intereses: 600 }],
+    ['En paro con subsidio', { situacion: 'desempleo', tipoDes: 'subsidio', desImporte: 480, edad: 50, h311: 0, h1217: 1, alquiler: 600, hogarNeto: 900, personas: 2, cLuz: 55, kwh: 200, tBus: 30, cPelu: 0, intereses: 0 }],
+    ['Tiempo parcial 20 h', { bruto: 10500, jornada: 20, parcial: true, h311: 1, alquiler: 750, hogarNeto: 1900, personas: 2 }],
+    ['Rentista con 6 pisos', { situacion: 'desempleo', tipoDes: 'ninguna', edad: 58, h311: 0, alquiler: 0, personas: 1, cLuz: 90, kwh: 300, cPelu: 30, cSeguro: 90, tBus: 0, intereses: 3000, dividendos: 2000, alqRend: 36000, alqRed: '0.5', alqBajoIndice: false, turIngresos: 42000, turGastosFin: 15000, turVC: 220000, turVacio: 25, patNeto: 2100000, patVH: 400000, nViv: 6, valOtras: 1500000, ipBonif: '0' }],
+    ['Directivo con patrimonio', { bruto: 180000, edad: 52, h311: 0, h1217: 2, alquiler: 0, cEdu: 900, cSeguro: 180, cPelu: 60, cLuz: 160, kwh: 700, personas: 4, tBus: 0, dividendos: 40000, ganancias: 25000, intereses: 6000, pension: 1500, patNeto: 4500000, patVH: 900000, nViv: 5, valOtras: 2200000, ipBonif: '1', alqRend: 30000, lujoCoche: 160000, lujoYate: 450000 }],
+    ['Herencia de 2 M€', { bruto: 45000, edad: 48, h311: 0, h1217: 1, alquiler: 0, personas: 3, intereses: 1500, patNeto: 350000, patVH: 300000, nViv: 1, herencia: 2000000, parentesco: 'II', isdBonif: '1' }],
+  ],
+  auto: [
+    ['Autónoma con 32.000 €', { situacion: 'auto' }],
+    ['Autónomo con 18.000 €', { situacion: 'auto', ingresos: 18000, gastos: 3000, h311: 0, alquiler: 650, hogarNeto: 1200, personas: 1, cLuz: 45, kwh: 150 }],
+    ['Profesional con 90.000 €', { situacion: 'auto', ingresos: 90000, gastos: 15000, h311: 1, h1217: 1, alquiler: 0, cSeguro: 120, cEdu: 400, intereses: 3000, dividendos: 5000, pension: 1500, patNeto: 900000, patVH: 450000, nViv: 2, valOtras: 300000 }],
+  ],
+  emp: [
+    ['Pyme', {}],
+    ['Microempresa', { incn: 600000, rc: 80000, deducciones: 0 }],
+    ['Gran empresa', { incn: 2000000000, rc: 300000000, ajustes: -60000000, deducciones: 30000000, divExt: 40000000, perdGrupo: 20000000, bin: 30000000, binAntiguas: 10000000 }],
+    ['Gran banco', { incn: 15000000000, rc: 4000000000, ajustes: -500000000, deducciones: 300000000, sector: 'banca', depositos: 300000000000, divExt: 800000000 }],
+    ['Energética', { incn: 30000000000, rc: 6000000000, ajustes: -800000000, deducciones: 400000000, sector: 'energia', margen25: 14.2, margen26: 22.5, reservaEstrat: 1000000000, divExt: 500000000 }],
+    ['Gran supermercado', { incn: 38000000000, rc: 1800000000, ajustes: 0, deducciones: 60000000, sector: 'alimentacion', benRef: 1100000000 }],
+    ['Tecnológica', { incn: 900000000, rc: 40000000, ajustes: 0, deducciones: 2000000, sector: 'digital', incnGlobal: 200000000000, ingDigES: 600000000 }],
+  ],
+};
+
+// Primero los perfiles que ganan; al final, rentista y directivo con patrimonio
+PRESETS.persona = [...PRESETS.asal.slice(0, 6), ...PRESETS.auto, ...PRESETS.asal.slice(6)];
+let tab = 'persona'; // pestaña: 'persona' | 'emp'
+let mode = 'asal';    // modo de cálculo: 'asal' | 'auto' | 'emp'
+let preset = 0;
+function syncMode() { mode = tab === 'emp' ? 'emp' : (state.situacion === 'auto' ? 'auto' : 'asal'); }
+const state = {}; // valores por clave
+
+function allSections() { return mode === 'emp' ? SEC_EMPRESA : [SEC_PERSONA_TRAB[SEC_PERSONA_TRAB[state.situacion] ? state.situacion : mode], ...SEC_COMUNES]; }
+function defaults() {
+  const d = {};
+  for (const s of [SEC_PERSONA_TRAB.asal, SEC_PERSONA_TRAB.auto, ...SEC_COMUNES, ...SEC_EMPRESA]) for (const f of s.fields) if (f.k) d[f.k] = f.def;
+  return d;
+}
+function applyPreset(i) {
+  Object.assign(state, defaults(), PRESETS[tab][i][1]);
+  preset = i;
+  syncMode();
+  renderForm(); renderPresets(); calc();
+}
+
+function fieldHTML(f) {
+  if (f.sub) return `<div class="sub">${f.sub}</div>`;
+  const id = 'f-' + f.k, v = state[f.k];
+  const tag = f.tag ? `<span class="tag">${f.tag}</span>` : '';
+  const hint = f.hint ? `<small>${f.hint}</small>` : '';
+  if (f.t === 'chk') return `<div class="field"><label class="check" for="${id}"><input type="checkbox" id="${id}" data-k="${f.k}" ${v ? 'checked' : ''}><span>${f.label}${tag}</span></label>${hint}</div>`;
+  if (f.t === 'sel') return `<div class="field"><label for="${id}">${f.label}${tag}</label><div class="inp"><select id="${id}" data-k="${f.k}">${f.opts.map(([a, b]) => `<option value="${a}" ${String(v) === a ? 'selected' : ''}>${b}</option>`).join('')}</select></div>${hint}</div>`;
+  return `<div class="field"><label for="${id}">${f.label}${tag}</label><div class="inp"><input id="${id}" data-k="${f.k}" type="text" inputmode="decimal" value="${fmtIn(v)}"><span class="u">${f.u || ''}</span></div>${hint}</div>`;
+}
+function renderForm() {
+  const form = document.getElementById('form');
+  const openState = {};
+  form.querySelectorAll('details.sec').forEach(d => openState[d.dataset.id] = d.open);
+  const GRUPOS = mode === 'emp' ? {} : {
+    0: ['Dónde ganas', 'Trabajo, vivienda, familia, movilidad y consumo asequible'],
+    5: ['Dónde pagas más', 'Ahorro, alquileres, patrimonio, herencias y lujo'],
+  };
+  form.innerHTML = allSections().map((s, i) => {
+    const open = s.id in openState ? openState[s.id] : s.open;
+    const g = GRUPOS[i] ? `<div class="group-h ${i ? 'g-pay' : 'g-gain'}"><span>${GRUPOS[i][0]}</span><small>${GRUPOS[i][1]}</small></div>` : '';
+    return g + `<details class="sec" data-id="${s.id}" ${open ? 'open' : ''}><summary><h2>${s.title}</h2><span class="hint">${s.hint}</span></summary><div class="fields">${s.fields.map(fieldHTML).join('')}</div></details>`;
+  }).join('');
+}
+function renderPresets() {
+  document.getElementById('presets').innerHTML = '<span>Ejemplos:</span>' + PRESETS[tab].map(([n], i) => `<button type="button" class="chip" data-p="${i}" aria-pressed="${i === preset}">${n}</button>`).join('');
+}
+const fmtN = (v, dec = 0) => { const r = Number(Math.abs(v).toFixed(dec)); const s = r.toFixed(dec).split('.'); s[0] = s[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.'); return (v < 0 && r > 0 ? '-' : '') + s.join(','); };
+const nf0 = { format: v => fmtN(v, 0) }, nf1 = { format: v => fmtN(v, 1) };
+function fmtIn(v) { return typeof v === 'number' ? nf0.format(v) : v; }
+function parseNum(s) { const x = parseFloat(String(s).replace(/\./g, '').replace(/\s/g, '').replace(',', '.')); return isFinite(x) ? x : 0; }
+const eur = v => nf0.format(Math.round(v)) + ' €';
+const big = v => { const a = Math.abs(v); if (a >= 1e9) return nf1.format(v / 1e9) + ' mil M€'; if (a >= 1e6) return nf1.format(v / 1e6) + ' M€'; return eur(v); };
+const sgn = v => (Math.round(v) > 0 ? '+' : Math.round(v) < 0 ? '−' : '') + big(Math.abs(v));
+const cls = v => Math.round(v) > 0 ? 'pos' : Math.round(v) < 0 ? 'neg' : 'zero';
+const pct = v => nf1.format(v * 100) + ' %';
+
+function readData() {
+  const d = { ...state, modo: mode, ppAlto: 2 };
+  d.temporal = state.temporal === '1'; d.ipBonif = state.ipBonif === '1'; d.isdBonif = state.isdBonif === '1'; d.alqRed = parseFloat(state.alqRed);
+  const NOJ = { modo: 'asal', noJornada: true, sinCot: true, jornada: 40, hExtra: 0, parcial: false, permiso: false, nacimiento: false, maternidad: false };
+  if (state.situacion === 'pension') Object.assign(d, NOJ, { bruto: state.pensionBruta });
+  if (state.situacion === 'desempleo') {
+    const anual = state.tipoDes === 'ninguna' ? 0 : state.desImporte * 12;
+    const ligado = state.tipoDes === 'subsidio';
+    // IPREM de 600 a 700 €: las cuantías ligadas al IPREM suben un 16,7 %
+    Object.assign(d, NOJ, { bruto: anual, iprBruto: ligado ? anual * (700 / 600 - 1) : 0 });
+  }
+  return d;
+}
+
+function rowsHTML(rows, invert) {
+  const max = Math.max(1, ...rows.map(r => Math.abs(r.v)));
+  return rows.map(r => {
+    const w = Math.abs(r.v) / max * 50;
+    return `<div class="row ${Math.round(r.v) === 0 ? 'zero-row' : ''}"><div class="name">${r.n}${r.s ? `<small>${r.s}</small>` : ''}</div><div class="bar" aria-hidden="true"><i class="${r.v >= 0 ? 'p' : 'n'}" style="width:${w}%"></i></div><div class="val ${cls(r.v)}">${sgn(invert ? -r.v : r.v)}</div></div>`;
+  }).join('');
+}
+
+function calcPersona() {
+  const d = readData();
+  const r = simularPersona(d);
+  const H = r.hoy, F = r.fa, sv = r.serv;
+  const sit = state.situacion;
+  const pagas = sit === 'pension' ? parseInt(state.pagasPen) : sit === 'desempleo' ? 12 : mode === 'asal' ? parseInt(state.pagas) : 12;
+  const sinIngresoTrab = sit === 'desempleo' && state.tipoDes === 'ninguna';
+  const F0 = r.fa0; // propuesta sin subida salarial
+  const dIRPFgen = (H.ir.cuotaGen - H.ir.dSMI - H.ir.dMat) - (F0.cuotaGen - F0.dSMI - F0.dMat);
+  const dIRPFah = H.ir.cuotaAh - F0.cuotaAh;
+  const irpfSueldo = F.ir.total - F0.total; // IRPF que genera la subida de sueldo
+  const dPat = H.pat.total - F.pat.total;
+  const dHer = H.her.total - F.her.total;
+  const dLux = H.lux - F.lux;
+  const con = H.con, cof = F.con;
+  const dIVA = con.total - cof.total;
+  const J = r.jor, dSS = F.ir.ss - H.ir.ss, dBruto = J.parcialBruto + J.extrasBruto + J.iprBruto;
+  const jIprNeto = dBruto > 0 ? J.iprBruto - (dSS + irpfSueldo) * J.iprBruto / dBruto : 0;
+  const jParcialNeto = dBruto > 0 ? J.parcialBruto - (dSS + irpfSueldo) * J.parcialBruto / dBruto : 0;
+  const jExtrasNeto = dBruto > 0 ? J.extrasBruto - (dSS + irpfSueldo) * J.extrasBruto / dBruto : 0;
+  const impuestos = dIRPFgen + dIRPFah + dPat + dHer + dLux + dIVA;
+  const sueldo = jParcialNeto + jExtrasNeto + impuestos;
+  const total = sueldo + sv.total;
+  const rows = [
+    { n: 'Subida del IPREM a 700 €', s: 'Tu ' + (state.tipoDes === 'subsidio' ? 'subsidio' : 'prestación') + ' sube un 16,7 %, neto de IRPF', v: jIprNeto },
+    { n: 'Sueldo por la jornada de 37,5 h', s: 'Tiempo parcial, neto de cotización e IRPF', v: jParcialNeto },
+    { n: 'Horas extra que pasas a cobrar', s: 'Registro digital, neto de cotización e IRPF', v: jExtrasNeto },
+    { n: 'IRPF del trabajo y otras rentas', s: sinIngresoTrab ? 'Alquiler sin reducción y pisos turísticos sin gastos ni imputación baja' : dBruto > 0 ? 'Solo el efecto de la reforma, sin la subida de sueldo' : 'Rebaja hasta 25.000 €; +2 puntos desde 150.000 €', v: dIRPFgen },
+    { n: 'IRPF del ahorro', s: 'Escala del 19 % al 40 %', v: dIRPFah },
+    { n: 'Patrimonio y grandes fortunas', s: 'Desde 1 M€ y 5 % a partir de 500.000 € en viviendas (4 o más)', v: dPat },
+    { n: 'Gravamen sobre bienes de lujo', s: 'Coches de lujo, yates y aviones privados', v: dLux },
+    { n: 'Impuesto a las grandes herencias', s: 'Más de 1 M€: mínimo la escala estatal, una sola vez', v: dHer },
+    { n: 'IVA, luz y consumo', s: 'Luz progresiva, IVA reducido y fin de exenciones', v: dIVA },
+    { n: 'Prestación por crianza', s: '200 € al mes por hijo/a', v: sv.crianza },
+    { n: 'Comedor escolar gratuito', s: 'Infantil y Primaria públicas', v: sv.comedor },
+    { n: 'Escuela infantil de 0 a 3 años', s: state.infantilMes > 0 ? 'Escenario: dejas de pagar la cuota' : 'Escenario: valor de la plaza pública', v: sv.infantil },
+    { n: 'Abono único de transporte', s: 'Cercanías 20 €, bus y metro −75 %', v: sv.transporte },
+    { n: 'Tope del alquiler', s: d.vivPublica ? 'Escenario de vivienda pública' : 'Máximo el 30 % de la renta del hogar', v: sv.alquiler },
+    { n: 'Audífonos financiados', s: '1.500 € por audífono, una sola vez', v: sv.audif },
+    { n: 'Tope al gas en la factura de la luz', s: 'Escenario: −24 % en la factura, como en 2022', v: sv.topeGas },
+    { n: 'Hipoteca sin comisiones', s: 'Amortización anticipada o paso a tipo fijo, hasta 2029', v: sv.hipoteca },
+    { n: 'Leasing social de coche eléctrico', s: 'Escenario: ' + (state.leasingTipo === '150' ? '150' : '100') + ' € al mes con recarga', v: sv.leasing },
+    { n: 'Permiso por nacimiento más largo', s: '3 semanas más pagadas, una sola vez', v: sv.nacimiento },
+    { n: 'Permiso parental retribuido', s: '4 semanas, una sola vez', v: sv.permiso },
+  ];
+  const visibles = rows.filter(x => Math.round(x.v) !== 0).sort((a, b) => Math.abs(b.v) - Math.abs(a.v)); // por relevancia
+  const ocultas = rows.length - visibles.length;
+  const liqRows = [
+    ['Ingresos íntegros', H.ir.bruto, F.ir.bruto],
+    [mode === 'asal' ? 'Cotizaciones a la Seguridad Social' : 'Cuota de autónomos', -H.ir.ss, -F.ir.ss],
+    ...(mode === 'auto' ? [['Gastos de la actividad', -d.gastos, -d.gastos]] : []),
+    [mode === 'asal' ? 'Otros gastos (2.000 €)' : 'Gastos de difícil justificación', -H.ir.otros, -F.ir.otros],
+    ['Reducción por rendimientos bajos', -H.ir.red, -F.ir.red],
+    ['Rendimiento neto reducido', H.ir.rnTrab, F.ir.rnTrab],
+    ['Alquileres e imputaciones', H.ir.alq + H.ir.tur + H.ir.imput, F.ir.alq + F.ir.tur + F.ir.imput],
+    ['Plan de pensiones', -H.ir.pension, -F.ir.pension],
+    ['Base liquidable general', H.ir.blg, F.ir.blg, 1],
+    ['Base del ahorro', H.ir.bla, F.ir.bla, 1],
+    ['Mínimo personal y familiar', H.ir.minimo, F.ir.minimo],
+    ['Cuota general', H.ir.cuotaGen, F.ir.cuotaGen],
+    ['Cuota del ahorro', H.ir.cuotaAh, F.ir.cuotaAh],
+    ['Deducción salarios bajos (SMI)', -H.ir.dSMI, -F.ir.dSMI],
+    ['Deducción por maternidad', -H.ir.dMat, -F.ir.dMat],
+    ['IRPF a pagar', H.ir.total, F.ir.total, 1],
+    ['Impuesto sobre el Patrimonio', H.pat.ip, F.pat.ip],
+    ['Grandes fortunas', H.pat.itsgf, F.pat.itsgf],
+    ['5 % sobre viviendas (4 o más, desde 500.000 €)', H.pat.viv, F.pat.viv],
+    ['Gravamen sobre bienes de lujo', H.lux, F.lux],
+    ['Sucesiones y donaciones', H.her.total, F.her.total],
+  ];
+  const conRows = [['Luz', con.luz, cof.luz], ['Peluquería', con.pelu, cof.pelu], ['Veterinario', con.vet, cof.vet], ['Pañales', con.panal, cof.panal], ['Sin gluten', con.gluten, cof.gluten], ['Enseñanza privada', con.edu, cof.edu], ['Seguro médico', con.seguro, cof.seguro], ['Sobrecoste del gasóleo', con.diesel, cof.diesel]].filter(x => x[1] || x[2]);
+  const tbl = (rs) => `<div class="tbl-wrap"><table><thead><tr><th>Concepto</th><th class="n">Hoy</th><th class="n">Propuesta</th></tr></thead><tbody>${rs.map(([a, b, c, s]) => `<tr class="${s ? 'strong' : ''}"><td>${a}</td><td class="n">${eur(b)}</td><td class="n">${eur(c)}</td></tr>`).join('')}</tbody></table></div>`;
+
+  const netoH = H.netoTrab, netoF = F.netoTrab;
+  const html = `
+  <div class="card total ${cls(total) === 'neg' ? 'lose' : 'win'}">
+    <div class="k">Con la propuesta del Frente Amplio, al año</div>
+    <div class="big ${cls(total)}">${sgn(total)}</div>
+    <div class="per">${Math.round(total) >= 0 ? 'a tu favor' : 'en tu contra'}: ${sgn(total / 12)} al mes, sumando sueldo, impuestos y servicios.</div>
+    <div class="split">
+      <div><div class="l">Sueldo e impuestos</div><div class="v ${cls(sueldo)}">${sgn(sueldo)}</div></div>
+      <div><div class="l">Servicios y prestaciones</div><div class="v ${cls(sv.total)}">${sgn(sv.total)}</div></div>
+    </div>
+  </div>
+  ${sinIngresoTrab ? '' : `<div class="card">
+    <h3>${sit === 'pension' ? `Tu pensión neta (${pagas} pagas)` : sit === 'desempleo' ? 'Lo que cobras al mes, neto' : mode === 'asal' ? `Tu nómina neta (${pagas} pagas)` : 'Tu rendimiento neto mensual'}</h3>
+    <div class="nomina">
+      <div><div class="l">Hoy</div><div class="v num">${eur(netoH / pagas)}</div></div>
+      <div class="arrow">→</div>
+      <div><div class="l">Con la propuesta</div><div class="v num ${cls(netoF - netoH)}">${eur(netoF / pagas)}</div></div>
+    </div>
+    <div class="note">${Math.round(netoF - netoH) === 0 ? (sit === 'pension' ? 'Tu pensión neta no cambia. El programa mantiene la subida con el IPC y sube las mínimas y no contributivas por encima de la inflación, sin fijar cuánto.' : 'Tu ingreso neto no cambia: la rebaja de IRPF se concentra entre el salario mínimo y 25.000 € y la subida empieza en 150.000 €.') : `Diferencia de ${sgn((netoF - netoH) / pagas)} por paga${J.iprBruto > 0 ? ', por la subida del IPREM' : dBruto > 0 ? ', con la subida por jornada u horas extra incluida' : ''}.`}</div>
+  </div>`}
+  ${sit === 'asal' ? `<div class="card">
+    <h3>Tu tiempo</h3>
+    ${(() => { window.__hNac = d.nacimiento ? 3 * J.horasFA / SEMANAS : 0; return ''; })()}
+    <div class="nomina">
+      <div><div class="l">Horas al año hoy</div><div class="v num">${nf0.format(J.horasHoy + (d.hExtra || 0) * SEMANAS)}</div></div>
+      <div class="arrow">→</div>
+      <div><div class="l">Con la propuesta</div><div class="v num ${J.horasGanadas + window.__hNac > 0 ? 'pos' : ''}">${nf0.format(J.horasFA - window.__hNac + (d.hExtra || 0) * SEMANAS)}</div></div>
+    </div>
+    <div class="note">${J.horasGanadas > 0 ? `Ganas <strong>${nf0.format(J.horasGanadas)} horas libres al año</strong> (unas ${nf0.format(J.horasGanadas / 7.5)} jornadas de 7,5 h) cobrando lo mismo. Tu hora pasa de ${nf1.format(J.horaHoy)} € a ${nf1.format(J.horaFA)} € brutos, un ${nf1.format((J.horaFA / J.horaHoy - 1) * 100)} % más. Ese tiempo no se suma al saldo en euros.` : d.parcial ? `Mantienes tus horas y tu hora pasa de ${nf1.format(J.horaHoy)} € a ${nf1.format(J.horaFA)} € brutos.` : 'Tu jornada ya está en 37,5 horas o por debajo.'}${d.hExtra > 0 ? ` Las ${nf0.format(d.hExtra * SEMANAS)} horas extra que hoy regalas pasan a cobrarse: ${eur(J.extrasBruto)} brutos y ${eur(jExtrasNeto)} netos al año.` : ''}${window.__hNac > 0 ? ` Además, las 3 semanas más de permiso por nacimiento son <strong>${nf0.format(window.__hNac)} horas</strong> que pasas con tu bebé cobrando, solo el año del nacimiento.` : ''}</div>
+  </div>` : ''}
+  <div class="card">
+    <h3>De dónde sale la diferencia</h3>
+    <div class="rows">${rowsHTML(visibles.length ? visibles : rows.slice(0, 1))}</div>
+    ${ocultas ? `<div class="note">${ocultas} medida${ocultas > 1 ? 's' : ''} sin efecto con tus datos. Rellena Movilidad, Consumo asequible o Patrimonio para verlas.</div>` : ''}
+    <details class="liq"><summary>Ver la liquidación completa</summary>${tbl(liqRows)}${conRows.length ? '<h3 style="margin-top:12px">Gasto anual en consumo afectado</h3>' + tbl(conRows) : ''}</details>
+  </div>`;
+  document.getElementById('resultado').innerHTML = html;
+  setDock(total, 'Con la propuesta, al año');
+}
+
+function calcEmpresa() {
+  const d = readData();
+  const H = sociedades(d, false), F = sociedades(d, true);
+  const diff = H.total - F.total; // positivo = paga menos
+  const rows = [
+    { n: 'Impuesto sobre Sociedades', s: H.grande ? 'Mínimo del 20 % del resultado contable' : 'Las pymes no cambian', v: H.cuotaLiquida - F.cuotaLiquida },
+    { n: 'Impuesto sobre depósitos', s: 'Del 0,03 % al 1 %', v: H.depositos - F.depositos },
+    { n: 'Gravamen energético por márgenes', s: 'Tipo del ' + pct(F.tipoEnerg) + ' sobre la cifra de negocios', v: H.energetico - F.energetico },
+    { n: 'Gravamen a márgenes de la alimentación', s: '33 % del beneficio extraordinario', v: H.margenes - F.margenes },
+    { n: 'Tasa Google', s: 'Del 3 % al 15 %', v: H.dst - F.dst },
+  ];
+  const vis = rows.filter(r => Math.round(r.v) !== 0).sort((a, b) => Math.abs(b.v) - Math.abs(a.v));
+  const t = [
+    ['Resultado contable', d.rc, d.rc],
+    ['Dividendos de fuera de la UE que tributan', H.divExt, F.divExt],
+    ['Pérdidas del grupo (consolidación)', -H.consol, -F.consol],
+    ['Bases negativas compensadas', -H.bin, -F.bin],
+    ['Base imponible', H.bi, F.bi, 1],
+    ['Cuota íntegra', H.cuotaIntegra, F.cuotaIntegra],
+    ['Bonificación alquiler de vivienda', -H.bonifAlq, -F.bonifAlq],
+    ['Deducciones', -H.deducciones, -F.deducciones],
+    ['Tributación mínima', H.minimo, F.minimo],
+    ['Cuota líquida de Sociedades', H.cuotaLiquida, F.cuotaLiquida, 1],
+    ['Impuesto sobre depósitos', H.depositos, F.depositos],
+    ['Rebaja por inversiones estratégicas', -H.minorEnerg, -F.minorEnerg],
+    ['Gravamen energético por márgenes', H.energetico, F.energetico],
+    ['Gravamen a márgenes de la alimentación', H.margenes, F.margenes],
+    ['Tasa Google', H.dst, F.dst],
+    ['Total de impuestos', H.total, F.total, 1],
+  ];
+  const html = `
+  <div class="card total ${cls(diff) === 'neg' ? 'lose' : 'win'}">
+    <div class="k">Impuestos de la empresa con la propuesta, al año</div>
+    <div class="big ${cls(-(-diff))}">${Math.round(diff) === 0 ? 'Sin cambios' : (diff < 0 ? '+' : '−') + big(Math.abs(diff))}</div>
+    <div class="per">${Math.round(diff) === 0 ? 'Es una pyme: el programa mantiene su carga fiscal.' : diff < 0 ? 'más de lo que paga hoy.' : 'menos de lo que paga hoy.'}</div>
+    <div class="split">
+      <div><div class="l">Tipo efectivo hoy</div><div class="v">${pct(H.tipoEf)}</div></div>
+      <div><div class="l">Con la propuesta</div><div class="v">${pct(F.tipoEf)}</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Cambio por impuesto</h3>
+    <div class="note">En rojo, lo que pagaría de más; en verde, de menos.</div>
+    <div class="rows">${rowsHTML(vis.length ? vis : rows.slice(0, 1), true)}</div>
+    <details class="liq" ${H.grande ? 'open' : ''}><summary>Ver la liquidación completa</summary><div class="tbl-wrap"><table><thead><tr><th>Concepto</th><th class="n">Hoy</th><th class="n">Propuesta</th></tr></thead><tbody>${t.map(([a, b, c, s]) => `<tr class="${s ? 'strong' : ''}"><td>${a}</td><td class="n">${big(b)}</td><td class="n">${big(c)}</td></tr>`).join('')}</tbody></table></div></details>
+  </div>
+  <div class="card">
+    <h3>Otras medidas para tu empresa</h3>
+    <ul class="info-list">
+      ${d.incn < 85000 ? '<li>Con menos de 85.000 € de facturación podrías acogerte al IVA franquiciado: solo una declaración informativa anual.</li>' : ''}
+      <li>IVA de caja plenamente operativo: ingresas el IVA cuando cobras la factura.</li>
+      ${d.incn < 20e6 ? '<li>Si tienes menos de 50 trabajadores, línea ICO de 3.000 M€ al año a Euríbor + 1 punto.</li>' : ''}
+      <li>Sanciones efectivas por morosidad y compras colectivas de energía para pymes.</li>
+    </ul>
+  </div>`;
+  document.getElementById('resultado').innerHTML = html;
+  setDock(diff, 'Impuestos de la empresa, al año', true);
+}
+function setDock(v, label, empresa) {
+  const el = document.getElementById('dock-v');
+  el.textContent = empresa ? (Math.round(v) === 0 ? 'Sin cambios' : (v < 0 ? 'Paga +' : 'Paga −') + big(Math.abs(v))) : sgn(v);
+  el.className = 'v ' + cls(v);
+  el.previousElementSibling.textContent = label;
+}
+function syncParcial() {
+  const cb = document.getElementById('f-parcial');
+  if (!cb) return;
+  const bloquear = (state.jornada || 0) >= 37.5;
+  if (bloquear) { state.parcial = false; cb.checked = false; }
+  cb.disabled = bloquear;
+  cb.closest('.field').classList.toggle('disabled', bloquear);
+  cb.closest('.field').querySelector('small').textContent = bloquear
+    ? 'Solo para jornadas de menos de 37,5 horas semanales.'
+    : 'Mantienes tus horas y el sueldo sube en proporción a la nueva jornada completa de 37,5 h.';
+}
+function calc() { if (mode !== 'emp') syncParcial(); mode === 'emp' ? calcEmpresa() : calcPersona(); }
+
+/* Tabla de medidas */
+const MEDIDAS = [
+  ['__G', 'Trabajo e IRPF'],
+  ['IRPF del trabajo hasta 25.000 €', 'Subir la reducción por rendimientos del trabajo para que el SMI no pague IRPF y extender la rebaja, decreciente, hasta 25.000 €.', 's', 'Reducción de 8.433 € en el SMI que baja en línea recta hasta cero a 25.000 € brutos. Se conserva la deducción actual de 590,89 €. También llega a pensiones y prestaciones por desempleo, que tributan como trabajo; a los autónomos, solo si lo marcas.'],
+  ['Nuevo tramo por encima de 150.000 €', 'Crear un tramo nuevo para rentas del trabajo de más de 150.000 €.', 's', '+2 puntos: 47 % de 150.000 a 300.000 € y 49 % por encima.'],
+  ['Planes de pensiones individuales', 'Eliminar la reducción por aportaciones a planes de pensiones privados individuales.', 'm', 'La aportación deja de reducir la base general.'],
+  ['Jornada de 37,5 horas', 'Seguir reduciendo la jornada laboral.', 's', 'Jornada máxima de 37,5 h semanales sin rebaja de sueldo; se muestran las horas libres ganadas (45,65 semanas efectivas al año). A tiempo parcial se mantienen las horas y el sueldo sube en proporción (40/37,5).'],
+  ['Registro digital de jornada', 'Registro digital e interoperable para combatir las horas extra no pagadas.', 's', 'Las horas extra que hoy no se pagan pasan a cobrarse al valor de la hora ordinaria, con su cotización e IRPF.'],
+  ['IPREM a 700 €', 'Subir el IPREM en 100 euros, de 600 a 700 €.', 's', 'Sube un 16,7 % el subsidio por desempleo. La prestación contributiva depende de lo cotizado y no cambia. Pensiones: el programa sube mínimas y no contributivas por encima del IPC sin cifrarlo, así que no se calcula.'],
+  ['__G', 'Vivienda'],
+  ['Tope del alquiler', 'En zonas tensionadas el alquiler no superará el 30 % de la renta de los hogares que alquilan.', 's', 'Se lee como tope por hogar: ahorras lo que tu alquiler supere el 30 % de tus ingresos netos.'],
+  ['Vivienda pública', 'Construir 100.000 viviendas públicas al año, con alquileres de 400 a 600 € en zonas tensionadas.', 's', 'Escenario opcional: se calcula con un alquiler de 500 € al mes.'],
+  ['Hipotecas', 'Nuevo Código de Buenas Prácticas permanente y de adhesión voluntaria para los bancos (más plazo, carencia, quitas, cuotas fijas temporales, paso a tipo fijo, dación en pago y alquiler tras la ejecución), con notaría y registro casi gratis y sin AJD y suspensión hasta 2029 de las comisiones por amortizar antes de tiempo y por pasar de variable a fijo.', 's', 'Solo hipotecas a tipo variable, sea cual sea su fecha. Se calcula la comisión que te ahorras: 0,25 % de lo que adelantas los 3 primeros años y 0,15 % hasta el quinto; pasar a fijo, 0,05 % del capital los 3 primeros años. Las hipotecas a tipo fijo mantienen sus comisiones. Las medidas del Código dependen de requisitos que fijará el Consejo de Ministros y no se calculan.'],
+  ['__G', 'Familia y cuidados'],
+  ['Prestación universal por crianza', '200 € al mes por hijo o hija hasta los 18 años.', 'm', '2.400 € al año por hijo, sin tributar. Se suma al hogar.'],
+  ['Educación de 0 a 3 años', 'Avanzar hacia la universalización de la educación de 0 a 3 años con más escuelas infantiles públicas.', 's', 'Escenario opcional: si pagas escuela infantil, ahorras la cuota durante 11 meses; si no tienes plaza, se valora al coste público por plaza, 4.911 € al año (detalle de los PGE 2026).'],
+  ['Comedor escolar gratuito', 'Para todo el alumnado de Infantil y Primaria de la red pública.', 'm', 'Lo que pagas al mes por hijo de 3 a 11 años durante 9 meses lectivos.'],
+  ['Permiso por nacimiento', 'Ampliar el permiso por nacimiento hasta las 20 semanas, con más flexibilidad a tiempo parcial desde la semana 16.', 's', '3 semanas más, valoradas a tu salario diario (con el tope de la base máxima de cotización) y exentas de IRPF. Solo cuenta ajena y autónomos, una vez.'],
+  ['Permiso parental retribuido', 'Pagar el permiso parental de cuidados hasta los 8 años, empezando por 4 semanas.', 's', '28 días de tu salario, una sola vez.'],
+  ['__G', 'Movilidad y salud'],
+  ['Abono único de transporte', 'Cercanías a 20 € (10 € menores de 26, gratis menores de 16); bus y metro −75 % (−80 % menores de 26, gratis menores de 15); larga distancia recurrente −50 %.', 's', 'Se supone que lo que pagas hoy en bus y metro ya lleva un 40 % de descuento. El abono de media distancia (−60 %) no se calcula.'],
+  ['Audífonos', 'Financiar los audífonos a toda la población que los necesite.', 'm', '1.500 € de ayuda por audífono, una sola vez (detalle de los PGE 2026).'],
+  ['Leasing social de coche eléctrico', 'Alquiler con opción a compra de un coche eléctrico por 100 € al mes (urbano) o 150 € (familiar) para rentas bajas y medias, con bono de recarga.', 's', 'Escenario opcional: ahorras la diferencia entre lo que gastas hoy en coche y combustible y la cuota del leasing.'],
+  ['__G', 'Consumo asequible'],
+  ['IVA de bienes básicos', 'Peluquería y veterinario al 10 %, pañales al 4 %, productos sin gluten al 0 %.', 'm', 'Se supone que el cambio llega entero al precio. Productos sin gluten: del 10 % al 0 %.'],
+  ['IVA progresivo de la luz', 'Del 0 % en consumos bajos y autoconsumo hasta el 16 % en los tramos altos, según consumo por persona.', 's', 'Tramos por persona y mes: 0 % hasta 50 kWh, 5 % hasta 100, 10 % hasta 150 y 16 % por encima. Hoy, 21 %.'],
+  ['Tope al gas (excepción ibérica)', 'Cuando el gas supere 50 €/MWh de media en 30 días, se calcula a 40 €/MWh para fijar el precio de la luz, al menos durante 3 meses.', 's', 'Escenario opcional, solo con tarifa PVPC o indexada. Se aplica el resultado del tope de 2022: entre el 15 de junio y el 31 de diciembre la factura regulada habría sido un 31,8 % más cara sin él (un ahorro del 24,1 %, unos 209 € por hogar en 2022, según EsadeEcPol).'],
+  ['Enseñanza y seguros privados', 'Fin de la exención de IVA en la enseñanza privada y del Impuesto sobre las Primas de Seguros en la sanidad privada.', 'm', 'Enseñanza privada al 21 %; seguros médicos al 8 %.'],
+  ['Gasóleo', 'Igualar el gasóleo al resto de combustibles en el impuesto de hidrocarburos.', 'm', '+0,094 €/litro más IVA (diferencia con la gasolina).'],
+  ['__G', 'Ahorro, alquileres, patrimonio, herencias y lujo'],
+  ['Base del ahorro', 'Escala del 19 % al 40 % en siete tramos.', 'm', 'Tabla del programa aplicada tal cual a intereses, dividendos y ganancias.'],
+  ['Alquiler y pisos turísticos', 'Reducción por alquiler solo si la renta está bajo el índice. En pisos turísticos de zonas tensionadas, sin gastos financieros ni amortización, e imputación del 20 % cuando estén vacíos.', 'm', 'Se aplica con los datos de «Si alquilas viviendas». Imputación de hoy: 1,1 % del valor catastral.'],
+  ['IVA de los pisos turísticos', 'Los alquileres de viviendas amuebladas de 30 días o menos, o con servicios de tipo hotelero, pagan IVA al 21 %.', 'x', 'Lo paga el turista en el precio. No cambia la renta de quien alquila si lo repercute, así que no se calcula.'],
+  ['Grandes fortunas', 'Gravar el patrimonio neto desde 1 M€ (hoy 3 M€) con un mínimo del 2 %, sin tocar el mínimo exento de 700.000 €.', 's', '2 % sobre la base entre 1 M€ y 5,35 M€ y los tipos actuales (2,1 % y 3,5 %) por encima, descontando el Patrimonio pagado. Con 4 o más viviendas, estas salen de esta base (fila siguiente).'],
+  ['5 % a quien tenga 4 o más viviendas', 'Dentro del impuesto de grandes fortunas, una base inmobiliaria propia para quien tenga 4 o más viviendas por más de 500.000 €, con un mínimo exento de 500.000 € y un tipo del 5 %.', 'm', 'Según el articulado: las viviendas salen de la base general y tributan al 5 % por lo que pase de 500.000 €. La vivienda habitual está exenta hasta 300.000 €. Se descuenta el Patrimonio pagado. Sin el límite conjunto del 60 % con el IRPF. Las viviendas en sociedades también cuentan, pero el simulador no las separa.'],
+  ['Impuesto a las grandes herencias', 'Impuesto estatal para herencias de más de 1 M€ que grava la diferencia entre el mínimo estatal y lo que cobra cada comunidad, como el de grandes fortunas.', 's', 'Mínimo estatal: la escala estatal de Sucesiones con sus reducciones por parentesco y coeficientes por patrimonio previo. Si tu comunidad bonifica, pagas la diferencia. No se aplican reducciones por vivienda habitual ni empresa familiar.'],
+  ['Gravamen sobre bienes de lujo', 'Gravamen de solidaridad ambiental sobre aviones privados, yates, coches de lujo y otros bienes suntuarios.', 's', 'Sin tipos en el programa: 1 % anual del valor de los coches de más de 100.000 € y 2 % anual del de yates de más de 8 m y aviones o helicópteros privados.'],
+  ['Impuesto a grandes inmuebles', 'Impuesto estatal progresivo a los inmuebles de más de 1 M€ según su valor catastral.', 'x', 'El programa no da tipos.'],
+  ['__G', 'Empresas'],
+  ['Sociedades: mínimo del 20 %', 'Tributación mínima del 20 % del resultado contable de las grandes empresas, sin subir la carga de las pymes.', 's', 'Grandes empresas: 20 M€ o más de cifra de negocios. También dejan de consolidar, pierden la exención de dividendos de fuera de la UE y solo compensan pérdidas de los últimos 4 años.'],
+  ['Bonificación del 40 % a sociedades que alquilan', 'Solo se mantiene si la renta de cada vivienda no supera el índice estatal de referencia, en los contratos firmados desde la reforma.', 'm', 'En la pestaña Empresa, con la casilla de alquiler por debajo del índice.'],
+  ['Banca, energía y tasa Google', 'Impuesto sobre depósitos del 0,03 % al 1 %, recuperar el gravamen energético y subir la tasa Google al 15 %.', 'm', 'Depósitos y tasa Google tal cual. El gravamen energético se calcula como en la fila siguiente.'],
+  ['Gravamen energético por márgenes', 'Gravamen temporal a los operadores principales de refino, comercio mayorista de combustibles, gasolineras y suministro de luz y gas, ligado a la subida de sus márgenes.', 'm', 'Tipo = 0,3 × la subida en puntos del margen de explotación de 2026 frente a 2025, sobre la cifra de negocios en España. Si el margen no sube, no se paga. Exentas las empresas con menos de 1.000 M€ de cifra de negocios o cuya actividad energética no supere el 50 %. Rebaja por reserva para inversiones estratégicas: 10 % de la reserva, o 30 % con un límite de entre el 10 % y el 60 % del gravamen si la reserva lo supera. Sustituye al 1,2 % plano de 2023-2024.'],
+  ['Márgenes excesivos en la alimentación', 'Gravamen sobre los márgenes excesivos de las grandes empresas de producción y distribución de alimentos.', 's', 'Sin tipo en el programa: 33 % del beneficio que supere en un 20 % la media de años anteriores, como la contribución solidaria de la UE de 2022. Solo grandes empresas.'],
+];
+document.getElementById('medidas').innerHTML = `<thead><tr><th>Medida</th><th>Qué dice el programa</th><th>En el simulador</th></tr></thead><tbody>${MEDIDAS.map(([a, b, s, c]) => a === '__G' ? `<tr class="grp"><td colspan="3">${b}</td></tr>` : `<tr><td>${a}</td><td>${b}</td><td><span class="st ${s}">${s === 'm' ? 'Modelada' : s === 's' ? 'Con supuesto' : 'No modelada'}</span><br>${c}</td></tr>`).join('')}</tbody>`;
+
+/* Eventos */
+document.getElementById('form').addEventListener('input', e => {
+  const el = e.target, k = el.dataset.k; if (!k) return;
+  state[k] = el.type === 'checkbox' ? el.checked : el.tagName === 'SELECT' ? el.value : parseNum(el.value);
+  if (k === 'situacion') {
+    syncMode(); preset = -1; renderForm(); renderPresets();
+    document.getElementById('f-situacion').focus();
+  }
+  calc();
+});
+document.getElementById('form').addEventListener('change', e => {
+  const el = e.target; if (el.tagName === 'INPUT' && el.type === 'text') el.value = fmtIn(state[el.dataset.k]);
+});
+document.getElementById('form').addEventListener('submit', e => e.preventDefault());
+document.getElementById('presets').addEventListener('click', e => { const b = e.target.closest('[data-p]'); if (b) applyPreset(+b.dataset.p); });
+document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => {
+  tab = b.dataset.mode;
+  document.querySelectorAll('.tabs button').forEach(x => x.setAttribute('aria-selected', x === b));
+  try { localStorage.setItem('fa-tab', tab); } catch (e) {}
+  applyPreset(0);
+}));
+(function init() {
+  let t = 'persona';
+  if (['persona', 'emp'].includes(location.hash.slice(1))) t = location.hash.slice(1);
+  else { try { const s = localStorage.getItem('fa-tab'); if (s === 'persona' || s === 'emp') t = s; } catch (e) {} }
+  tab = t;
+  document.querySelectorAll('.tabs button').forEach(x => x.setAttribute('aria-selected', x.dataset.mode === tab));
+  applyPreset(location.hash === '#auto' ? PRESETS.asal.length : 0);
+})();
+
+</script>
+</body>
+</html>
