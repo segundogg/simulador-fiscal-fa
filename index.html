@@ -3,20 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Descubre los derechos que ganas y quiénes pagan más con el programa económico del Frente Amplio: IRPF, patrimonio, herencias, IVA, vivienda, jornada de 37,5 horas, prestación por crianza y más.">
+<meta name="description" content="Descubre lo que ganas y quiénes pagan más con el programa económico del Frente Amplio: IRPF, patrimonio, herencias, IVA, vivienda, jornada de 37,5 horas, prestación por crianza y más.">
 <meta name="theme-color" content="#E23E27">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_ES">
 <meta property="og:title" content="¿Cuánto ganas con la propuesta económica del Frente Amplio?">
-<meta property="og:description" content="Descubre los derechos que ganas y quiénes pagan más con el programa económico del Frente Amplio: IRPF, patrimonio, herencias, IVA, vivienda, jornada de 37,5 horas, prestación por crianza y más.">
-<meta property="og:image" content="https://segundogg.github.io/simulador-fiscal-fa/og-image.png">
+<meta property="og:description" content="Descubre lo que ganas y quiénes pagan más con el programa económico del Frente Amplio: IRPF, patrimonio, herencias, IVA, vivienda, jornada de 37,5 horas, prestación por crianza y más.">
+<meta property="og:site_name" content="Simulador fiscal del Frente Amplio">
+<meta property="og:image" content="https://segundogg.github.io/simulador-fiscal-fa/og-image.jpg">
+<meta property="og:image:secure_url" content="https://segundogg.github.io/simulador-fiscal-fa/og-image.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:alt" content="Simulador: ¿Cuánto ganas con la propuesta económica del Frente Amplio?">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:url" content="https://segundogg.github.io/simulador-fiscal-fa/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="¿Cuánto ganas con la propuesta económica del Frente Amplio?">
-<meta name="twitter:description" content="Descubre los derechos que ganas y quiénes pagan más con el programa económico del Frente Amplio: IRPF, patrimonio, herencias, IVA, vivienda, jornada de 37,5 horas, prestación por crianza y más.">
-<meta name="twitter:image" content="https://segundogg.github.io/simulador-fiscal-fa/og-image.png">
+<meta name="twitter:description" content="Descubre lo que ganas y quiénes pagan más con el programa económico del Frente Amplio: IRPF, patrimonio, herencias, IVA, vivienda, jornada de 37,5 horas, prestación por crianza y más.">
+<meta name="twitter:image" content="https://segundogg.github.io/simulador-fiscal-fa/og-image.jpg">
+<meta name="twitter:image:alt" content="Simulador: ¿Cuánto ganas con la propuesta económica del Frente Amplio?">
+<link rel="image_src" href="https://segundogg.github.io/simulador-fiscal-fa/og-image.jpg">
 <style>
 html{-webkit-text-size-adjust:100%}
 body{margin:0;font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
@@ -40,16 +46,7 @@ img{max-width:100%}
   --f-body:"Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --f-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 }
-@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
-  --verm:#D9381F; --verm-ink:#FF7A63; --lime:#C8F04A; --lime-ink:#C8F04A;
-  --bg:#150F0D; --panel:#201714; --panel-2:#2A1F1B; --line:#3A2C27;
-  --ink:#F7EFEB; --muted:#B7A49D; --on-verm:#D8FA6A; --on-verm-soft:#FFE3DB;
-  --gain:#C8F04A; --gain-bg:#2B3A0E; --cost:#FF7A63; --cost-bg:#3D1A12; --focus:#C8F04A; --lime-stroke:0 transparent; --lime-stroke-s:0 transparent; --tot-bg:#D9381F; --tot-fg:#FFF6F2; color-scheme:dark }}
-:root[data-theme="dark"]{
-  --verm:#D9381F; --verm-ink:#FF7A63; --lime:#C8F04A; --lime-ink:#C8F04A;
-  --bg:#150F0D; --panel:#201714; --panel-2:#2A1F1B; --line:#3A2C27;
-  --ink:#F7EFEB; --muted:#B7A49D; --on-verm:#D8FA6A; --on-verm-soft:#FFE3DB;
-  --gain:#C8F04A; --gain-bg:#2B3A0E; --cost:#FF7A63; --cost-bg:#3D1A12; --focus:#C8F04A; --lime-stroke:0 transparent; --lime-stroke-s:0 transparent; --tot-bg:#D9381F; --tot-fg:#FFF6F2; color-scheme:dark }
+:root{color-scheme:light} /* diseño de un solo tema (claro), también en móviles con modo oscuro */
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--verm)}
@@ -101,7 +98,7 @@ details.sec[open]>summary::after{content:"–"}
 .field{display:grid;gap:5px;align-content:start;min-width:0}
 .field label,.field .lbl{font-size:13px;font-weight:600}
 .field small{font-size:12px;color:var(--muted);line-height:1.35}
-.inp{display:flex;align-items:center;border:1.5px solid var(--line);border-radius:6px;background:var(--panel);overflow:hidden}
+.inp{display:flex;align-items:center;border:1.5px solid var(--line);border-radius:6px;background:#FFFFFF;overflow:hidden}
 .inp:focus-within{border-color:var(--ink)}
 .inp input,.inp select{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font:500 15px var(--f-mono);padding:9px 10px}
 .inp select{font-family:var(--f-body)}
@@ -182,8 +179,10 @@ footer{padding-block:24px 90px;font-size:12.5px;color:var(--muted);border-top:1p
 .dock{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--tot-bg);color:var(--tot-fg);display:none;border-top:2px solid var(--lime)}
 .dock .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-block:10px calc(10px + env(safe-area-inset-bottom,0px))}
 .dock .v{font:700 20px var(--f-mono)}
-.dock .v.pos,.dock .v.neg{color:#FFFFFF}
-.dock a{color:var(--tot-fg);font-size:13px;font-weight:600}
+.dock.win{background:var(--lime);color:#1D1412;border-top-color:#1D1412}
+.dock.lose{background:var(--verm);color:#FFFFFF;border-top-color:#1D1412}
+.dock .v,.dock .v.pos,.dock .v.neg,.dock .v.zero,.dock a{color:inherit}
+.dock a{color:inherit;font-size:13px;font-weight:600}
 .end-space{height:24px}
 @media (max-width:960px){.dock{display:block}.end-space{height:90px}}
 @media (prefers-reduced-motion:no-preference){.total .big{transition:color .2s}}
@@ -195,7 +194,7 @@ footer{padding-block:24px 90px;font-size:12.5px;color:var(--muted);border-top:1p
   <div class="wrap">
     <div class="eyebrow">Simulador fiscal · Elecciones 29N</div>
     <h1>¿Cuánto ganas con la propuesta económica del Frente Amplio?</h1>
-    <p>Descubre los derechos que ganas y quiénes pagan más con el programa económico del Frente Amplio. Puedes elegir alguno de los ejemplos que proporcionamos o introducir los datos personalizados en los recuadros de la izquierda. En el recuadro de resultados obtendrás el resultado.</p>
+    <p>Descubre lo que ganas y quiénes pagan más con el programa económico del Frente Amplio. Elige un ejemplo predefinido o introduce tus datos para obtener el resultado.</p>
   </div>
 </header>
 
@@ -207,7 +206,7 @@ footer{padding-block:24px 90px;font-size:12.5px;color:var(--muted);border-top:1p
     </div>
     <div class="presets" id="presets"></div>
   </div>
-  <div class="example-note" id="example-note">Los datos de partida son un ejemplo. Cámbialos por los tuyos y el resultado se recalcula al momento.</div>
+  <div class="example-note" id="example-note">Elige un ejemplo o introduce tus datos. Puedes cambiar cualquier valor y el resultado se recalcula al momento.</div>
 
   <div class="main">
     <form id="form" autocomplete="off" novalidate></form>
@@ -500,7 +499,7 @@ function servicios(d, netoAnualFA) {
 /* ---- Jornada de 37,5 h y registro digital de horas extra (solo cuenta ajena) ---- */
 const SEMANAS = 1826 / 40; // semanas efectivas de trabajo al año (≈45,65)
 function jornada(d) {
-  const r = { horasGanadas: 0, parcialBruto: 0, extrasBruto: 0, horaHoy: 0, horaFA: 0, horasHoy: 0, horasFA: 0, iprBruto: d.iprBruto || 0 };
+  const r = { horasGanadas: 0, parcialBruto: 0, extrasBruto: 0, horaHoy: 0, horaFA: 0, horasHoy: 0, horasFA: 0, iprBruto: d.iprBruto || 0, smiBruto: 0 };
   if (d.modo !== 'asal' || d.noJornada) return r;
   const j = Math.max(1, d.jornada || 40);
   r.horasHoy = j * SEMANAS;
@@ -514,6 +513,12 @@ function jornada(d) {
     r.horasFA = Math.min(j, 37.5) * SEMANAS;
   }
   r.extrasBruto = Math.max(0, d.hExtra || 0) * SEMANAS * r.horaHoy;
+  // SMI sin absorber complementos (nocturnidad, antigüedad, incentivos…): el salario sin esos complementos debe llegar al SMI
+  // (proporcional a la jornada). Si no llega, sube hasta el SMI como máximo y los complementos se cobran aparte.
+  if (d.complSMI && d.complImporte > 0) {
+    const smiProp = P.smi * Math.min(1, j / 40);
+    r.smiBruto = clamp0(smiProp - (d.bruto - Math.min(d.complImporte, d.bruto)));
+  }
   r.horaFA = (d.bruto + r.parcialBruto) / r.horasFA;
   return r;
 }
@@ -524,7 +529,7 @@ function simularPersona(d) {
   out.jor = jr;
   for (const k of ['hoy', 'fa']) {
     const fa = k === 'fa';
-    const dd = fa && d.modo === 'asal' ? { ...d, bruto: d.bruto + jr.parcialBruto + jr.extrasBruto + jr.iprBruto } : d;
+    const dd = fa && d.modo === 'asal' ? { ...d, bruto: d.bruto + jr.parcialBruto + jr.extrasBruto + jr.iprBruto + jr.smiBruto } : d;
     const ir = irpf(dd, fa, false);
     const irT = irpf(dd, fa, true);
     const pat = patrimonio(d, fa);
@@ -616,6 +621,9 @@ const SEC_PERSONA_TRAB = {
     S('pagas', 'Número de pagas', '14', [['14', '14 pagas'], ['12', '12 pagas']]),
     S('temporal', 'Tipo de contrato', '0', [['0', 'Indefinido'], ['1', 'Temporal']]),
     N('edad', 'Edad', 35, { u: 'años' }),
+    SUB('Salario mínimo sin absorber pluses'),
+    C('complSMI', 'Cobro pluses o complementos que hoy cuentan para llegar al SMI', false, { hint: 'a) Por las condiciones del trabajo: nocturnidad, turnicidad, peligrosidad, toxicidad, penosidad o disponibilidad. b) Personales: antigüedad, formación o residencia. c) Por resultados: incentivos, primas o comisiones.' }),
+    N('complImporte', 'Importe anual de esos complementos', 0, { u: '€/año', tag: 'Incluido en el bruto', hint: 'Si tu salario sin ellos no llega al SMI, sube hasta el SMI y los complementos se cobran aparte.' }),
     SUB('Jornada'),
     N('jornada', 'Horas semanales de contrato', 40, { u: 'h/semana' }),
     C('parcial', 'Trabajo a tiempo parcial', false, { hint: 'Mantienes tus horas y el sueldo sube en proporción a la nueva jornada completa de 37,5 h.' }),
@@ -760,7 +768,7 @@ const SEC_EMPRESA = [
 const PRESETS = {
   asal: [
     ['Familia con 30.000 €', {}],
-    ['Salario mínimo', { bruto: 17094, hExtra: 3, h311: 0, alquiler: 700, hogarNeto: 1300, personas: 1, cLuz: 45, kwh: 150, tBus: 40, cPelu: 15, intereses: 0 }],
+    ['Salario mínimo', { bruto: 17094, hExtra: 3, complSMI: true, complImporte: 1800, h311: 0, alquiler: 700, hogarNeto: 1300, personas: 1, cLuz: 45, kwh: 150, tBus: 40, cPelu: 15, intereses: 0 }],
     ['22.000 € y 2 hijos', { bruto: 22000, h03: 1, h311: 1, maternidad: true, alquiler: 850, hogarNeto: 2100, personas: 4, cPanal: 40, cLuz: 80, kwh: 320, permiso: true, nacimiento: true }],
     ['Pensionista con 1.200 €', { situacion: 'pension', pensionBruta: 16800, pagasPen: '14', edad: 72, h311: 0, alquiler: 0, personas: 2, audif: 2, cLuz: 60, kwh: 220, tBus: 20, cPelu: 20, intereses: 600 }],
     ['En paro con subsidio', { situacion: 'desempleo', tipoDes: 'subsidio', desImporte: 480, edad: 50, h311: 0, h1217: 1, alquiler: 600, hogarNeto: 900, personas: 2, cLuz: 55, kwh: 200, tBus: 30, cPelu: 0, intereses: 0 }],
@@ -786,20 +794,41 @@ const PRESETS = {
 };
 
 // Primero los perfiles que ganan; al final, rentista y directivo con patrimonio
-PRESETS.persona = [...PRESETS.asal.slice(0, 6), ...PRESETS.auto, ...PRESETS.asal.slice(6)];
+{
+  const byName = Object.fromEntries([...PRESETS.asal, ...PRESETS.auto].map(p => [p[0], p]));
+  PRESETS.persona = ['Familia con 30.000 €', 'Salario mínimo', 'Pensionista con 1.200 €', 'Autónomo con 18.000 €', 'Profesional con 90.000 €', 'Rentista con 6 pisos', 'Directivo con patrimonio'].map(n => byName[n]);
+}
 let tab = 'persona'; // pestaña: 'persona' | 'emp'
 let mode = 'asal';    // modo de cálculo: 'asal' | 'auto' | 'emp'
-let preset = 0;
+let preset = -1; // ningún ejemplo seleccionado al entrar
 function syncMode() { mode = tab === 'emp' ? 'emp' : (state.situacion === 'auto' ? 'auto' : 'asal'); }
 const state = {}; // valores por clave
 
 function allSections() { return mode === 'emp' ? SEC_EMPRESA : [SEC_PERSONA_TRAB[SEC_PERSONA_TRAB[state.situacion] ? state.situacion : mode], ...SEC_COMUNES]; }
 function defaults() {
   const d = {};
-  for (const s of [SEC_PERSONA_TRAB.asal, SEC_PERSONA_TRAB.auto, ...SEC_COMUNES, ...SEC_EMPRESA]) for (const f of s.fields) if (f.k) d[f.k] = f.def;
+  for (const s of [...Object.values(SEC_PERSONA_TRAB), ...SEC_COMUNES, ...SEC_EMPRESA]) for (const f of s.fields) if (f.k) d[f.k] = f.def;
   return d;
 }
+// Estado vacío: importes a 0, casillas sin marcar; se mantienen edad, jornada, personas y opciones de los desplegables
+const KEEP = { edad: 35, jornada: 40, personas: 1 };
+function zeroState() {
+  const d = defaults();
+  for (const k in d) {
+    if (k in KEEP) d[k] = KEEP[k];
+    else if (typeof d[k] === 'number') d[k] = 0;
+    else if (typeof d[k] === 'boolean') d[k] = false;
+  }
+  return d;
+}
+function resetState() {
+  Object.assign(state, zeroState());
+  preset = -1;
+  syncMode();
+  renderForm(); renderPresets(); calc();
+}
 function applyPreset(i) {
+  // Los ejemplos parten de los datos de referencia (los antiguos valores por defecto) más sus propios cambios
   Object.assign(state, defaults(), PRESETS[tab][i][1]);
   preset = i;
   syncMode();
@@ -880,15 +909,17 @@ function calcPersona() {
   const dLux = H.lux - F.lux;
   const con = H.con, cof = F.con;
   const dIVA = con.total - cof.total;
-  const J = r.jor, dSS = F.ir.ss - H.ir.ss, dBruto = J.parcialBruto + J.extrasBruto + J.iprBruto;
+  const J = r.jor, dSS = F.ir.ss - H.ir.ss, dBruto = J.parcialBruto + J.extrasBruto + J.iprBruto + J.smiBruto;
+  const jSmiNeto = dBruto > 0 ? J.smiBruto - (dSS + irpfSueldo) * J.smiBruto / dBruto : 0;
   const jIprNeto = dBruto > 0 ? J.iprBruto - (dSS + irpfSueldo) * J.iprBruto / dBruto : 0;
   const jParcialNeto = dBruto > 0 ? J.parcialBruto - (dSS + irpfSueldo) * J.parcialBruto / dBruto : 0;
   const jExtrasNeto = dBruto > 0 ? J.extrasBruto - (dSS + irpfSueldo) * J.extrasBruto / dBruto : 0;
   const impuestos = dIRPFgen + dIRPFah + dPat + dHer + dLux + dIVA;
-  const sueldo = jParcialNeto + jExtrasNeto + impuestos;
+  const sueldo = jParcialNeto + jExtrasNeto + jIprNeto + jSmiNeto + impuestos;
   const total = sueldo + sv.total;
   const rows = [
     { n: 'Subida del IPREM a 700 €', s: 'Tu ' + (state.tipoDes === 'subsidio' ? 'subsidio' : 'prestación') + ' sube un 16,7 %, neto de IRPF', v: jIprNeto },
+    { n: 'SMI sin absorber tus complementos', s: 'Tu salario base sube hasta el SMI, neto de cotización e IRPF', v: jSmiNeto },
     { n: 'Sueldo por la jornada de 37,5 h', s: 'Tiempo parcial, neto de cotización e IRPF', v: jParcialNeto },
     { n: 'Horas extra que pasas a cobrar', s: 'Registro digital, neto de cotización e IRPF', v: jExtrasNeto },
     { n: 'IRPF del trabajo y otras rentas', s: sinIngresoTrab ? 'Alquiler sin reducción y pisos turísticos sin gastos ni imputación baja' : dBruto > 0 ? 'Solo el efecto de la reforma, sin la subida de sueldo' : 'Rebaja hasta 25.000 €; +2 puntos desde 150.000 €', v: dIRPFgen },
@@ -942,22 +973,22 @@ function calcPersona() {
   <div class="card total ${cls(total) === 'neg' ? 'lose' : 'win'}">
     <div class="k">Con la propuesta del Frente Amplio, al año</div>
     <div class="big ${cls(total)}">${sgn(total)}</div>
-    <div class="per">${Math.round(total) >= 0 ? 'a tu favor' : 'en tu contra'}: ${sgn(total / 12)} al mes, sumando sueldo, impuestos y servicios.</div>
+    <div class="per">${preset < 0 && Math.round(total) === 0 ? 'Elige un ejemplo o introduce tus datos para ver el resultado.' : `${Math.round(total) >= 0 ? 'a tu favor' : 'en tu contra'}: ${sgn(total / 12)} al mes, sumando sueldo, impuestos y servicios.`}</div>
     <div class="split">
       <div><div class="l">Sueldo e impuestos</div><div class="v ${cls(sueldo)}">${sgn(sueldo)}</div></div>
       <div><div class="l">Servicios y prestaciones</div><div class="v ${cls(sv.total)}">${sgn(sv.total)}</div></div>
     </div>
   </div>
-  ${sinIngresoTrab ? '' : `<div class="card">
+  ${sinIngresoTrab || !(H.ir.bruto > 0) ? '' : `<div class="card">
     <h3>${sit === 'pension' ? `Tu pensión neta (${pagas} pagas)` : sit === 'desempleo' ? 'Lo que cobras al mes, neto' : mode === 'asal' ? `Tu nómina neta (${pagas} pagas)` : 'Tu rendimiento neto mensual'}</h3>
     <div class="nomina">
       <div><div class="l">Hoy</div><div class="v num">${eur(netoH / pagas)}</div></div>
       <div class="arrow">→</div>
       <div><div class="l">Con la propuesta</div><div class="v num ${cls(netoF - netoH)}">${eur(netoF / pagas)}</div></div>
     </div>
-    <div class="note">${Math.round(netoF - netoH) === 0 ? (sit === 'pension' ? 'Tu pensión neta no cambia. El programa mantiene la subida con el IPC y sube las mínimas y no contributivas por encima de la inflación, sin fijar cuánto.' : 'Tu ingreso neto no cambia: la rebaja de IRPF se concentra entre el salario mínimo y 25.000 € y la subida empieza en 150.000 €.') : `Diferencia de ${sgn((netoF - netoH) / pagas)} por paga${J.iprBruto > 0 ? ', por la subida del IPREM' : dBruto > 0 ? ', con la subida por jornada u horas extra incluida' : ''}.`}</div>
+    <div class="note">${Math.round(netoF - netoH) === 0 ? (sit === 'pension' ? 'Tu pensión neta no cambia. El programa mantiene la subida con el IPC y sube las mínimas y no contributivas por encima de la inflación, sin fijar cuánto.' : 'Tu ingreso neto no cambia: la rebaja de IRPF se concentra entre el salario mínimo y 25.000 € y la subida empieza en 150.000 €.') : `Diferencia de ${sgn((netoF - netoH) / pagas)} por paga${J.iprBruto > 0 ? ', por la subida del IPREM' : J.smiBruto > 0 ? ', con la subida del salario base hasta el SMI incluida' : dBruto > 0 ? ', con la subida por jornada u horas extra incluida' : ''}.`}</div>
   </div>`}
-  ${sit === 'asal' ? `<div class="card">
+  ${sit === 'asal' && d.bruto > 0 ? `<div class="card">
     <h3>Tu tiempo</h3>
     ${(() => { window.__hNac = d.nacimiento ? 3 * J.horasFA / SEMANAS : 0; return ''; })()}
     <div class="nomina">
@@ -969,8 +1000,8 @@ function calcPersona() {
   </div>` : ''}
   <div class="card">
     <h3>De dónde sale la diferencia</h3>
-    <div class="rows">${rowsHTML(visibles.length ? visibles : rows.slice(0, 1))}</div>
-    ${ocultas ? `<div class="note">${ocultas} medida${ocultas > 1 ? 's' : ''} sin efecto con tus datos. Rellena Movilidad, Consumo asequible o Patrimonio para verlas.</div>` : ''}
+    ${visibles.length ? `<div class="rows">${rowsHTML(visibles)}</div>` : '<div class="note">Aquí verás qué medidas te hacen ganar o pagar más. Elige un ejemplo o rellena tus datos.</div>'}
+    ${visibles.length && ocultas ? `<div class="note">${ocultas} medida${ocultas > 1 ? 's' : ''} sin efecto con tus datos. Rellena Movilidad, Consumo asequible o Patrimonio para verlas.</div>` : ''}
     <details class="liq"><summary>Ver la liquidación completa</summary>${tbl(liqRows)}${conRows.length ? '<h3 style="margin-top:12px">Gasto anual en consumo afectado</h3>' + tbl(conRows) : ''}</details>
   </div>`;
   document.getElementById('resultado').innerHTML = html;
@@ -1011,7 +1042,7 @@ function calcEmpresa() {
   <div class="card total ${cls(diff) === 'neg' ? 'lose' : 'win'}">
     <div class="k">Impuestos de la empresa con la propuesta, al año</div>
     <div class="big ${cls(-(-diff))}">${Math.round(diff) === 0 ? 'Sin cambios' : (diff < 0 ? '+' : '−') + big(Math.abs(diff))}</div>
-    <div class="per">${Math.round(diff) === 0 ? 'Es una pyme: el programa mantiene su carga fiscal.' : diff < 0 ? 'más de lo que paga hoy.' : 'menos de lo que paga hoy.'}</div>
+    <div class="per">${!(d.incn > 0) ? 'Elige un ejemplo o introduce los datos de la empresa para ver el resultado.' : Math.round(diff) === 0 ? 'Es una pyme: el programa mantiene su carga fiscal.' : diff < 0 ? 'más de lo que paga hoy.' : 'menos de lo que paga hoy.'}</div>
     <div class="split">
       <div><div class="l">Tipo efectivo hoy</div><div class="v">${pct(H.tipoEf)}</div></div>
       <div><div class="l">Con la propuesta</div><div class="v">${pct(F.tipoEf)}</div></div>
@@ -1020,7 +1051,7 @@ function calcEmpresa() {
   <div class="card">
     <h3>Cambio por impuesto</h3>
     <div class="note">En rojo, lo que pagaría de más; en verde, de menos.</div>
-    <div class="rows">${rowsHTML(vis.length ? vis : rows.slice(0, 1), true)}</div>
+    ${vis.length ? `<div class="rows">${rowsHTML(vis, true)}</div>` : '<div class="note">Sin cambios en los impuestos de la empresa con estos datos.</div>'}
     <details class="liq" ${H.grande ? 'open' : ''}><summary>Ver la liquidación completa</summary><div class="tbl-wrap"><table><thead><tr><th>Concepto</th><th class="n">Hoy</th><th class="n">Propuesta</th></tr></thead><tbody>${t.map(([a, b, c, s]) => `<tr class="${s ? 'strong' : ''}"><td>${a}</td><td class="n">${big(b)}</td><td class="n">${big(c)}</td></tr>`).join('')}</tbody></table></div></details>
   </div>
   <div class="card">
@@ -1040,6 +1071,9 @@ function setDock(v, label, empresa) {
   el.textContent = empresa ? (Math.round(v) === 0 ? 'Sin cambios' : (v < 0 ? 'Paga +' : 'Paga −') + big(Math.abs(v))) : sgn(v);
   el.className = 'v ' + cls(v);
   el.previousElementSibling.textContent = label;
+  const dock = document.getElementById('dock');
+  dock.classList.toggle('lose', cls(v) === 'neg');
+  dock.classList.toggle('win', cls(v) !== 'neg');
 }
 function syncParcial() {
   const cb = document.getElementById('f-parcial');
@@ -1061,6 +1095,7 @@ const MEDIDAS = [
   ['Nuevo tramo por encima de 150.000 €', 'Crear un tramo nuevo para rentas del trabajo de más de 150.000 €.', 's', '+2 puntos: 47 % de 150.000 a 300.000 € y 49 % por encima.'],
   ['Planes de pensiones individuales', 'Eliminar la reducción por aportaciones a planes de pensiones privados individuales.', 'm', 'La aportación deja de reducir la base general.'],
   ['Jornada de 37,5 horas', 'Seguir reduciendo la jornada laboral.', 's', 'Jornada máxima de 37,5 h semanales sin rebaja de sueldo; se muestran las horas libres ganadas (45,65 semanas efectivas al año). A tiempo parcial se mantienen las horas y el sueldo sube en proporción (40/37,5).'],
+  ['Complementos y SMI', 'Aclarar las reglas del SMI para que no se pueda compensar ni absorber con complementos.', 's', 'Si cobras pluses por condiciones del puesto (nocturnidad, turnicidad, peligrosidad…), personales (antigüedad, formación, residencia) o por resultados (incentivos, primas, comisiones), tu salario sin ellos debe llegar al SMI (proporcional a la jornada). Si no llega, sube hasta el SMI como máximo y los complementos se cobran aparte. Neto de cotización e IRPF.'],
   ['Registro digital de jornada', 'Registro digital e interoperable para combatir las horas extra no pagadas.', 's', 'Las horas extra que hoy no se pagan pasan a cobrarse al valor de la hora ordinaria, con su cotización e IRPF.'],
   ['IPREM a 700 €', 'Subir el IPREM en 100 euros, de 600 a 700 €.', 's', 'Sube un 16,7 % el subsidio por desempleo. La prestación contributiva depende de lo cotizado y no cambia. Pensiones: el programa sube mínimas y no contributivas por encima del IPC sin cifrarlo, así que no se calcula.'],
   ['__G', 'Vivienda'],
@@ -1120,7 +1155,7 @@ document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click
   tab = b.dataset.mode;
   document.querySelectorAll('.tabs button').forEach(x => x.setAttribute('aria-selected', x === b));
   try { localStorage.setItem('fa-tab', tab); } catch (e) {}
-  applyPreset(0);
+  resetState();
 }));
 (function init() {
   let t = 'persona';
@@ -1128,7 +1163,7 @@ document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click
   else { try { const s = localStorage.getItem('fa-tab'); if (s === 'persona' || s === 'emp') t = s; } catch (e) {} }
   tab = t;
   document.querySelectorAll('.tabs button').forEach(x => x.setAttribute('aria-selected', x.dataset.mode === tab));
-  applyPreset(location.hash === '#auto' ? PRESETS.asal.length : 0);
+  resetState();
 })();
 
 </script>
