@@ -191,6 +191,9 @@ footer{padding-block:24px 90px;font-size:12.5px;color:var(--muted);border-top:1p
 .dock.lose{background:var(--verm);color:#FFFFFF;border-top-color:#1D1412}
 .dock .v,.dock .v.pos,.dock .v.neg,.dock .v.zero,.dock a{color:inherit}
 .dock a{color:inherit;font-size:13px;font-weight:600}
+.volver{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:30;appearance:none;border:0;border-radius:999px;background:var(--ink);color:#FFFFFF;font:600 14px var(--f-body);padding:11px 18px;box-shadow:0 6px 20px rgba(0,0,0,.25);cursor:pointer}
+.volver:hover{background:var(--verm)}
+@media (max-width:960px){.volver{bottom:calc(84px + env(safe-area-inset-bottom,0px))}}
 .end-space{height:24px}
 @media (max-width:960px){.dock{display:block}.end-space{height:90px}}
 @media (prefers-reduced-motion:no-preference){.total .big{transition:color .2s}}
@@ -919,8 +922,32 @@ document.addEventListener('click', e => {
   if (!a) return;
   e.preventDefault();
   e.stopPropagation();
+  origenMedida = a;
   irAMedida(a.dataset.mlink.split(','));
+  mostrarVolver();
 });
+// Botón para volver al apartado del simulador desde el que se saltó a las medidas
+let origenMedida = null;
+const btnVolver = document.createElement('button');
+btnVolver.type = 'button';
+btnVolver.className = 'volver';
+btnVolver.hidden = true;
+btnVolver.textContent = '↑ Volver al simulador';
+document.body.appendChild(btnVolver);
+function mostrarVolver() { btnVolver.hidden = false; }
+btnVolver.addEventListener('click', () => {
+  btnVolver.hidden = true;
+  const dest = origenMedida && document.contains(origenMedida) ? origenMedida : document.getElementById('form');
+  const sec = dest.closest && dest.closest('details.sec');
+  if (sec) sec.open = true;
+  dest.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+  if (dest.focus) dest.focus({ preventScroll: true });
+});
+// Se oculta solo cuando el apartado de medidas deja de verse (has vuelto arriba por tu cuenta)
+if ('IntersectionObserver' in window) {
+  new IntersectionObserver(es => es.forEach(en => { if (!en.isIntersecting) btnVolver.hidden = true; }))
+    .observe(document.getElementById('medidas-d'));
+}
 function rowsHTML(rows, invert) {
   const max = Math.max(1, ...rows.map(r => Math.abs(r.v)));
   return rows.map(r => {
