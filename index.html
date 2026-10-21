@@ -10,8 +10,8 @@
 <meta property="og:title" content="¿Cuánto ganas con la propuesta económica del Frente Amplio?">
 <meta property="og:description" content="Descubre lo que ganas y quiénes pagan más con el programa económico del Frente Amplio: IRPF, patrimonio, herencias, IVA, vivienda, jornada de 37,5 horas, prestación por crianza y más.">
 <meta property="og:site_name" content="Simulador fiscal del Frente Amplio">
-<meta property="og:image" content="https://segundogg.github.io/simulador-fiscal-fa/og-image.jpg?v=3">
-<meta property="og:image:secure_url" content="https://segundogg.github.io/simulador-fiscal-fa/og-image.jpg?v=3">
+<meta property="og:image" content="https://segundogg.github.io/simulador-fiscal-fa/og-image.jpg?v=4">
+<meta property="og:image:secure_url" content="https://segundogg.github.io/simulador-fiscal-fa/og-image.jpg?v=4">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:alt" content="Simulador: ¿Cuánto ganas con la propuesta económica del Frente Amplio?">
 <meta property="og:image:width" content="1200">
@@ -20,9 +20,9 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="¿Cuánto ganas con la propuesta económica del Frente Amplio?">
 <meta name="twitter:description" content="Descubre lo que ganas y quiénes pagan más con el programa económico del Frente Amplio: IRPF, patrimonio, herencias, IVA, vivienda, jornada de 37,5 horas, prestación por crianza y más.">
-<meta name="twitter:image" content="https://segundogg.github.io/simulador-fiscal-fa/og-image.jpg?v=3">
+<meta name="twitter:image" content="https://segundogg.github.io/simulador-fiscal-fa/og-image.jpg?v=4">
 <meta name="twitter:image:alt" content="Simulador: ¿Cuánto ganas con la propuesta económica del Frente Amplio?">
-<link rel="image_src" href="https://segundogg.github.io/simulador-fiscal-fa/og-image.jpg?v=3">
+<link rel="image_src" href="https://segundogg.github.io/simulador-fiscal-fa/og-image.jpg?v=4">
 <style>
 html{-webkit-text-size-adjust:100%}
 body{margin:0;font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
@@ -91,7 +91,8 @@ details.sec{border:1px solid var(--line);border-radius:8px;background:var(--bg)}
 details.sec>summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;gap:12px;align-items:baseline;justify-content:space-between}
 details.sec>summary::-webkit-details-marker{display:none}
 details.sec>summary h2{font-family:var(--f-display);font-weight:700;font-size:19px;margin:0;letter-spacing:-.01em}
-details.sec>summary .hint{font-size:12.5px;color:var(--muted);text-align:right}
+details.sec>summary .hint{font-size:12.5px;color:var(--muted);text-align:right;flex:1}
+
 details.sec>summary::after{content:"+";font:500 20px var(--f-mono);color:var(--verm-ink);margin-left:6px}
 details.sec[open]>summary::after{content:"–"}
 .fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px 16px;padding:4px 16px 18px}
@@ -166,6 +167,13 @@ details.fold>summary::after{content:"+";font:500 20px var(--f-mono);color:var(--
 details.fold[open]>summary::after{content:"–"}
 details.fold[open]>summary{margin-bottom:14px}
 .measures tr.grp td{font:600 11.5px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--verm-ink);background:var(--panel);padding-top:10px}
+.flink{grid-column:1/-1;margin-top:-4px}
+.mlink{font-size:12.5px;font-weight:600;color:var(--verm-ink);text-decoration:underline;text-underline-offset:3px}
+.mlink:hover{color:var(--ink)}
+#medidas tr{scroll-margin:80px}
+#medidas tr.flash td{animation:flash 2.4s ease-out}
+@keyframes flash{0%,40%{background:var(--lime)}100%{background:transparent}}
+@media (prefers-reduced-motion:reduce){#medidas tr.flash td{animation:none;background:var(--gain-bg)}}
 .measures td:first-child{font-weight:600;min-width:150px}
 .st{font:600 10.5px var(--f-mono);letter-spacing:.05em;text-transform:uppercase;padding:2px 6px;border-radius:3px;white-space:nowrap}
 .st.m{background:var(--gain-bg);color:var(--gain)} .st.s{background:var(--panel-2);color:var(--ink)} .st.x{background:var(--cost-bg);color:var(--cost)}
@@ -217,52 +225,10 @@ footer{padding-block:24px 90px;font-size:12.5px;color:var(--muted);border-top:1p
 <section class="readsec">
   <div class="wrap">
     <details class="fold" id="medidas-d">
-      <summary><h2>Las medidas, punto por punto</h2><span class="hint">Qué dice el programa y cómo lo calcula el simulador</span></summary>
-      <p class="lead">Ordenadas por bloques, como en el simulador. «Modelada» aplica la cifra del programa o de la norma; «Con supuesto» cierra con un criterio propio lo que el texto no cifra; «No modelada» se explica pero no se calcula.</p>
+      <summary><h2>Medidas del programa económico</h2><span class="hint">Qué dice el programa y cómo lo calcula el simulador</span></summary>
+      <p class="lead">Ordenadas por los bloques del programa. Desde cada apartado del simulador, «Ver la medida en el programa» te trae a la que corresponde. «Modelada» aplica la cifra del programa o de la norma; «Con supuesto» cierra con un criterio propio lo que el texto no cifra; «No modelada» se explica pero no se calcula.</p>
       <div class="tbl-wrap">
         <table class="measures" id="medidas"></table>
-      </div>
-    </details>
-  </div>
-</section>
-
-<section class="readsec">
-  <div class="wrap">
-    <details class="fold" id="metodo-d">
-      <summary><h2>Cómo se calcula</h2><span class="hint">Normativa de hoy, propuesta y lo que no se incluye</span></summary>
-      <div class="cols">
-    <div>
-      <h3>Cómo se calcula «Hoy»</h3>
-      <ul>
-        <li>IRPF 2026 con escala estatal y una autonómica igual a la estatal (19 % a 47 %). Gastos de 2.000 €, reducción por rendimientos del trabajo de hasta 7.302 €, mínimo personal de 5.550 € y mínimos por edad y descendientes. Pensiones y prestaciones por desempleo tributan como trabajo, sin cotizaciones.</li>
-        <li>Deducción para salarios bajos del RDL 5/2026: 590,89 € hasta 17.094 € brutos, que baja 0,20 € por cada euro hasta 20.048,45 €.</li>
-        <li>Cotizaciones del trabajador: 4,70 % contingencias comunes, 1,55 % desempleo (1,60 % temporal), 0,10 % formación y 0,15 % MEI, con base máxima de 5.101,20 €/mes y cuota de solidaridad.</li>
-        <li>Autónomos: cotización por tramos de rendimientos al 31,5 % y estimación directa simplificada (5 % de gastos de difícil justificación, máximo 2.000 €).</li>
-        <li>Patrimonio: escala estatal o bonificación total según la comunidad, más el Impuesto Temporal de Solidaridad de las Grandes Fortunas por encima de 3 M€ de base, descontando lo pagado en Patrimonio.</li>
-        <li>Sucesiones y donaciones: escala estatal con reducciones por parentesco, o bonificación del 99 % si tu comunidad la aplica.</li>
-        <li>Sociedades 2026: 19 %/21 % microempresas, 23 % reducida dimensión, 25 % general, 15 % nueva creación. Tributación mínima del 15 % (18 % banca y energía) de la base imponible si se facturan 20 M€ o más.</li>
-      </ul>
-    </div>
-    <div>
-      <h3>Cómo se calcula «Con la propuesta»</h3>
-      <ul>
-        <li>Se aplican las medidas con efecto directo en tu bolsillo. Las cifras salen del programa, de los detalles de los PGE y de los textos normativos; cuando falta el detalle, se usa un supuesto que se indica en la tabla.</li>
-        <li>Jornada máxima de 37,5 horas sin bajar el sueldo y registro digital que obliga a pagar las horas extra. Las horas ganadas se muestran aparte y no se convierten en euros. El IRPF y la cotización de las subidas de sueldo se restan de la propia subida.</li>
-        <li>Los servicios y las prestaciones se convierten en renta equivalente: lo que dejarías de pagar o pasarías a cobrar. Se suman al hogar, no a la nómina.</li>
-        <li>Algunas medidas son escenarios que solo cuentan si los activas: vivienda pública, escuela de 0 a 3 años, leasing de coche eléctrico y tope al gas. Otras se cobran o pagan una sola vez: permisos, audífonos, herencias y comisiones de hipoteca.</li>
-        <li>En los impuestos indirectos se supone que la bajada o la subida se traslada entera al precio.</li>
-        <li>En empresas, los cambios de Sociedades se aplican a partir de 20 M€ de cifra de negocios, porque el programa no sube la carga de las pymes. El gravamen energético, desde 1.000 M€.</li>
-      </ul>
-    </div>
-    <div>
-      <h3>Qué no se incluye</h3>
-      <ul>
-        <li>El impuesto a inmuebles de más de 1 M€ (sin tipos), las reducciones de Sucesiones por vivienda habitual o empresa familiar y el límite conjunto del 60 % entre IRPF, Patrimonio y grandes fortunas.</li>
-        <li>El destope de cotizaciones, la fiscalidad del tabaco, el carbono y el queroseno, la tasa a transacciones financieras, el régimen de SICAV y SOCIMI y los recargos del IBI a viviendas vacías.</li>
-        <li>El abono de media distancia, el efecto del IPREM en otras ayudas, la subida de pensiones mínimas por encima del IPC, las medidas del Código de Buenas Prácticas hipotecario y el tope del 2 % a la actualización de alquileres.</li>
-        <li>Los efectos de segunda ronda: cambios en salarios, precios o empleo que provoquen las medidas, y su forma de financiación.</li>
-      </ul>
-    </div>
       </div>
     </details>
   </div>
@@ -329,7 +295,7 @@ function minimoFamiliar(d) {
   let desc = 0;
   for (let i = 0; i < n; i++) desc += imp[Math.min(i, 3)];
   desc += 2800 * d.h03;
-  return m + desc * (d.minimoCompleto ? 1 : 0.5);
+  return m + desc * 0.5; // mínimo por descendientes repartido entre los dos progenitores
 }
 
 /* ---- IRPF persona física ---- */
@@ -414,6 +380,18 @@ function lujo(d, fa) {
   return 0.01 * clamp0(d.lujoCoche || 0) + 0.02 * (clamp0(d.lujoYate || 0) + clamp0(d.lujoAvion || 0));
 }
 
+/* ---- Impuesto estatal a las grandes propiedades inmobiliarias (supuesto: el programa no da tipos) ----
+   Homogeneiza el IBI de los inmuebles de más de 1 M€ de valor catastral con una escala progresiva por inmueble:
+   0,6 % hasta 2 M€, 0,8 % de 2 a 5 M€ y 1 % por encima. Se descuenta el IBI que ya se paga por ellos. */
+function grandesInmuebles(d, fa) {
+  const n = Math.floor(d.inmN || 0), vc = clamp0(d.inmVC || 0);
+  if (!fa || n < 1 || vc <= 0) return 0;
+  const porInmueble = vc / n;
+  if (porInmueble <= 1e6) return 0;
+  const cuota = n * escala(porInmueble, [[2e6, .006], [5e6, .008], [Infinity, .01]]);
+  return clamp0(cuota - clamp0(d.inmIBI || 0));
+}
+
 /* ---- Herencias y donaciones (Impuesto sobre Sucesiones, escala estatal) ---- */
 const TARIFA_ISD = [[7993.46, .0765], [15980.91, .085], [23968.36, .0935], [31955.81, .102], [39943.26, .1105], [47930.72, .119], [55918.17, .1275], [63905.62, .136], [71893.07, .1445], [79880.52, .153], [119757.67, .1615], [159634.83, .187], [239389.13, .2125], [398777.54, .255], [797555.08, .2975], [Infinity, .34]];
 function herencia(d, fa) {
@@ -459,9 +437,8 @@ function servicios(d, netoAnualFA) {
   const nh = d.h03 + d.h311 + d.h1217;
   s.crianza = 200 * 12 * nh;
   s.comedor = d.publica && !d.becaComedor ? d.h311 * d.comedorMes * 9 : 0;
-  // Escenario: plaza pública gratuita de 0 a 3 años. Si hoy pagas escuela infantil, ahorras esa cuota (11 meses);
-  // si no tienes plaza, se valora al coste público de una plaza (4.911 €, detalle PGE 2026)
-  s.infantil = d.infantil ? d.h03 * (d.infantilMes > 0 ? d.infantilMes * 11 : 4911) : 0;
+  // Universalización de 0 a 3 años: quien paga escuela infantil privada pasa a tener plaza pública gratuita (11 meses)
+  s.infantil = d.h03 > 0 ? d.h03 * clamp0(d.infantilMes || 0) * 11 : 0;
   const e = d.edad;
   const cerNuevo = e < 16 ? 0 : e < 26 ? 10 : 20;
   s.trCer = clamp0(d.tCer - cerNuevo) * 12 * (d.tCer > 0 ? 1 : 0);
@@ -481,7 +458,7 @@ function servicios(d, netoAnualFA) {
   // Tope al gas (excepción ibérica), calibrado con el mecanismo de 2022: entre el 15 de junio y el 31 de diciembre de 2022
   // la factura PVPC habría sido un 31,8 % más alta sin el tope (EsadeEcPol), es decir, un ahorro del 24,1 % de la factura.
   const ivaLuz = 1 + ivaLuzFA(d.kwh, d.personas);
-  s.topeGas = d.topeGas && d.tarifaLuz !== 'fijo' ? (d.cLuz / 1.21) * ivaLuz * 12 * (1 - 1 / 1.318) : 0;
+  s.topeGas = d.tarifaLuz !== 'fijo' && d.cLuz > 0 ? (d.cLuz / 1.21) * ivaLuz * 12 * (1 - 1 / 1.318) : 0;
   // Hipotecas: suspensión hasta 2029 de comisiones por amortización anticipada y por pasar de variable a fijo
   let comAmort = 0;
   // Solo hipotecas a tipo variable (art. 23.5 y 23.6 Ley 5/2019): 0,25 % los 3 primeros años o 0,15 % los 5 primeros
@@ -534,10 +511,11 @@ function simularPersona(d) {
     const irT = irpf(dd, fa, true);
     const pat = patrimonio(d, fa);
     const her = herencia(d, fa);
-    const lux = lujo(d, fa);
+    const lux = lujo(d, fa) + grandesInmuebles(d, fa);
+    const inm = grandesInmuebles(d, fa);
     const con = consumo(d, fa);
     const netoTrab = ir.bruto - ir.ss - irT.total - (d.modo === 'auto' ? d.gastos : 0);
-    out[k] = { ir, irT, pat, her, lux, con, netoTrab };
+    out[k] = { ir, irT, pat, her, lux, inm, con, netoTrab };
   }
   // IRPF con la propuesta pero sin la subida salarial: separa el efecto de la reforma del IRPF que genera el aumento de sueldo
   out.fa0 = d.modo === 'asal' ? irpf(d, true, false) : out.fa.ir;
@@ -613,6 +591,7 @@ const N = (k, label, def, o = {}) => ({ k, label, t: 'num', def, ...o });
 const C = (k, label, def, o = {}) => ({ k, label, t: 'chk', def, ...o });
 const S = (k, label, def, opts, o = {}) => ({ k, label, t: 'sel', def, opts, ...o });
 const SUB = (label) => ({ sub: label });
+const L = (...ids) => ({ link: ids });
 
 const SEC_PERSONA_TRAB = {
   asal: { id: 'trab', title: 'Tu trabajo', hint: 'Por cuenta ajena', open: false, fields: [
@@ -621,24 +600,29 @@ const SEC_PERSONA_TRAB = {
     S('pagas', 'Número de pagas', '14', [['14', '14 pagas'], ['12', '12 pagas']]),
     S('temporal', 'Tipo de contrato', '0', [['0', 'Indefinido'], ['1', 'Temporal']]),
     N('edad', 'Edad', 35, { u: 'años' }),
+    L('irpf25', 'tramo150'),
     SUB('Salario mínimo sin absorber pluses'),
     C('complSMI', 'Cobro pluses o complementos que hoy cuentan para llegar al SMI', false, { hint: 'a) Por las condiciones del trabajo: nocturnidad, turnicidad, peligrosidad, toxicidad, penosidad o disponibilidad. b) Personales: antigüedad, formación o residencia. c) Por resultados: incentivos, primas o comisiones.' }),
     N('complImporte', 'Importe anual de esos complementos', 0, { u: '€/año', tag: 'Incluido en el bruto', hint: 'Si tu salario sin ellos no llega al SMI, sube hasta el SMI y los complementos se cobran aparte.' }),
+    L('smi'),
     SUB('Jornada'),
     N('jornada', 'Horas semanales de contrato', 40, { u: 'h/semana' }),
     C('parcial', 'Trabajo a tiempo parcial', false, { hint: 'Mantienes tus horas y el sueldo sube en proporción a la nueva jornada completa de 37,5 h.' }),
     N('hExtra', 'Horas extra que haces y no te pagan', 0, { u: 'h/semana', tag: 'Registro digital', hint: 'Con el registro digital de jornada se computan y se pagan como mínimo al valor de la hora ordinaria.' }),
+    L('jornada', 'registro'),
   ]},
   pension: { id: 'trab', title: 'Tu trabajo', hint: 'Pensionista', open: false, fields: [
     S('situacion', 'Situación laboral', 'asal', [['asal', 'Por cuenta ajena'], ['auto', 'Autónomo/a'], ['pension', 'Pensionista'], ['desempleo', 'Desempleado/a o sin empleo']]),
     N('pensionBruta', 'Pensión bruta anual', 16800, { u: '€/año' }),
     S('pagasPen', 'Número de pagas', '14', [['14', '14 pagas'], ['12', '12 pagas']]),
     N('edad', 'Edad', 70, { u: 'años', hint: 'A partir de 65 y 75 años sube el mínimo personal del IRPF.' }),
+    L('irpf25'),
   ]},
   desempleo: { id: 'trab', title: 'Tu trabajo', hint: 'Desempleado/a o sin empleo', open: false, fields: [
     S('situacion', 'Situación laboral', 'asal', [['asal', 'Por cuenta ajena'], ['auto', 'Autónomo/a'], ['pension', 'Pensionista'], ['desempleo', 'Desempleado/a o sin empleo']]),
     S('tipoDes', 'Qué cobras', 'subsidio', [['subsidio', 'Subsidio por desempleo'], ['contributiva', 'Prestación contributiva (paro)'], ['ninguna', 'Nada (vivo de rentas o sin ingresos)']]),
     N('desImporte', 'Importe mensual que cobras', 480, { u: '€/mes' }),
+    L('iprem'),
     N('edad', 'Edad', 35, { u: 'años' }),
   ]},
   auto: { id: 'trab', title: 'Tu trabajo', hint: 'Autónomo/a', open: false, fields: [
@@ -648,6 +632,7 @@ const SEC_PERSONA_TRAB = {
     N('edad', 'Edad', 35, { u: 'años' }),
     C('tarifaPlana', 'Tengo tarifa plana (80 €/mes)', false),
     C('rebajaAuto', 'Aplicar también a autónomos la rebaja de IRPF hasta 25.000 €', false, { tag: 'Supuesto', hint: 'El programa la plantea para rentas del trabajo; no dice si llega a autónomos.' }),
+    L('irpf25', 'tramo150'),
   ]},
 };
 const SEC_COMUNES = [
@@ -656,44 +641,48 @@ const SEC_COMUNES = [
     C('tensionada', 'Vivo en una zona tensionada', true),
     N('hogarNeto', 'Ingresos netos del hogar', 2600, { u: '€/mes', hint: 'Para el tope del 30 %. Con 0 se usa tu sueldo neto.' }),
     C('vivPublica', 'Escenario: accedo a una vivienda pública de 400 a 600 €', false, { tag: 'Escenario', hint: 'Se calcula con 500 €/mes.' }),
+    L('tope', 'vivpub'),
     SUB('Hipoteca'),
     N('hipCapital', 'Capital pendiente de tu hipoteca', 0, { u: '€' }),
     S('hipTipo', 'Tipo de interés', 'variable', [['variable', 'Variable'], ['fijo', 'Fijo']]),
     N('hipAnios', 'Años desde que la firmaste', 0, { u: 'años' }),
     N('hipAmort', 'Lo que adelantas (amortizas) este año', 0, { u: '€', tag: 'Sin comisión', hint: 'Hasta 2029, en hipotecas a tipo variable, no se cobra comisión por amortizar antes de tiempo.' }),
     C('hipCambio', 'Este año paso mi hipoteca de variable a fijo', false, { tag: 'Sin comisión' }),
+    L('hipotecas'),
   ]},
   { id: 'fam', title: 'Familia', hint: 'Hijos y cuidados', open: false, fields: [
     N('h03', 'Hijos/as de 0 a 3 años', 0, { u: 'nº', hint: 'Primer ciclo de infantil: aún no han cumplido 3 años.' }),
     N('h311', 'Hijos/as de 3 a 11 años', 1, { u: 'nº', hint: 'Infantil (segundo ciclo) y Primaria.' }),
     N('h1217', 'Hijos/as de 12 a 17 años', 0, { u: 'nº' }),
-    C('minimoCompleto', 'Aplico el mínimo por hijos completo (familia monoparental)', false),
     C('maternidad', 'Soy madre trabajadora con hijos menores de 3 años', false),
+    L('crianza'),
     SUB('Escuela infantil, comedor y permisos'),
-    C('infantil', 'Escenario: plaza pública gratuita de 0 a 3 años para mis hijos de 0 a 3', false, { tag: 'Escenario', hint: 'Universalización de la educación de 0 a 3 años.' }),
-    N('infantilMes', 'Lo que pagas hoy de escuela infantil por hijo/a', 0, { u: '€/mes', hint: 'Con 0 (sin plaza hoy) se valora al coste de una plaza pública: 4.911 € al año.' }),
+    N('infantilMes', 'Lo que pagas en una escuela infantil privada por hijo/a de 0 a 3 años', 0, { u: '€/mes', hint: 'Con la universalización de 0 a 3 años tendrías plaza pública gratuita. Si ya tienes plaza pública, déjalo a 0.' }),
     C('publica', 'Mis hijos de 3 a 11 años van a un colegio público', true),
     N('comedorMes', 'Lo que pagas de comedor por hijo/a', 110, { u: '€/mes' }),
     C('becaComedor', 'Ya tengo beca de comedor completa', false),
     C('nacimiento', 'Vamos a tener un hijo/a o adoptar este año', false, { tag: '+3 semanas', hint: 'El permiso por nacimiento sube 3 semanas, cobradas al 100 % de tu base y sin IRPF. Se valora una sola vez.' }),
     C('permiso', 'Me tomaría el permiso parental retribuido (hijos menores de 8 años)', false, { hint: 'Se valoran las 4 primeras semanas pagadas, una sola vez.' }),
+    L('infantil', 'comedor', 'nacimiento', 'parental'),
   ]},
   { id: 'mov', title: 'Movilidad y salud', hint: 'Abono único, audífonos y coche eléctrico', open: false, fields: [
     N('tBus', 'Gasto actual en bus y metro', 30, { u: '€/mes' }),
     N('tCer', 'Gasto actual en Cercanías', 0, { u: '€/mes' }),
     N('tLD', 'Viajes recurrentes de larga distancia en Renfe', 0, { u: '€/mes' }),
     N('audif', 'Audífonos que necesitáis comprar en tu hogar', 0, { u: 'nº', hint: 'Ayuda de 1.500 € por audífono. Un par son 2.' }),
+    L('abono', 'audif'),
     SUB('Leasing social de coche eléctrico'),
     C('leasing', 'Escenario: me acojo al leasing social de coche eléctrico', false, { tag: 'Escenario', hint: 'Alquiler con opción a compra para rentas bajas y medias, con bono de recarga incluido.' }),
     S('leasingTipo', 'Tipo de coche', '100', [['100', 'Urbano: 100 €/mes'], ['150', 'Familiar: 150 €/mes']]),
     N('cocheGasto', 'Lo que gastas hoy en tu coche (cuota y combustible)', 0, { u: '€/mes' }),
+    L('leasing'),
   ]},
   { id: 'cons', title: 'Consumo asequible', hint: 'IVA, luz y seguros', open: false, fields: [
     N('cLuz', 'Factura de la luz', 70, { u: '€/mes' }),
     N('kwh', 'Consumo eléctrico', 250, { u: 'kWh/mes' }),
-    S('tarifaLuz', 'Tipo de tarifa de luz', 'pvpc', [['pvpc', 'Regulada (PVPC) o indexada'], ['fijo', 'Precio fijo del mercado libre']]),
-    C('topeGas', 'Escenario: el gas supera 50 €/MWh y se activa el tope', false, { tag: 'Escenario', hint: 'Como en 2022, con la excepción ibérica la factura regulada bajó un 24 %. Se aplica ese ahorro a tu factura.' }),
+    S('tarifaLuz', 'Tipo de tarifa de luz', 'pvpc', [['pvpc', 'Regulada (PVPC) o indexada'], ['fijo', 'Precio fijo del mercado libre']], { tag: 'Tope al gas', hint: 'Con el gas por encima de 50 €/MWh se activa el tope (excepción ibérica). Con PVPC o indexada, tu factura baja un 24 %, como en 2022.' }),
     N('personas', 'Personas en el hogar', 3, { u: 'nº' }),
+    L('ivaluz', 'gas'),
     N('cPelu', 'Peluquería', 25, { u: '€/mes' }),
     N('cVet', 'Veterinario', 0, { u: '€/mes' }),
     N('cPanal', 'Pañales', 0, { u: '€/mes' }),
@@ -701,23 +690,27 @@ const SEC_COMUNES = [
     N('cEdu', 'Enseñanza privada (colegio, academia)', 0, { u: '€/mes' }),
     N('cSeguro', 'Seguro médico privado', 0, { u: '€/mes' }),
     N('dieselL', 'Gasóleo que repostas', 0, { u: 'litros/mes' }),
+    L('ivabas', 'ensenanza', 'gasoleo'),
   ]},
   { id: 'aho', title: 'Ahorro e inversiones', hint: 'Intereses, dividendos, pensiones', open: false, fields: [
     N('intereses', 'Intereses de cuentas y depósitos', 200, { u: '€/año' }),
     N('dividendos', 'Dividendos', 0, { u: '€/año' }),
     N('ganancias', 'Ganancias por venta de acciones, fondos o inmuebles', 0, { u: '€/año' }),
     N('pension', 'Aportación a un plan de pensiones individual', 0, { u: '€/año', tag: 'Se elimina' }),
+    L('ahorro', 'planes'),
   ]},
   { id: 'prop', title: 'Si alquilas viviendas', hint: 'Como propietario/a', open: false, fields: [
     SUB('Alquiler de vivienda habitual'),
     N('alqRend', 'Rendimiento neto del alquiler', 0, { u: '€/año', hint: 'Ingresos menos gastos, antes de la reducción.' }),
     S('alqRed', 'Reducción que aplicas hoy', '0.5', [['0.5', '50 %'], ['0.6', '60 %'], ['0.7', '70 %'], ['0.9', '90 %']]),
     C('alqBajoIndice', 'La renta está por debajo del índice de referencia', false),
+    L('alqtur'),
     SUB('Piso turístico en zona tensionada'),
     N('turIngresos', 'Rendimiento antes de intereses y amortización', 0, { u: '€/año' }),
     N('turGastosFin', 'Intereses, amortización y mejoras', 0, { u: '€/año' }),
     N('turVC', 'Valor catastral del piso', 0, { u: '€' }),
     N('turVacio', 'Parte del año que está vacío', 0, { u: '%' }),
+    L('alqtur', 'ivatur'),
   ]},
   { id: 'pat', title: 'Patrimonio y herencias', hint: 'Grandes fortunas, viviendas, lujo y herencias', open: false, fields: [
     N('patNeto', 'Patrimonio neto total', 0, { u: '€', hint: 'Bienes y derechos menos deudas, a valor fiscal.' }),
@@ -725,14 +718,22 @@ const SEC_COMUNES = [
     N('nViv', 'Número de viviendas en propiedad', 0, { u: 'nº' }),
     N('valOtras', 'Valor de las viviendas distintas de la habitual', 0, { u: '€', hint: 'Con 4 o más viviendas por más de 500.000 €, pagan un 5 % sobre lo que pase de 500.000 € (la habitual cuenta a partir de 300.000 €).' }),
     S('ipBonif', 'Impuesto sobre el Patrimonio en tu comunidad', '0', [['0', 'Se paga con la escala estatal'], ['1', 'Bonificado al 100 % (p. ej. Madrid)']]),
+    L('fortunas', 'viv5'),
     SUB('Bienes de lujo'),
     N('lujoCoche', 'Valor de tus coches de más de 100.000 €', 0, { u: '€', tag: 'Gravamen de lujo' }),
     N('lujoYate', 'Valor de yates o embarcaciones de recreo de más de 8 m', 0, { u: '€' }),
     N('lujoAvion', 'Valor de aviones o helicópteros privados', 0, { u: '€', hint: 'Gravamen de solidaridad ambiental: 1 % anual en coches y 2 % en yates y aviones.' }),
+    L('lujo'),
+    SUB('Grandes inmuebles'),
+    N('inmN', 'Inmuebles con valor catastral de más de 1 M€', 0, { u: 'nº', tag: 'Impuesto a grandes inmuebles' }),
+    N('inmVC', 'Valor catastral total de esos inmuebles', 0, { u: '€' }),
+    N('inmIBI', 'IBI que pagas hoy por ellos', 0, { u: '€/año', hint: 'Se paga la diferencia hasta un mínimo estatal progresivo: 0,6 % hasta 2 M€, 0,8 % de 2 a 5 M€ y 1 % por encima, por inmueble.' }),
+    L('inmuebles'),
     SUB('Herencias y donaciones'),
     N('herencia', 'Herencia o donación que recibes este año', 0, { u: '€', tag: 'Más de 1 M€', hint: 'Valor neto de lo que recibes tú, no de toda la herencia.' }),
     S('parentesco', 'Parentesco con quien te la deja', 'II', [['II', 'Hijo/a, cónyuge, padre o madre'], ['I', 'Descendiente menor de 21 años'], ['III', 'Hermano/a, sobrino/a, tío/a'], ['IV', 'Otra persona']]),
     S('isdBonif', 'Sucesiones en tu comunidad', '1', [['1', 'Bonificado al 99 % (p. ej. Madrid, Andalucía)'], ['0', 'Se paga con la escala estatal']]),
+    L('herencias'),
   ]},
 ];
 const SEC_EMPRESA = [
@@ -742,12 +743,14 @@ const SEC_EMPRESA = [
     N('ajustes', 'Ajustes fiscales netos (exenciones, gastos no deducibles…)', 0, { u: '€' }),
     N('deducciones', 'Deducciones y bonificaciones (I+D, etc.)', 5000, { u: '€' }),
     C('nueva', 'Entidad de nueva creación (15 %)', false),
+    L('sociedades'),
   ]},
   { id: 'emp2', title: 'Grupos y pérdidas', hint: 'Consolidación y bases negativas', open: false, fields: [
     N('divExt', 'Dividendos y plusvalías de filiales fuera de la UE', 0, { u: '€', tag: 'Se grava' }),
     N('perdGrupo', 'Pérdidas de otras sociedades del grupo que compensas al consolidar', 0, { u: '€', tag: 'Se elimina' }),
     N('bin', 'Pérdidas de años anteriores que compensas este año', 0, { u: '€' }),
     N('binAntiguas', 'De ellas, generadas hace más de 4 años', 0, { u: '€', tag: 'Límite 4 años' }),
+    L('sociedades'),
   ]},
   { id: 'emp3', title: 'Sector', hint: 'Gravámenes específicos', open: false, fields: [
     S('sector', 'Actividad', 'general', [['general', 'General'], ['banca', 'Banca'], ['energia', 'Energética o carburantes'], ['alimentacion', 'Producción o distribución de alimentos'], ['digital', 'Servicios digitales']]),
@@ -755,13 +758,17 @@ const SEC_EMPRESA = [
     N('margen26', 'Margen de explotación 2026 (energía)', 0, { u: '%', hint: 'Tipo del gravamen: 0,3 × los puntos que suba el margen, sobre la cifra de negocios en España (sin actividades reguladas ni impuesto de hidrocarburos).' }),
     N('reservaEstrat', 'Reserva para inversiones estratégicas (energía)', 0, { u: '€', hint: 'Hidrógeno renovable, biometano, almacenamiento, eficiencia… Rebaja el gravamen hasta un 60 %.' }),
     C('energMinor', 'La actividad energética es la mitad o menos de mi cifra de negocios', false, { hint: 'En ese caso, o si facturas menos de 1.000 M€, estás exento del gravamen energético.' }),
+    L('energetico'),
     N('benRef', 'Beneficio medio de años anteriores (alimentación)', 0, { u: '€', tag: 'Márgenes excesivos', hint: 'Tributa al 33 % el beneficio que supere en un 20 % esta media. Con 0 no se aplica.' }),
+    L('alimentacion'),
     N('depositos', 'Depósitos de clientes (banca)', 0, { u: '€' }),
     N('incnGlobal', 'Cifra de negocios mundial del grupo (digital)', 0, { u: '€' }),
     N('ingDigES', 'Ingresos por servicios digitales en España', 0, { u: '€' }),
+    L('banca'),
     C('alqVivienda', 'Me dedico al arrendamiento de vivienda (bonificación del 40 %)', false),
     N('rentaAlq', 'Beneficio procedente del alquiler', 0, { u: '€' }),
     C('alqAsequible', 'Alquilo por debajo del índice de referencia', false, { hint: 'La bonificación del 40 % solo se mantiene si la renta no supera el índice. Se exige en los contratos nuevos.' }),
+    L('socalq'),
   ]},
 ];
 
@@ -774,7 +781,7 @@ const PRESETS = {
     ['En paro con subsidio', { situacion: 'desempleo', tipoDes: 'subsidio', desImporte: 480, edad: 50, h311: 0, h1217: 1, alquiler: 600, hogarNeto: 900, personas: 2, cLuz: 55, kwh: 200, tBus: 30, cPelu: 0, intereses: 0 }],
     ['Tiempo parcial 20 h', { bruto: 10500, jornada: 20, parcial: true, h311: 1, alquiler: 750, hogarNeto: 1900, personas: 2 }],
     ['Rentista con 6 pisos', { situacion: 'desempleo', tipoDes: 'ninguna', edad: 58, h311: 0, alquiler: 0, personas: 1, cLuz: 90, kwh: 300, cPelu: 30, cSeguro: 90, tBus: 0, intereses: 3000, dividendos: 2000, alqRend: 36000, alqRed: '0.5', alqBajoIndice: false, turIngresos: 42000, turGastosFin: 15000, turVC: 220000, turVacio: 25, patNeto: 2100000, patVH: 400000, nViv: 6, valOtras: 1500000, ipBonif: '0' }],
-    ['Directivo con patrimonio', { bruto: 180000, edad: 52, h311: 0, h1217: 2, alquiler: 0, cEdu: 900, cSeguro: 180, cPelu: 60, cLuz: 160, kwh: 700, personas: 4, tBus: 0, dividendos: 40000, ganancias: 25000, intereses: 6000, pension: 1500, patNeto: 4500000, patVH: 900000, nViv: 5, valOtras: 2200000, ipBonif: '1', alqRend: 30000, lujoCoche: 160000, lujoYate: 450000 }],
+    ['Directivo con patrimonio', { bruto: 180000, edad: 52, h311: 0, h1217: 2, alquiler: 0, cEdu: 900, cSeguro: 180, cPelu: 60, cLuz: 160, kwh: 700, personas: 4, tBus: 0, dividendos: 40000, ganancias: 25000, intereses: 6000, pension: 1500, patNeto: 4500000, patVH: 900000, nViv: 5, valOtras: 2200000, ipBonif: '1', alqRend: 30000, lujoCoche: 160000, lujoYate: 450000, inmN: 1, inmVC: 1400000, inmIBI: 4200 }],
     ['Herencia de 2 M€', { bruto: 45000, edad: 48, h311: 0, h1217: 1, alquiler: 0, personas: 3, intereses: 1500, patNeto: 350000, patVH: 300000, nViv: 1, herencia: 2000000, parentesco: 'II', isdBonif: '1' }],
   ],
   auto: [
@@ -837,6 +844,7 @@ function applyPreset(i) {
 
 function fieldHTML(f) {
   if (f.sub) return `<div class="sub">${f.sub}</div>`;
+  if (f.link) return `<div class="flink"><a class="mlink" href="#medidas-d" data-mlink="${f.link.join(',')}">${f.link.length > 1 ? 'Ver las medidas en el programa' : 'Ver la medida en el programa'} →</a></div>`;
   const id = 'f-' + f.k, v = state[f.k];
   const tag = f.tag ? `<span class="tag">${f.tag}</span>` : '';
   const hint = f.hint ? `<small>${f.hint}</small>` : '';
@@ -855,7 +863,7 @@ function renderForm() {
   form.innerHTML = allSections().map((s, i) => {
     const open = s.id in openState ? openState[s.id] : s.open;
     const g = GRUPOS[i] ? `<div class="group-h ${i ? 'g-pay' : 'g-gain'}"><span>${GRUPOS[i][0]}</span><small>${GRUPOS[i][1]}</small></div>` : '';
-    return g + `<details class="sec" data-id="${s.id}" ${open ? 'open' : ''}><summary><h2>${s.title}</h2><span class="hint">${s.hint}</span></summary><div class="fields">${s.fields.map(fieldHTML).join('')}</div></details>`;
+    return g + `<details class="sec" data-id="${s.id}" ${open ? 'open' : ''}><summary><h2>${s.title}</h2></summary><div class="fields">${s.fields.map(fieldHTML).join('')}</div></details>`;
   }).join('');
 }
 function renderPresets() {
@@ -885,6 +893,34 @@ function readData() {
   return d;
 }
 
+// Cada bloque del simulador enlaza con sus medidas en «Medidas del programa económico»
+const SECLINK = {
+  trab: ['irpf25', 'tramo150', 'jornada', 'smi', 'registro', 'iprem'],
+  viv: ['tope', 'vivpub', 'hipotecas'],
+  fam: ['crianza', 'comedor', 'infantil', 'nacimiento', 'parental'],
+  mov: ['abono', 'audif', 'leasing'],
+  cons: ['ivabas', 'ivaluz', 'gas', 'ensenanza', 'gasoleo'],
+  aho: ['ahorro', 'planes'],
+  prop: ['alqtur', 'ivatur', 'viv5'],
+  pat: ['fortunas', 'viv5', 'lujo', 'herencias', 'inmuebles'],
+  emp1: ['sociedades'], emp2: ['sociedades'], emp3: ['banca', 'energetico', 'alimentacion', 'socalq'],
+};
+function irAMedida(ids) {
+  const det = document.getElementById('medidas-d');
+  if (det) det.open = true;
+  document.querySelectorAll('#medidas tr.flash').forEach(t => t.classList.remove('flash'));
+  const trs = ids.map(id => document.getElementById('m-' + id)).filter(Boolean);
+  if (!trs.length) return;
+  trs.forEach(t => { void t.offsetWidth; t.classList.add('flash'); });
+  trs[0].scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+}
+document.addEventListener('click', e => {
+  const a = e.target.closest('[data-mlink]');
+  if (!a) return;
+  e.preventDefault();
+  e.stopPropagation();
+  irAMedida(a.dataset.mlink.split(','));
+});
 function rowsHTML(rows, invert) {
   const max = Math.max(1, ...rows.map(r => Math.abs(r.v)));
   return rows.map(r => {
@@ -906,7 +942,8 @@ function calcPersona() {
   const irpfSueldo = F.ir.total - F0.total; // IRPF que genera la subida de sueldo
   const dPat = H.pat.total - F.pat.total;
   const dHer = H.her.total - F.her.total;
-  const dLux = H.lux - F.lux;
+  const dInm = H.inm - F.inm;
+  const dLux = (H.lux - H.inm) - (F.lux - F.inm);
   const con = H.con, cof = F.con;
   const dIVA = con.total - cof.total;
   const J = r.jor, dSS = F.ir.ss - H.ir.ss, dBruto = J.parcialBruto + J.extrasBruto + J.iprBruto + J.smiBruto;
@@ -914,7 +951,7 @@ function calcPersona() {
   const jIprNeto = dBruto > 0 ? J.iprBruto - (dSS + irpfSueldo) * J.iprBruto / dBruto : 0;
   const jParcialNeto = dBruto > 0 ? J.parcialBruto - (dSS + irpfSueldo) * J.parcialBruto / dBruto : 0;
   const jExtrasNeto = dBruto > 0 ? J.extrasBruto - (dSS + irpfSueldo) * J.extrasBruto / dBruto : 0;
-  const impuestos = dIRPFgen + dIRPFah + dPat + dHer + dLux + dIVA;
+  const impuestos = dIRPFgen + dIRPFah + dPat + dHer + dLux + dInm + dIVA;
   const sueldo = jParcialNeto + jExtrasNeto + jIprNeto + jSmiNeto + impuestos;
   const total = sueldo + sv.total;
   const rows = [
@@ -926,15 +963,16 @@ function calcPersona() {
     { n: 'IRPF del ahorro', s: 'Escala del 19 % al 40 %', v: dIRPFah },
     { n: 'Patrimonio y grandes fortunas', s: 'Desde 1 M€ y 5 % a partir de 500.000 € en viviendas (4 o más)', v: dPat },
     { n: 'Gravamen sobre bienes de lujo', s: 'Coches de lujo, yates y aviones privados', v: dLux },
+    { n: 'Impuesto a grandes inmuebles', s: 'Inmuebles de más de 1 M€ de valor catastral', v: dInm },
     { n: 'Impuesto a las grandes herencias', s: 'Más de 1 M€: mínimo la escala estatal, una sola vez', v: dHer },
     { n: 'IVA, luz y consumo', s: 'Luz progresiva, IVA reducido y fin de exenciones', v: dIVA },
     { n: 'Prestación por crianza', s: '200 € al mes por hijo/a', v: sv.crianza },
     { n: 'Comedor escolar gratuito', s: 'Infantil y Primaria públicas', v: sv.comedor },
-    { n: 'Escuela infantil de 0 a 3 años', s: state.infantilMes > 0 ? 'Escenario: dejas de pagar la cuota' : 'Escenario: valor de la plaza pública', v: sv.infantil },
+    { n: 'Escuela infantil de 0 a 3 años', s: 'Plaza pública gratuita: dejas de pagar la privada', v: sv.infantil },
     { n: 'Abono único de transporte', s: 'Cercanías 20 €, bus y metro −75 %', v: sv.transporte },
     { n: 'Tope del alquiler', s: d.vivPublica ? 'Escenario de vivienda pública' : 'Máximo el 30 % de la renta del hogar', v: sv.alquiler },
     { n: 'Audífonos financiados', s: '1.500 € por audífono, una sola vez', v: sv.audif },
-    { n: 'Tope al gas en la factura de la luz', s: 'Escenario: −24 % en la factura, como en 2022', v: sv.topeGas },
+    { n: 'Tope al gas en la factura de la luz', s: 'Excepción ibérica: −24 % en la factura, como en 2022', v: sv.topeGas },
     { n: 'Hipoteca sin comisiones', s: 'Amortización anticipada o paso a tipo fijo, hasta 2029', v: sv.hipoteca },
     { n: 'Leasing social de coche eléctrico', s: 'Escenario: ' + (state.leasingTipo === '150' ? '150' : '100') + ' € al mes con recarga', v: sv.leasing },
     { n: 'Permiso por nacimiento más largo', s: '3 semanas más pagadas, una sola vez', v: sv.nacimiento },
@@ -962,7 +1000,8 @@ function calcPersona() {
     ['Impuesto sobre el Patrimonio', H.pat.ip, F.pat.ip],
     ['Grandes fortunas', H.pat.itsgf, F.pat.itsgf],
     ['5 % sobre viviendas (4 o más, desde 500.000 €)', H.pat.viv, F.pat.viv],
-    ['Gravamen sobre bienes de lujo', H.lux, F.lux],
+    ['Gravamen sobre bienes de lujo', H.lux - H.inm, F.lux - F.inm],
+    ['Impuesto a grandes inmuebles', H.inm, F.inm],
     ['Sucesiones y donaciones', H.her.total, F.her.total],
   ];
   const conRows = [['Luz', con.luz, cof.luz], ['Peluquería', con.pelu, cof.pelu], ['Veterinario', con.vet, cof.vet], ['Pañales', con.panal, cof.panal], ['Sin gluten', con.gluten, cof.gluten], ['Enseñanza privada', con.edu, cof.edu], ['Seguro médico', con.seguro, cof.seguro], ['Sobrecoste del gasóleo', con.diesel, cof.diesel]].filter(x => x[1] || x[2]);
@@ -1090,51 +1129,49 @@ function calc() { if (mode !== 'emp') syncParcial(); mode === 'emp' ? calcEmpres
 
 /* Tabla de medidas */
 const MEDIDAS = [
-  ['__G', 'Trabajo e IRPF'],
-  ['IRPF del trabajo hasta 25.000 €', 'Subir la reducción por rendimientos del trabajo para que el SMI no pague IRPF y extender la rebaja, decreciente, hasta 25.000 €.', 's', 'Reducción de 8.433 € en el SMI que baja en línea recta hasta cero a 25.000 € brutos. Se conserva la deducción actual de 590,89 €. También llega a pensiones y prestaciones por desempleo, que tributan como trabajo; a los autónomos, solo si lo marcas.'],
-  ['Nuevo tramo por encima de 150.000 €', 'Crear un tramo nuevo para rentas del trabajo de más de 150.000 €.', 's', '+2 puntos: 47 % de 150.000 a 300.000 € y 49 % por encima.'],
-  ['Planes de pensiones individuales', 'Eliminar la reducción por aportaciones a planes de pensiones privados individuales.', 'm', 'La aportación deja de reducir la base general.'],
-  ['Jornada de 37,5 horas', 'Seguir reduciendo la jornada laboral.', 's', 'Jornada máxima de 37,5 h semanales sin rebaja de sueldo; se muestran las horas libres ganadas (45,65 semanas efectivas al año). A tiempo parcial se mantienen las horas y el sueldo sube en proporción (40/37,5).'],
-  ['Complementos y SMI', 'Aclarar las reglas del SMI para que no se pueda compensar ni absorber con complementos.', 's', 'Si cobras pluses por condiciones del puesto (nocturnidad, turnicidad, peligrosidad…), personales (antigüedad, formación, residencia) o por resultados (incentivos, primas, comisiones), tu salario sin ellos debe llegar al SMI (proporcional a la jornada). Si no llega, sube hasta el SMI como máximo y los complementos se cobran aparte. Neto de cotización e IRPF.'],
-  ['Registro digital de jornada', 'Registro digital e interoperable para combatir las horas extra no pagadas.', 's', 'Las horas extra que hoy no se pagan pasan a cobrarse al valor de la hora ordinaria, con su cotización e IRPF.'],
-  ['IPREM a 700 €', 'Subir el IPREM en 100 euros, de 600 a 700 €.', 's', 'Sube un 16,7 % el subsidio por desempleo. La prestación contributiva depende de lo cotizado y no cambia. Pensiones: el programa sube mínimas y no contributivas por encima del IPC sin cifrarlo, así que no se calcula.'],
-  ['__G', 'Vivienda'],
-  ['Tope del alquiler', 'En zonas tensionadas el alquiler no superará el 30 % de la renta de los hogares que alquilan.', 's', 'Se lee como tope por hogar: ahorras lo que tu alquiler supere el 30 % de tus ingresos netos.'],
-  ['Vivienda pública', 'Construir 100.000 viviendas públicas al año, con alquileres de 400 a 600 € en zonas tensionadas.', 's', 'Escenario opcional: se calcula con un alquiler de 500 € al mes.'],
-  ['Hipotecas', 'Nuevo Código de Buenas Prácticas permanente y de adhesión voluntaria para los bancos (más plazo, carencia, quitas, cuotas fijas temporales, paso a tipo fijo, dación en pago y alquiler tras la ejecución), con notaría y registro casi gratis y sin AJD y suspensión hasta 2029 de las comisiones por amortizar antes de tiempo y por pasar de variable a fijo.', 's', 'Solo hipotecas a tipo variable, sea cual sea su fecha. Se calcula la comisión que te ahorras: 0,25 % de lo que adelantas los 3 primeros años y 0,15 % hasta el quinto; pasar a fijo, 0,05 % del capital los 3 primeros años. Las hipotecas a tipo fijo mantienen sus comisiones. Las medidas del Código dependen de requisitos que fijará el Consejo de Ministros y no se calculan.'],
-  ['__G', 'Familia y cuidados'],
-  ['Prestación universal por crianza', '200 € al mes por hijo o hija hasta los 18 años.', 'm', '2.400 € al año por hijo, sin tributar. Se suma al hogar.'],
-  ['Educación de 0 a 3 años', 'Avanzar hacia la universalización de la educación de 0 a 3 años con más escuelas infantiles públicas.', 's', 'Escenario opcional: si pagas escuela infantil, ahorras la cuota durante 11 meses; si no tienes plaza, se valora al coste público por plaza, 4.911 € al año (detalle de los PGE 2026).'],
-  ['Comedor escolar gratuito', 'Para todo el alumnado de Infantil y Primaria de la red pública.', 'm', 'Lo que pagas al mes por hijo de 3 a 11 años durante 9 meses lectivos.'],
-  ['Permiso por nacimiento', 'Ampliar el permiso por nacimiento hasta las 20 semanas, con más flexibilidad a tiempo parcial desde la semana 16.', 's', '3 semanas más, valoradas a tu salario diario (con el tope de la base máxima de cotización) y exentas de IRPF. Solo cuenta ajena y autónomos, una vez.'],
-  ['Permiso parental retribuido', 'Pagar el permiso parental de cuidados hasta los 8 años, empezando por 4 semanas.', 's', '28 días de tu salario, una sola vez.'],
-  ['__G', 'Movilidad y salud'],
-  ['Abono único de transporte', 'Cercanías a 20 € (10 € menores de 26, gratis menores de 16); bus y metro −75 % (−80 % menores de 26, gratis menores de 15); larga distancia recurrente −50 %.', 's', 'Se supone que lo que pagas hoy en bus y metro ya lleva un 40 % de descuento. El abono de media distancia (−60 %) no se calcula.'],
-  ['Audífonos', 'Financiar los audífonos a toda la población que los necesite.', 'm', '1.500 € de ayuda por audífono, una sola vez (detalle de los PGE 2026).'],
-  ['Leasing social de coche eléctrico', 'Alquiler con opción a compra de un coche eléctrico por 100 € al mes (urbano) o 150 € (familiar) para rentas bajas y medias, con bono de recarga.', 's', 'Escenario opcional: ahorras la diferencia entre lo que gastas hoy en coche y combustible y la cuota del leasing.'],
-  ['__G', 'Consumo asequible'],
-  ['IVA de bienes básicos', 'Peluquería y veterinario al 10 %, pañales al 4 %, productos sin gluten al 0 %.', 'm', 'Se supone que el cambio llega entero al precio. Productos sin gluten: del 10 % al 0 %.'],
-  ['IVA progresivo de la luz', 'Del 0 % en consumos bajos y autoconsumo hasta el 16 % en los tramos altos, según consumo por persona.', 's', 'Tramos por persona y mes: 0 % hasta 50 kWh, 5 % hasta 100, 10 % hasta 150 y 16 % por encima. Hoy, 21 %.'],
-  ['Tope al gas (excepción ibérica)', 'Cuando el gas supere 50 €/MWh de media en 30 días, se calcula a 40 €/MWh para fijar el precio de la luz, al menos durante 3 meses.', 's', 'Escenario opcional, solo con tarifa PVPC o indexada. Se aplica el resultado del tope de 2022: entre el 15 de junio y el 31 de diciembre la factura regulada habría sido un 31,8 % más cara sin él (un ahorro del 24,1 %, unos 209 € por hogar en 2022, según EsadeEcPol).'],
-  ['Enseñanza y seguros privados', 'Fin de la exención de IVA en la enseñanza privada y del Impuesto sobre las Primas de Seguros en la sanidad privada.', 'm', 'Enseñanza privada al 21 %; seguros médicos al 8 %.'],
-  ['Gasóleo', 'Igualar el gasóleo al resto de combustibles en el impuesto de hidrocarburos.', 'm', '+0,094 €/litro más IVA (diferencia con la gasolina).'],
-  ['__G', 'Ahorro, alquileres, patrimonio, herencias y lujo'],
-  ['Base del ahorro', 'Escala del 19 % al 40 % en siete tramos.', 'm', 'Tabla del programa aplicada tal cual a intereses, dividendos y ganancias.'],
-  ['Alquiler y pisos turísticos', 'Reducción por alquiler solo si la renta está bajo el índice. En pisos turísticos de zonas tensionadas, sin gastos financieros ni amortización, e imputación del 20 % cuando estén vacíos.', 'm', 'Se aplica con los datos de «Si alquilas viviendas». Imputación de hoy: 1,1 % del valor catastral.'],
-  ['IVA de los pisos turísticos', 'Los alquileres de viviendas amuebladas de 30 días o menos, o con servicios de tipo hotelero, pagan IVA al 21 %.', 'x', 'Lo paga el turista en el precio. No cambia la renta de quien alquila si lo repercute, así que no se calcula.'],
-  ['Grandes fortunas', 'Gravar el patrimonio neto desde 1 M€ (hoy 3 M€) con un mínimo del 2 %, sin tocar el mínimo exento de 700.000 €.', 's', '2 % sobre la base entre 1 M€ y 5,35 M€ y los tipos actuales (2,1 % y 3,5 %) por encima, descontando el Patrimonio pagado. Con 4 o más viviendas, estas salen de esta base (fila siguiente).'],
-  ['5 % a quien tenga 4 o más viviendas', 'Dentro del impuesto de grandes fortunas, una base inmobiliaria propia para quien tenga 4 o más viviendas por más de 500.000 €, con un mínimo exento de 500.000 € y un tipo del 5 %.', 'm', 'Según el articulado: las viviendas salen de la base general y tributan al 5 % por lo que pase de 500.000 €. La vivienda habitual está exenta hasta 300.000 €. Se descuenta el Patrimonio pagado. Sin el límite conjunto del 60 % con el IRPF. Las viviendas en sociedades también cuentan, pero el simulador no las separa.'],
-  ['Impuesto a las grandes herencias', 'Impuesto estatal para herencias de más de 1 M€ que grava la diferencia entre el mínimo estatal y lo que cobra cada comunidad, como el de grandes fortunas.', 's', 'Mínimo estatal: la escala estatal de Sucesiones con sus reducciones por parentesco y coeficientes por patrimonio previo. Si tu comunidad bonifica, pagas la diferencia. No se aplican reducciones por vivienda habitual ni empresa familiar.'],
-  ['Gravamen sobre bienes de lujo', 'Gravamen de solidaridad ambiental sobre aviones privados, yates, coches de lujo y otros bienes suntuarios.', 's', 'Sin tipos en el programa: 1 % anual del valor de los coches de más de 100.000 € y 2 % anual del de yates de más de 8 m y aviones o helicópteros privados.'],
-  ['Impuesto a grandes inmuebles', 'Impuesto estatal progresivo a los inmuebles de más de 1 M€ según su valor catastral.', 'x', 'El programa no da tipos.'],
-  ['__G', 'Empresas'],
-  ['Sociedades: mínimo del 20 %', 'Tributación mínima del 20 % del resultado contable de las grandes empresas, sin subir la carga de las pymes.', 's', 'Grandes empresas: 20 M€ o más de cifra de negocios. También dejan de consolidar, pierden la exención de dividendos de fuera de la UE y solo compensan pérdidas de los últimos 4 años.'],
-  ['Bonificación del 40 % a sociedades que alquilan', 'Solo se mantiene si la renta de cada vivienda no supera el índice estatal de referencia, en los contratos firmados desde la reforma.', 'm', 'En la pestaña Empresa, con la casilla de alquiler por debajo del índice.'],
-  ['Banca, energía y tasa Google', 'Impuesto sobre depósitos del 0,03 % al 1 %, recuperar el gravamen energético y subir la tasa Google al 15 %.', 'm', 'Depósitos y tasa Google tal cual. El gravamen energético se calcula como en la fila siguiente.'],
-  ['Gravamen energético por márgenes', 'Gravamen temporal a los operadores principales de refino, comercio mayorista de combustibles, gasolineras y suministro de luz y gas, ligado a la subida de sus márgenes.', 'm', 'Tipo = 0,3 × la subida en puntos del margen de explotación de 2026 frente a 2025, sobre la cifra de negocios en España. Si el margen no sube, no se paga. Exentas las empresas con menos de 1.000 M€ de cifra de negocios o cuya actividad energética no supere el 50 %. Rebaja por reserva para inversiones estratégicas: 10 % de la reserva, o 30 % con un límite de entre el 10 % y el 60 % del gravamen si la reserva lo supera. Sustituye al 1,2 % plano de 2023-2024.'],
-  ['Márgenes excesivos en la alimentación', 'Gravamen sobre los márgenes excesivos de las grandes empresas de producción y distribución de alimentos.', 's', 'Sin tipo en el programa: 33 % del beneficio que supere en un 20 % la media de años anteriores, como la contribución solidaria de la UE de 2022. Solo grandes empresas.'],
+  ['__G', '1. Acabar con la especulación y garantizar el derecho a la vivienda'],
+  ['Tope del alquiler', 'En zonas tensionadas el alquiler no superará el 30 % de la renta de los hogares que alquilan.', 's', 'Se lee como tope por hogar: ahorras lo que tu alquiler supere el 30 % de tus ingresos netos.', 'tope'],
+  ['Vivienda pública', 'Construir 100.000 viviendas públicas al año, con alquileres de 400 a 600 € en zonas tensionadas.', 's', 'Escenario opcional: se calcula con un alquiler de 500 € al mes.', 'vivpub'],
+  ['Hipotecas', 'Nuevo Código de Buenas Prácticas permanente y de adhesión voluntaria para los bancos (más plazo, carencia, quitas, cuotas fijas temporales, paso a tipo fijo, dación en pago y alquiler tras la ejecución), con notaría y registro casi gratis y sin AJD y suspensión hasta 2029 de las comisiones por amortizar antes de tiempo y por pasar de variable a fijo.', 's', 'Solo hipotecas a tipo variable, sea cual sea su fecha. Se calcula la comisión que te ahorras: 0,25 % de lo que adelantas los 3 primeros años y 0,15 % hasta el quinto; pasar a fijo, 0,05 % del capital los 3 primeros años. Las hipotecas a tipo fijo mantienen sus comisiones. Las medidas del Código dependen de requisitos que fijará el Consejo de Ministros y no se calculan.', 'hipotecas'],
+  ['Alquiler y pisos turísticos', 'Reducción por alquiler solo si la renta está bajo el índice. En pisos turísticos de zonas tensionadas, sin gastos financieros ni amortización, e imputación del 20 % cuando estén vacíos.', 'm', 'Se aplica con los datos de «Si alquilas viviendas». Imputación de hoy: 1,1 % del valor catastral.', 'alqtur'],
+  ['IVA de los pisos turísticos', 'Los alquileres de viviendas amuebladas de 30 días o menos, o con servicios de tipo hotelero, pagan IVA al 21 %.', 'x', 'Lo paga el turista en el precio. No cambia la renta de quien alquila si lo repercute, así que no se calcula.', 'ivatur'],
+  ['5 % a quien tenga 4 o más viviendas', 'Dentro del impuesto de grandes fortunas, una base inmobiliaria propia para quien tenga 4 o más viviendas por más de 500.000 €, con un mínimo exento de 500.000 € y un tipo del 5 %.', 'm', 'Según el articulado: las viviendas salen de la base general y tributan al 5 % por lo que pase de 500.000 €. La vivienda habitual está exenta hasta 300.000 €. Se descuenta el Patrimonio pagado. Sin el límite conjunto del 60 % con el IRPF. Las viviendas en sociedades también cuentan, pero el simulador no las separa.', 'viv5'],
+  ['Bonificación del 40 % a sociedades que alquilan', 'Solo se mantiene si la renta de cada vivienda no supera el índice estatal de referencia, en los contratos firmados desde la reforma.', 'm', 'En la pestaña Empresa, con la casilla de alquiler por debajo del índice.', 'socalq'],
+  ['__G', '2. Derechos sociales para una vida digna'],
+  ['Prestación universal por crianza', '200 € al mes por hijo o hija hasta los 18 años.', 'm', '2.400 € al año por hijo, sin tributar. Se suma al hogar.', 'crianza'],
+  ['Comedor escolar gratuito', 'Para todo el alumnado de Infantil y Primaria de la red pública.', 'm', 'Lo que pagas al mes por hijo de 3 a 11 años durante 9 meses lectivos.', 'comedor'],
+  ['Educación de 0 a 3 años', 'Avanzar hacia la universalización de la educación de 0 a 3 años con más escuelas infantiles públicas.', 's', 'Si no tienes plaza pública y pagas una escuela infantil privada, ahorras esa cuota durante 11 meses por cada hijo de 0 a 3 años. Si ya tienes plaza pública, no hay ahorro.', 'infantil'],
+  ['Permiso por nacimiento', 'Ampliar el permiso por nacimiento hasta las 20 semanas, con más flexibilidad a tiempo parcial desde la semana 16.', 's', '3 semanas más, valoradas a tu salario diario (con el tope de la base máxima de cotización) y exentas de IRPF. Solo cuenta ajena y autónomos, una vez.', 'nacimiento'],
+  ['Permiso parental retribuido', 'Pagar el permiso parental de cuidados hasta los 8 años, empezando por 4 semanas.', 's', '28 días de tu salario, una sola vez.', 'parental'],
+  ['IPREM a 700 €', 'Subir el IPREM en 100 euros, de 600 a 700 €.', 's', 'Sube un 16,7 % el subsidio por desempleo. La prestación contributiva depende de lo cotizado y no cambia. Pensiones: el programa sube mínimas y no contributivas por encima del IPC sin cifrarlo, así que no se calcula.', 'iprem'],
+  ['Audífonos', 'Financiar los audífonos a toda la población que los necesite.', 'm', '1.500 € de ayuda por audífono, una sola vez (detalle de los PGE 2026).', 'audif'],
+  ['__G', '3. Una reforma fiscal en profundidad'],
+  ['Sociedades: mínimo del 20 %', 'Tributación mínima del 20 % del resultado contable de las grandes empresas, sin subir la carga de las pymes.', 's', 'Grandes empresas: 20 M€ o más de cifra de negocios. También dejan de consolidar, pierden la exención de dividendos de fuera de la UE y solo compensan pérdidas de los últimos 4 años.', 'sociedades'],
+  ['Banca, energía y tasa Google', 'Impuesto sobre depósitos del 0,03 % al 1 %, recuperar el gravamen energético y subir la tasa Google al 15 %.', 'm', 'Depósitos y tasa Google tal cual. El gravamen energético se calcula como en la fila siguiente.', 'banca'],
+  ['Gravamen energético por márgenes', 'Gravamen temporal a los operadores principales de refino, comercio mayorista de combustibles, gasolineras y suministro de luz y gas, ligado a la subida de sus márgenes.', 'm', 'Tipo = 0,3 × la subida en puntos del margen de explotación de 2026 frente a 2025, sobre la cifra de negocios en España. Si el margen no sube, no se paga. Exentas las empresas con menos de 1.000 M€ de cifra de negocios o cuya actividad energética no supere el 50 %. Rebaja por reserva para inversiones estratégicas: 10 % de la reserva, o 30 % con un límite de entre el 10 % y el 60 % del gravamen si la reserva lo supera. Sustituye al 1,2 % plano de 2023-2024.', 'energetico'],
+  ['Grandes fortunas', 'Gravar el patrimonio neto desde 1 M€ (hoy 3 M€) con un mínimo del 2 %, sin tocar el mínimo exento de 700.000 €.', 's', '2 % sobre la base entre 1 M€ y 5,35 M€ y los tipos actuales (2,1 % y 3,5 %) por encima, descontando el Patrimonio pagado. Con 4 o más viviendas, estas salen de esta base (fila siguiente).', 'fortunas'],
+  ['Impuesto a las grandes herencias', 'Impuesto estatal para herencias de más de 1 M€ que grava la diferencia entre el mínimo estatal y lo que cobra cada comunidad, como el de grandes fortunas.', 's', 'Mínimo estatal: la escala estatal de Sucesiones con sus reducciones por parentesco y coeficientes por patrimonio previo. Si tu comunidad bonifica, pagas la diferencia. No se aplican reducciones por vivienda habitual ni empresa familiar.', 'herencias'],
+  ['Impuesto a grandes inmuebles', 'Impuesto estatal que homogeneiza el IBI de las propiedades de más de 1 M€, progresivo según su valor catastral.', 's', 'Sin tipos en el programa: mínimo estatal por inmueble del 0,6 % del valor catastral hasta 2 M€, 0,8 % de 2 a 5 M€ y 1 % por encima, descontando el IBI que ya se paga.', 'inmuebles'],
+  ['Base del ahorro', 'Escala del 19 % al 40 % en siete tramos.', 'm', 'Tabla del programa aplicada tal cual a intereses, dividendos y ganancias.', 'ahorro'],
+  ['IRPF del trabajo hasta 25.000 €', 'Subir la reducción por rendimientos del trabajo para que el SMI no pague IRPF y extender la rebaja, decreciente, hasta 25.000 €.', 's', 'Reducción de 8.433 € en el SMI que baja en línea recta hasta cero a 25.000 € brutos. Se conserva la deducción actual de 590,89 €. También llega a pensiones y prestaciones por desempleo, que tributan como trabajo; a los autónomos, solo si lo marcas.', 'irpf25'],
+  ['Nuevo tramo por encima de 150.000 €', 'Crear un tramo nuevo para rentas del trabajo de más de 150.000 €.', 's', '+2 puntos: 47 % de 150.000 a 300.000 € y 49 % por encima.', 'tramo150'],
+  ['Planes de pensiones individuales', 'Eliminar la reducción por aportaciones a planes de pensiones privados individuales.', 'm', 'La aportación deja de reducir la base general.', 'planes'],
+  ['IVA de bienes básicos', 'Peluquería y veterinario al 10 %, pañales al 4 %, productos sin gluten al 0 %.', 'm', 'Se supone que el cambio llega entero al precio. Productos sin gluten: del 10 % al 0 %.', 'ivabas'],
+  ['IVA progresivo de la luz', 'Del 0 % en consumos bajos y autoconsumo hasta el 16 % en los tramos altos, según consumo por persona.', 's', 'Tramos por persona y mes: 0 % hasta 50 kWh, 5 % hasta 100, 10 % hasta 150 y 16 % por encima. Hoy, 21 %.', 'ivaluz'],
+  ['Enseñanza y seguros privados', 'Fin de la exención de IVA en la enseñanza privada y del Impuesto sobre las Primas de Seguros en la sanidad privada.', 'm', 'Enseñanza privada al 21 %; seguros médicos al 8 %.', 'ensenanza'],
+  ['Gravamen sobre bienes de lujo', 'Gravamen de solidaridad ambiental sobre aviones privados, yates, coches de lujo y otros bienes suntuarios.', 's', 'Sin tipos en el programa: 1 % anual del valor de los coches de más de 100.000 € y 2 % anual del de yates de más de 8 m y aviones o helicópteros privados.', 'lujo'],
+  ['Gasóleo', 'Igualar el gasóleo al resto de combustibles en el impuesto de hidrocarburos.', 'm', '+0,094 €/litro más IVA (diferencia con la gasolina).', 'gasoleo'],
+  ['__G', '4. Salarios dignos y precios asequibles'],
+  ['Jornada de 37,5 horas', 'Seguir reduciendo la jornada laboral.', 's', 'Jornada máxima de 37,5 h semanales sin rebaja de sueldo; se muestran las horas libres ganadas (45,65 semanas efectivas al año). A tiempo parcial se mantienen las horas y el sueldo sube en proporción (40/37,5).', 'jornada'],
+  ['Complementos y SMI', 'Aclarar las reglas del SMI para que no se pueda compensar ni absorber con complementos.', 's', 'Si cobras pluses por condiciones del puesto (nocturnidad, turnicidad, peligrosidad…), personales (antigüedad, formación, residencia) o por resultados (incentivos, primas, comisiones), tu salario sin ellos debe llegar al SMI (proporcional a la jornada). Si no llega, sube hasta el SMI como máximo y los complementos se cobran aparte. Neto de cotización e IRPF.', 'smi'],
+  ['Registro digital de jornada', 'Registro digital e interoperable para combatir las horas extra no pagadas.', 's', 'Las horas extra que hoy no se pagan pasan a cobrarse al valor de la hora ordinaria, con su cotización e IRPF.', 'registro'],
+  ['Márgenes excesivos en la alimentación', 'Gravamen sobre los márgenes excesivos de las grandes empresas de producción y distribución de alimentos.', 's', 'Sin tipo en el programa: 33 % del beneficio que supere en un 20 % la media de años anteriores, como la contribución solidaria de la UE de 2022. Solo grandes empresas.', 'alimentacion'],
+  ['Tope al gas (excepción ibérica)', 'Cuando el gas supere 50 €/MWh de media en 30 días, se calcula a 40 €/MWh para fijar el precio de la luz, al menos durante 3 meses.', 's', 'Se da por activado, porque el gas está por encima de 50 €/MWh. Solo con tarifa PVPC o indexada: se aplica el resultado del tope de 2022, cuando la factura regulada habría sido un 31,8 % más cara sin él (un ahorro del 24,1 %, unos 209 € por hogar en 2022, según EsadeEcPol).', 'gas'],
+  ['__G', '5. Continuar el impulso de la transición ecológica'],
+  ['Abono único de transporte', 'Cercanías a 20 € (10 € menores de 26, gratis menores de 16); bus y metro −75 % (−80 % menores de 26, gratis menores de 15); larga distancia recurrente −50 %.', 's', 'Se supone que lo que pagas hoy en bus y metro ya lleva un 40 % de descuento. El abono de media distancia (−60 %) no se calcula.', 'abono'],
+  ['Leasing social de coche eléctrico', 'Alquiler con opción a compra de un coche eléctrico por 100 € al mes (urbano) o 150 € (familiar) para rentas bajas y medias, con bono de recarga.', 's', 'Escenario opcional: ahorras la diferencia entre lo que gastas hoy en coche y combustible y la cuota del leasing.', 'leasing'],
 ];
-document.getElementById('medidas').innerHTML = `<thead><tr><th>Medida</th><th>Qué dice el programa</th><th>En el simulador</th></tr></thead><tbody>${MEDIDAS.map(([a, b, s, c]) => a === '__G' ? `<tr class="grp"><td colspan="3">${b}</td></tr>` : `<tr><td>${a}</td><td>${b}</td><td><span class="st ${s}">${s === 'm' ? 'Modelada' : s === 's' ? 'Con supuesto' : 'No modelada'}</span><br>${c}</td></tr>`).join('')}</tbody>`;
+document.getElementById('medidas').innerHTML = `<thead><tr><th>Medida</th><th>Qué dice el programa</th><th>En el simulador</th></tr></thead><tbody>${MEDIDAS.map(([a, b, s, c, id]) => a === '__G' ? `<tr class="grp"><td colspan="3">${b}</td></tr>` : `<tr id="m-${id}"><td>${a}</td><td>${b}</td><td><span class="st ${s}">${s === 'm' ? 'Modelada' : s === 's' ? 'Con supuesto' : 'No modelada'}</span><br>${c}</td></tr>`).join('')}</tbody>`;
 
 /* Eventos */
 document.getElementById('form').addEventListener('input', e => {
