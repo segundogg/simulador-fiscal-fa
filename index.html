@@ -10,8 +10,8 @@
 <meta property="og:title" content="¿Cuánto ganas con la propuesta económica del Frente Amplio?">
 <meta property="og:description" content="Descubre lo que ganas y quiénes pagan más con el programa económico del Frente Amplio: IRPF, patrimonio, herencias, IVA, vivienda, jornada de 37,5 horas, prestación por crianza y más.">
 <meta property="og:site_name" content="Simulador fiscal del Frente Amplio">
-<meta property="og:image" content="https://segundogg.github.io/simulador-fiscal-fa/og-image.jpg">
-<meta property="og:image:secure_url" content="https://segundogg.github.io/simulador-fiscal-fa/og-image.jpg">
+<meta property="og:image" content="https://segundogg.github.io/simulador-fiscal-fa/og-image.jpg?v=3">
+<meta property="og:image:secure_url" content="https://segundogg.github.io/simulador-fiscal-fa/og-image.jpg?v=3">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:alt" content="Simulador: ¿Cuánto ganas con la propuesta económica del Frente Amplio?">
 <meta property="og:image:width" content="1200">
@@ -20,9 +20,9 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="¿Cuánto ganas con la propuesta económica del Frente Amplio?">
 <meta name="twitter:description" content="Descubre lo que ganas y quiénes pagan más con el programa económico del Frente Amplio: IRPF, patrimonio, herencias, IVA, vivienda, jornada de 37,5 horas, prestación por crianza y más.">
-<meta name="twitter:image" content="https://segundogg.github.io/simulador-fiscal-fa/og-image.jpg">
+<meta name="twitter:image" content="https://segundogg.github.io/simulador-fiscal-fa/og-image.jpg?v=3">
 <meta name="twitter:image:alt" content="Simulador: ¿Cuánto ganas con la propuesta económica del Frente Amplio?">
-<link rel="image_src" href="https://segundogg.github.io/simulador-fiscal-fa/og-image.jpg">
+<link rel="image_src" href="https://segundogg.github.io/simulador-fiscal-fa/og-image.jpg?v=3">
 <style>
 html{-webkit-text-size-adjust:100%}
 body{margin:0;font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
@@ -615,7 +615,7 @@ const S = (k, label, def, opts, o = {}) => ({ k, label, t: 'sel', def, opts, ...
 const SUB = (label) => ({ sub: label });
 
 const SEC_PERSONA_TRAB = {
-  asal: { id: 'trab', title: 'Tu trabajo', hint: 'Por cuenta ajena', open: true, fields: [
+  asal: { id: 'trab', title: 'Tu trabajo', hint: 'Por cuenta ajena', open: false, fields: [
     S('situacion', 'Situación laboral', 'asal', [['asal', 'Por cuenta ajena'], ['auto', 'Autónomo/a'], ['pension', 'Pensionista'], ['desempleo', 'Desempleado/a o sin empleo']]),
     N('bruto', 'Salario bruto anual', 30000, { u: '€/año' }),
     S('pagas', 'Número de pagas', '14', [['14', '14 pagas'], ['12', '12 pagas']]),
@@ -629,19 +629,19 @@ const SEC_PERSONA_TRAB = {
     C('parcial', 'Trabajo a tiempo parcial', false, { hint: 'Mantienes tus horas y el sueldo sube en proporción a la nueva jornada completa de 37,5 h.' }),
     N('hExtra', 'Horas extra que haces y no te pagan', 0, { u: 'h/semana', tag: 'Registro digital', hint: 'Con el registro digital de jornada se computan y se pagan como mínimo al valor de la hora ordinaria.' }),
   ]},
-  pension: { id: 'trab', title: 'Tu trabajo', hint: 'Pensionista', open: true, fields: [
+  pension: { id: 'trab', title: 'Tu trabajo', hint: 'Pensionista', open: false, fields: [
     S('situacion', 'Situación laboral', 'asal', [['asal', 'Por cuenta ajena'], ['auto', 'Autónomo/a'], ['pension', 'Pensionista'], ['desempleo', 'Desempleado/a o sin empleo']]),
     N('pensionBruta', 'Pensión bruta anual', 16800, { u: '€/año' }),
     S('pagasPen', 'Número de pagas', '14', [['14', '14 pagas'], ['12', '12 pagas']]),
     N('edad', 'Edad', 70, { u: 'años', hint: 'A partir de 65 y 75 años sube el mínimo personal del IRPF.' }),
   ]},
-  desempleo: { id: 'trab', title: 'Tu trabajo', hint: 'Desempleado/a o sin empleo', open: true, fields: [
+  desempleo: { id: 'trab', title: 'Tu trabajo', hint: 'Desempleado/a o sin empleo', open: false, fields: [
     S('situacion', 'Situación laboral', 'asal', [['asal', 'Por cuenta ajena'], ['auto', 'Autónomo/a'], ['pension', 'Pensionista'], ['desempleo', 'Desempleado/a o sin empleo']]),
     S('tipoDes', 'Qué cobras', 'subsidio', [['subsidio', 'Subsidio por desempleo'], ['contributiva', 'Prestación contributiva (paro)'], ['ninguna', 'Nada (vivo de rentas o sin ingresos)']]),
     N('desImporte', 'Importe mensual que cobras', 480, { u: '€/mes' }),
     N('edad', 'Edad', 35, { u: 'años' }),
   ]},
-  auto: { id: 'trab', title: 'Tu trabajo', hint: 'Autónomo/a', open: true, fields: [
+  auto: { id: 'trab', title: 'Tu trabajo', hint: 'Autónomo/a', open: false, fields: [
     S('situacion', 'Situación laboral', 'asal', [['asal', 'Por cuenta ajena'], ['auto', 'Autónomo/a'], ['pension', 'Pensionista'], ['desempleo', 'Desempleado/a o sin empleo']]),
     N('ingresos', 'Ingresos anuales (sin IVA)', 32000, { u: '€/año' }),
     N('gastos', 'Gastos deducibles de la actividad', 8000, { u: '€/año', hint: 'Sin contar tu cuota de autónomos, que se calcula aparte.' }),
@@ -651,7 +651,7 @@ const SEC_PERSONA_TRAB = {
   ]},
 };
 const SEC_COMUNES = [
-  { id: 'viv', title: 'Vivienda', hint: 'Alquiler', open: true, fields: [
+  { id: 'viv', title: 'Vivienda', hint: 'Alquiler', open: false, fields: [
     N('alquiler', 'Alquiler que pagas', 950, { u: '€/mes', hint: 'Pon 0 si tienes vivienda en propiedad.' }),
     C('tensionada', 'Vivo en una zona tensionada', true),
     N('hogarNeto', 'Ingresos netos del hogar', 2600, { u: '€/mes', hint: 'Para el tope del 30 %. Con 0 se usa tu sueldo neto.' }),
@@ -663,7 +663,7 @@ const SEC_COMUNES = [
     N('hipAmort', 'Lo que adelantas (amortizas) este año', 0, { u: '€', tag: 'Sin comisión', hint: 'Hasta 2029, en hipotecas a tipo variable, no se cobra comisión por amortizar antes de tiempo.' }),
     C('hipCambio', 'Este año paso mi hipoteca de variable a fijo', false, { tag: 'Sin comisión' }),
   ]},
-  { id: 'fam', title: 'Familia', hint: 'Hijos y cuidados', open: true, fields: [
+  { id: 'fam', title: 'Familia', hint: 'Hijos y cuidados', open: false, fields: [
     N('h03', 'Hijos/as de 0 a 3 años', 0, { u: 'nº', hint: 'Primer ciclo de infantil: aún no han cumplido 3 años.' }),
     N('h311', 'Hijos/as de 3 a 11 años', 1, { u: 'nº', hint: 'Infantil (segundo ciclo) y Primaria.' }),
     N('h1217', 'Hijos/as de 12 a 17 años', 0, { u: 'nº' }),
@@ -736,7 +736,7 @@ const SEC_COMUNES = [
   ]},
 ];
 const SEC_EMPRESA = [
-  { id: 'emp1', title: 'Cuentas de la empresa', hint: 'Impuesto sobre Sociedades', open: true, fields: [
+  { id: 'emp1', title: 'Cuentas de la empresa', hint: 'Impuesto sobre Sociedades', open: false, fields: [
     N('incn', 'Cifra de negocios', 2000000, { u: '€' }),
     N('rc', 'Resultado contable antes de impuestos', 240000, { u: '€' }),
     N('ajustes', 'Ajustes fiscales netos (exenciones, gastos no deducibles…)', 0, { u: '€' }),
@@ -749,7 +749,7 @@ const SEC_EMPRESA = [
     N('bin', 'Pérdidas de años anteriores que compensas este año', 0, { u: '€' }),
     N('binAntiguas', 'De ellas, generadas hace más de 4 años', 0, { u: '€', tag: 'Límite 4 años' }),
   ]},
-  { id: 'emp3', title: 'Sector', hint: 'Gravámenes específicos', open: true, fields: [
+  { id: 'emp3', title: 'Sector', hint: 'Gravámenes específicos', open: false, fields: [
     S('sector', 'Actividad', 'general', [['general', 'General'], ['banca', 'Banca'], ['energia', 'Energética o carburantes'], ['alimentacion', 'Producción o distribución de alimentos'], ['digital', 'Servicios digitales']]),
     N('margen25', 'Margen de explotación 2025 (energía)', 0, { u: '%', tag: 'Gravamen energético', hint: 'Resultado bruto de explotación sobre ventas. Para refino, mayoristas de combustibles, gasolineras y comercializadoras de luz y gas.' }),
     N('margen26', 'Margen de explotación 2026 (energía)', 0, { u: '%', hint: 'Tipo del gravamen: 0,3 × los puntos que suba el margen, sobre la cifra de negocios en España (sin actividades reguladas ni impuesto de hidrocarburos).' }),
