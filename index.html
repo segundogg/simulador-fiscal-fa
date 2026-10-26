@@ -266,9 +266,12 @@ function escala(base, tramos) {
 }
 const clamp0 = x => Math.max(0, x);
 
-function cotizacionAsalariado(bruto, temporal) {
-  const s = P.ss, base = Math.min(bruto, s.baseMaxAnual);
+// sinTope: propuesta de pensiones del 24/10/2026, eliminación del tope máximo de cotización (supuesto: situación final,
+// mismos tipos sobre todo el salario y sin cuota de solidaridad, que deja de tener objeto)
+function cotizacionAsalariado(bruto, temporal, sinTope) {
+  const s = P.ss, base = sinTope ? bruto : Math.min(bruto, s.baseMaxAnual);
   let c = base * (s.cc + (temporal ? s.desTemp : s.des) + s.fp + s.mei);
+  if (sinTope) return c;
   const ex = clamp0(bruto - s.baseMaxAnual), bm = s.baseMaxAnual;
   const solid = escala(ex, [[0.10 * bm, .0092], [0.50 * bm, .0100], [Infinity, .0117]]) * s.workerShareSolid;
   return c + solid;
@@ -308,7 +311,7 @@ function irpf(d, fa, soloTrabajo) {
   let rnTrab = 0, rnAct = 0, ss = 0, bruto = 0;
   L.pension = 0;
   if (mode === 'asal') {
-    bruto = d.bruto; ss = d.sinCot ? 0 : cotizacionAsalariado(bruto, d.temporal);
+    bruto = d.bruto; ss = d.sinCot ? 0 : cotizacionAsalariado(bruto, d.temporal, fa);
     const rnPrev = clamp0(bruto - ss);
     const red = fa ? redTrabajoFA(rnPrev) : redTrabajoHoy(rnPrev);
     const otros = 2000;
@@ -469,17 +472,27 @@ function servicios(d, netoAnualFA) {
   s.hipoteca = (d.hipAmort || 0) * comAmort + (d.hipCambio && d.hipTipo !== 'fijo' && d.hipAnios < 3 ? 0.0005 * (d.hipCapital || 0) : 0);
   s.leasing = d.leasing ? clamp0(d.cocheGasto - parseFloat(d.leasingTipo || 100)) * 12 : 0;
   const salDia = d.modo === 'asal' ? d.bruto / 365 : clamp0(d.ingresos - d.gastos) / 365;
-  s.permiso = d.permiso ? salDia * 28 : 0;
+  // Permiso parental: hoy ya se pagan 2 semanas; el programa llega a 4, así que suma 2 semanas más (14 días)
+  s.permiso = d.permiso ? salDia * 14 : 0;
   // 3 semanas más de permiso por nacimiento, pagadas al 100 % de la base (tope: base máxima), exentas de IRPF
   s.nacimiento = d.nacimiento ? Math.min(salDia, P.ss.baseMaxAnual / 365) * 21 : 0;
   s.total = s.crianza + s.comedor + s.infantil + s.transporte + s.alquiler + s.audif + s.leasing + s.topeGas + s.hipoteca + s.permiso + s.nacimiento;
   return s;
 }
 
+/* ---- Impuesto sobre transacciones financieras ampliado ----
+   Hoy: 0,2 % solo en compras de acciones españolas de más de 1.000 M€ de capitalización (no cambia).
+   Propuesta: también el resto de acciones (0,2 %), la renta fija privada (0,1 %) y los derivados (0,3 % del nocional).
+   Supuesto: lo pagan las compras de residentes, como en la propuesta de la Comisión Europea de 2013. */
+function transacciones(d, fa) {
+  if (!fa) return 0;
+  return 0.002 * (d.ttfAcc || 0) + 0.001 * (d.ttfBon || 0) + 0.003 * (d.ttfDer || 0);
+}
+
 /* ---- Jornada de 37,5 h y registro digital de horas extra (solo cuenta ajena) ---- */
 const SEMANAS = 1826 / 40; // semanas efectivas de trabajo al año (≈45,65)
 function jornada(d) {
-  const r = { horasGanadas: 0, parcialBruto: 0, extrasBruto: 0, horaHoy: 0, horaFA: 0, horasHoy: 0, horasFA: 0, iprBruto: d.iprBruto || 0, smiBruto: 0 };
+  const r = { horasGanadas: 0, parcialBruto: 0, extrasBruto: 0, horaHoy: 0, horaFA: 0, horasHoy: 0, horasFA: 0, iprBruto: d.iprBruto || 0, penBruto: d.penBruto || 0, smiBruto: 0 };
   if (d.modo !== 'asal' || d.noJornada) return r;
   const j = Math.max(1, d.jornada || 40);
   r.horasHoy = j * SEMANAS;
@@ -509,7 +522,7 @@ function simularPersona(d) {
   out.jor = jr;
   for (const k of ['hoy', 'fa']) {
     const fa = k === 'fa';
-    const dd = fa && d.modo === 'asal' ? { ...d, bruto: d.bruto + jr.parcialBruto + jr.extrasBruto + jr.iprBruto + jr.smiBruto } : d;
+    const dd = fa && d.modo === 'asal' ? { ...d, bruto: d.bruto + jr.parcialBruto + jr.extrasBruto + jr.iprBruto + jr.penBruto + jr.smiBruto } : d;
     const ir = irpf(dd, fa, false);
     const irT = irpf(dd, fa, true);
     const pat = patrimonio(d, fa);
@@ -603,7 +616,7 @@ const SEC_PERSONA_TRAB = {
     S('pagas', 'Número de pagas', '14', [['14', '14 pagas'], ['12', '12 pagas']]),
     S('temporal', 'Tipo de contrato', '0', [['0', 'Indefinido'], ['1', 'Temporal']]),
     N('edad', 'Edad', 35, { u: 'años' }),
-    L('irpf25', 'tramo150'),
+    L('irpf25', 'tramo150', 'destope'),
     SUB('Salario mínimo sin absorber pluses'),
     C('complSMI', 'Cobro pluses o complementos que hoy cuentan para llegar al SMI', false, { hint: 'a) Por las condiciones del trabajo: nocturnidad, turnicidad, peligrosidad, toxicidad, penosidad o disponibilidad. b) Personales: antigüedad, formación o residencia. c) Por resultados: incentivos, primas o comisiones.' }),
     N('complImporte', 'Importe anual de esos complementos', 0, { u: '€/año', tag: 'Incluido en el bruto', hint: 'Si tu salario sin ellos no llega al SMI, sube hasta el SMI y los complementos se cobran aparte.' }),
@@ -613,13 +626,16 @@ const SEC_PERSONA_TRAB = {
     C('parcial', 'Trabajo a tiempo parcial', false, { hint: 'Mantienes tus horas y el sueldo sube en proporción a la nueva jornada completa de 37,5 h.' }),
     N('hExtra', 'Horas extra que haces y no te pagan', 0, { u: 'h/semana', tag: 'Registro digital', hint: 'Con el registro digital de jornada se computan y se pagan como mínimo al valor de la hora ordinaria.' }),
     L('jornada', 'registro'),
+    SUB('Jubilación'),
+    N('cot65', 'Años que habrás cotizado al cumplir 65', 35, { u: 'años', hint: 'Hoy, con menos de 38 años y 6 meses cotizados, la edad ordinaria de jubilación es 67 años.' }),
+    L('jub65'),
   ]},
   pension: { id: 'trab', title: 'Tu trabajo', hint: 'Pensionista', open: false, fields: [
     S('situacion', 'Situación laboral', 'asal', [['asal', 'Por cuenta ajena'], ['auto', 'Autónomo/a'], ['pension', 'Pensionista'], ['desempleo', 'Desempleado/a o sin empleo']]),
-    N('pensionBruta', 'Pensión bruta anual', 16800, { u: '€/año' }),
+    N('pensionBruta', 'Pensión bruta anual', 16800, { u: '€/año', hint: 'Si no llega a 17.094 € al año (1.221 € en 14 pagas, el SMI), sube hasta esa cifra.' }),
     S('pagasPen', 'Número de pagas', '14', [['14', '14 pagas'], ['12', '12 pagas']]),
     N('edad', 'Edad', 70, { u: 'años', hint: 'A partir de 65 y 75 años sube el mínimo personal del IRPF.' }),
-    L('irpf25'),
+    L('pensmin', 'irpf25'),
   ]},
   desempleo: { id: 'trab', title: 'Tu trabajo', hint: 'Desempleado/a o sin empleo', open: false, fields: [
     S('situacion', 'Situación laboral', 'asal', [['asal', 'Por cuenta ajena'], ['auto', 'Autónomo/a'], ['pension', 'Pensionista'], ['desempleo', 'Desempleado/a o sin empleo']]),
@@ -636,6 +652,9 @@ const SEC_PERSONA_TRAB = {
     C('tarifaPlana', 'Tengo tarifa plana (80 €/mes)', false),
     C('rebajaAuto', 'Aplicar también a autónomos la rebaja de IRPF hasta 25.000 €', false, { tag: 'Supuesto', hint: 'El programa la plantea para rentas del trabajo; no dice si llega a autónomos.' }),
     L('irpf25', 'tramo150'),
+    SUB('Jubilación'),
+    N('cot65', 'Años que habrás cotizado al cumplir 65', 35, { u: 'años', hint: 'Hoy, con menos de 38 años y 6 meses cotizados, la edad ordinaria de jubilación es 67 años.' }),
+    L('jub65'),
   ]},
 };
 const SEC_COMUNES = [
@@ -665,7 +684,7 @@ const SEC_COMUNES = [
     N('comedorMes', 'Lo que pagas de comedor por hijo/a', 110, { u: '€/mes' }),
     C('becaComedor', 'Ya tengo beca de comedor completa', false),
     C('nacimiento', 'Vamos a tener un hijo/a o adoptar este año', false, { tag: '+3 semanas', hint: 'El permiso por nacimiento sube 3 semanas, cobradas al 100 % de tu base y sin IRPF. Se valora una sola vez.' }),
-    C('permiso', 'Me tomaría el permiso parental retribuido (hijos menores de 8 años)', false, { hint: 'Se valoran las 4 primeras semanas pagadas, una sola vez.' }),
+    C('permiso', 'Me tomaría el permiso parental retribuido (hijos menores de 8 años)', false, { hint: 'Hoy ya se pagan 2 semanas. Se valoran las 2 semanas pagadas más que añade el programa, una sola vez.' }),
     L('infantil', 'comedor', 'nacimiento', 'parental'),
   ]},
   { id: 'mov', title: 'Movilidad y salud', hint: 'Abono único, audífonos y coche eléctrico', open: false, fields: [
@@ -699,8 +718,13 @@ const SEC_COMUNES = [
     N('intereses', 'Intereses de cuentas y depósitos', 200, { u: '€/año' }),
     N('dividendos', 'Dividendos', 0, { u: '€/año' }),
     N('ganancias', 'Ganancias por venta de acciones, fondos o inmuebles', 0, { u: '€/año' }),
-    N('pension', 'Aportación a un plan de pensiones individual', 0, { u: '€/año', tag: 'Se elimina' }),
+    N('pension', 'Aportación a un plan de pensiones individual', 0, { u: '€/año' }),
     L('ahorro', 'planes'),
+    SUB('Compra de acciones, bonos y derivados'),
+    N('ttfAcc', 'Acciones que compras al año y hoy no pagan el impuesto', 0, { u: '€/año', hint: 'Hoy solo pagan el 0,2 % las acciones españolas de más de 1.000 M€ de capitalización, y eso no cambia. El resto (empresas más pequeñas o extranjeras) pasa a pagar el 0,2 %.' }),
+    N('ttfBon', 'Bonos y otra renta fija de empresas que compras', 0, { u: '€/año', hint: 'Pasan a pagar el 0,1 %. La deuda pública no paga.' }),
+    N('ttfDer', 'Derivados que contratas (valor nocional)', 0, { u: '€/año', hint: 'Futuros, opciones o CFD: el 0,3 % sobre el valor del activo de referencia.' }),
+    L('ttf'),
   ]},
   { id: 'prop', title: 'Si alquilas viviendas', hint: 'Como propietario/a', open: false, fields: [
     SUB('Alquiler de vivienda habitual'),
@@ -780,17 +804,17 @@ const PRESETS = {
     ['Familia con 30.000 €', {}],
     ['Salario mínimo', { bruto: 17094, hExtra: 3, complSMI: true, complImporte: 1800, h311: 0, alquiler: 700, hogarNeto: 1300, personas: 1, cLuz: 45, kwh: 150, tBus: 40, cPelu: 15, intereses: 0 }],
     ['22.000 € y 2 hijos', { bruto: 22000, h03: 1, h311: 1, maternidad: true, alquiler: 850, hogarNeto: 2100, personas: 4, cPanal: 40, cLuz: 80, kwh: 320, permiso: true, nacimiento: true }],
-    ['Pensionista con 1.200 €', { situacion: 'pension', pensionBruta: 16800, pagasPen: '14', edad: 72, h311: 0, alquiler: 0, personas: 2, audif: 2, cLuz: 60, kwh: 220, tBus: 20, cPelu: 20, intereses: 600 }],
+    ['Pensionista con 900 €', { situacion: 'pension', pensionBruta: 12600, pagasPen: '14', edad: 72, h311: 0, alquiler: 0, personas: 2, audif: 2, cLuz: 60, kwh: 220, tBus: 20, cPelu: 20, intereses: 600 }],
     ['En paro con subsidio', { situacion: 'desempleo', tipoDes: 'subsidio', desImporte: 480, edad: 50, h311: 0, h1217: 1, alquiler: 600, hogarNeto: 900, personas: 2, cLuz: 55, kwh: 200, tBus: 30, cPelu: 0, intereses: 0 }],
     ['Tiempo parcial 20 h', { bruto: 10500, jornada: 20, parcial: true, h311: 1, alquiler: 750, hogarNeto: 1900, personas: 2 }],
     ['Rentista con 6 pisos', { situacion: 'desempleo', tipoDes: 'ninguna', edad: 58, h311: 0, alquiler: 0, personas: 1, cLuz: 90, kwh: 300, cPelu: 30, cSeguro: 90, tBus: 0, intereses: 3000, dividendos: 2000, alqRend: 36000, alqRed: '0.5', alqBajoIndice: false, turIngresos: 42000, turGastosFin: 15000, turVC: 220000, turVacio: 25, patNeto: 2100000, patVH: 400000, nViv: 6, valOtras: 1500000, ipBonif: '0' }],
-    ['Directivo con patrimonio', { bruto: 180000, edad: 52, h311: 0, h1217: 2, alquiler: 0, cEdu: 900, cSeguro: 180, cPelu: 60, cLuz: 160, kwh: 700, personas: 4, tBus: 0, dividendos: 40000, ganancias: 25000, intereses: 6000, pension: 1500, patNeto: 4500000, patVH: 900000, nViv: 5, valOtras: 2200000, ipBonif: '1', alqRend: 30000, lujoCoche: 160000, lujoYate: 450000, inmN: 1, inmVC: 1400000, inmIBI: 4200 }],
+    ['Directivo con patrimonio', { bruto: 180000, edad: 52, h311: 0, h1217: 2, alquiler: 0, cEdu: 900, cSeguro: 180, cPelu: 60, cLuz: 160, kwh: 700, personas: 4, tBus: 0, dividendos: 40000, ganancias: 25000, intereses: 6000, pension: 1500, ttfAcc: 80000, ttfBon: 30000, ttfDer: 50000, patNeto: 4500000, patVH: 900000, nViv: 5, valOtras: 2200000, ipBonif: '1', alqRend: 30000, lujoCoche: 160000, lujoYate: 450000, inmN: 1, inmVC: 1400000, inmIBI: 4200 }],
     ['Herencia de 2 M€', { bruto: 45000, edad: 48, h311: 0, h1217: 1, alquiler: 0, personas: 3, intereses: 1500, patNeto: 350000, patVH: 300000, nViv: 1, herencia: 2000000, parentesco: 'II', isdBonif: '1' }],
   ],
   auto: [
     ['Autónoma con 32.000 €', { situacion: 'auto' }],
     ['Autónomo con 18.000 €', { situacion: 'auto', ingresos: 18000, gastos: 3000, h311: 0, alquiler: 650, hogarNeto: 1200, personas: 1, cLuz: 45, kwh: 150 }],
-    ['Profesional con 90.000 €', { situacion: 'auto', ingresos: 90000, gastos: 15000, h311: 1, h1217: 1, alquiler: 0, cSeguro: 120, cEdu: 400, intereses: 3000, dividendos: 5000, pension: 1500, patNeto: 900000, patVH: 450000, nViv: 2, valOtras: 300000 }],
+    ['Profesional con 90.000 €', { situacion: 'auto', ingresos: 90000, gastos: 15000, h311: 1, h1217: 1, alquiler: 0, cSeguro: 120, cEdu: 400, intereses: 3000, dividendos: 5000, pension: 1500, ttfAcc: 12000, patNeto: 900000, patVH: 450000, nViv: 2, valOtras: 300000 }],
   ],
   emp: [
     ['Pyme', {}],
@@ -806,7 +830,7 @@ const PRESETS = {
 // Primero los perfiles que ganan; al final, rentista y directivo con patrimonio
 {
   const byName = Object.fromEntries([...PRESETS.asal, ...PRESETS.auto].map(p => [p[0], p]));
-  PRESETS.persona = ['Familia con 30.000 €', 'Salario mínimo', 'Pensionista con 1.200 €', 'Autónomo con 18.000 €', 'Profesional con 90.000 €', 'Rentista con 6 pisos', 'Directivo con patrimonio'].map(n => byName[n]);
+  PRESETS.persona = ['Familia con 30.000 €', 'Salario mínimo', 'Pensionista con 900 €', 'Autónomo con 18.000 €', 'Profesional con 90.000 €', 'Rentista con 6 pisos', 'Directivo con patrimonio'].map(n => byName[n]);
 }
 let tab = 'persona'; // pestaña: 'persona' | 'emp'
 let mode = 'asal';    // modo de cálculo: 'asal' | 'auto' | 'emp'
@@ -821,7 +845,7 @@ function defaults() {
   return d;
 }
 // Estado vacío: importes a 0, casillas sin marcar; se mantienen edad, jornada, personas y opciones de los desplegables
-const KEEP = { edad: 35, jornada: 40, personas: 1 };
+const KEEP = { edad: 35, jornada: 40, personas: 1, cot65: 35 };
 function zeroState() {
   const d = defaults();
   for (const k in d) {
@@ -886,7 +910,8 @@ function readData() {
   const d = { ...state, modo: mode, ppAlto: 2 };
   d.temporal = state.temporal === '1'; d.ipBonif = state.ipBonif === '1'; d.isdBonif = state.isdBonif === '1'; d.alqRed = parseFloat(state.alqRed);
   const NOJ = { modo: 'asal', noJornada: true, sinCot: true, jornada: 40, hExtra: 0, parcial: false, permiso: false, nacimiento: false, maternidad: false };
-  if (state.situacion === 'pension') Object.assign(d, NOJ, { bruto: state.pensionBruta });
+  // Pensión mínima igual al SMI (propuesta del 24/10/2026): ninguna pensión por debajo de 1.221 € en 14 pagas
+  if (state.situacion === 'pension') Object.assign(d, NOJ, { bruto: state.pensionBruta, penBruto: state.pensionBruta > 0 ? clamp0(P.smi - state.pensionBruta) : 0 });
   if (state.situacion === 'desempleo') {
     const anual = state.tipoDes === 'ninguna' ? 0 : state.desImporte * 12;
     const ligado = state.tipoDes === 'subsidio';
@@ -898,12 +923,12 @@ function readData() {
 
 // Cada bloque del simulador enlaza con sus medidas en «Medidas del programa económico»
 const SECLINK = {
-  trab: ['irpf25', 'tramo150', 'jornada', 'smi', 'registro', 'iprem'],
+  trab: ['irpf25', 'tramo150', 'destope', 'jornada', 'smi', 'registro', 'iprem', 'pensmin', 'jub65'],
   viv: ['tope', 'vivpub', 'hipotecas'],
   fam: ['crianza', 'comedor', 'infantil', 'nacimiento', 'parental'],
   mov: ['abono', 'audif', 'leasing'],
   cons: ['ivabas', 'ivaluz', 'gas', 'ensenanza', 'gasoleo'],
-  aho: ['ahorro', 'planes'],
+  aho: ['ahorro', 'planes', 'ttf'],
   prop: ['alqtur', 'ivatur', 'viv5'],
   pat: ['fortunas', 'viv5', 'lujo', 'herencias', 'inmuebles'],
   emp1: ['sociedades'], emp2: ['sociedades'], emp3: ['banca', 'energetico', 'alimentacion', 'socalq'],
@@ -973,21 +998,28 @@ function calcPersona() {
   const dLux = (H.lux - H.inm) - (F.lux - F.inm);
   const con = H.con, cof = F.con;
   const dIVA = con.total - cof.total;
-  const J = r.jor, dSS = F.ir.ss - H.ir.ss, dBruto = J.parcialBruto + J.extrasBruto + J.iprBruto + J.smiBruto;
+  // Cotización sin tope: diferencia con el sueldo de hoy; el resto de la cotización nueva la genera la subida de sueldo
+  const dCot = H.ir.ss - F0.ss;
+  const J = r.jor, dSS = F.ir.ss - F0.ss, dBruto = J.parcialBruto + J.extrasBruto + J.iprBruto + J.penBruto + J.smiBruto;
+  const jPenNeto = dBruto > 0 ? J.penBruto - (dSS + irpfSueldo) * J.penBruto / dBruto : 0;
   const jSmiNeto = dBruto > 0 ? J.smiBruto - (dSS + irpfSueldo) * J.smiBruto / dBruto : 0;
   const jIprNeto = dBruto > 0 ? J.iprBruto - (dSS + irpfSueldo) * J.iprBruto / dBruto : 0;
   const jParcialNeto = dBruto > 0 ? J.parcialBruto - (dSS + irpfSueldo) * J.parcialBruto / dBruto : 0;
   const jExtrasNeto = dBruto > 0 ? J.extrasBruto - (dSS + irpfSueldo) * J.extrasBruto / dBruto : 0;
-  const impuestos = dIRPFgen + dIRPFah + dPat + dHer + dLux + dInm + dIVA;
-  const sueldo = jParcialNeto + jExtrasNeto + jIprNeto + jSmiNeto + impuestos;
+  const dTTF = transacciones(d, false) - transacciones(d, true);
+  const impuestos = dIRPFgen + dIRPFah + dPat + dHer + dLux + dInm + dIVA + dTTF;
+  const sueldo = jParcialNeto + jExtrasNeto + jIprNeto + jPenNeto + jSmiNeto + dCot + impuestos;
   const total = sueldo + sv.total;
   const rows = [
     { n: 'Subida del IPREM a 700 €', s: 'Tu ' + (state.tipoDes === 'subsidio' ? 'subsidio' : 'prestación') + ' sube un 16,7 %, neto de IRPF', v: jIprNeto },
+    { n: 'Pensión mínima igual al SMI', s: 'Tu pensión sube hasta 1.221 € en 14 pagas, neta de IRPF', v: jPenNeto },
+    { n: 'Cotización sin tope máximo', s: 'Cotizas también por el salario que pasa de 61.214 €', v: dCot },
     { n: 'SMI sin absorber tus complementos', s: 'Tu salario base sube hasta el SMI, neto de cotización e IRPF', v: jSmiNeto },
     { n: 'Sueldo por la jornada de 37,5 h', s: 'Tiempo parcial, neto de cotización e IRPF', v: jParcialNeto },
     { n: 'Horas extra que pasas a cobrar', s: 'Registro digital, neto de cotización e IRPF', v: jExtrasNeto },
     { n: 'IRPF del trabajo y otras rentas', s: sinIngresoTrab ? 'Alquiler sin reducción y pisos turísticos sin gastos ni imputación baja' : dBruto > 0 ? 'Solo el efecto de la reforma, sin la subida de sueldo' : 'Rebaja hasta 25.000 €; +2 puntos desde 150.000 €', v: dIRPFgen },
     { n: 'IRPF del ahorro', s: 'Escala del 19 % al 40 %', v: dIRPFah },
+    { n: 'Impuesto sobre transacciones financieras', s: 'Acciones 0,2 %, bonos de empresa 0,1 %, derivados 0,3 %', v: dTTF },
     { n: 'Patrimonio y grandes fortunas', s: 'Desde 1 M€ y 5 % a partir de 500.000 € en viviendas (4 o más)', v: dPat },
     { n: 'Gravamen sobre bienes de lujo', s: 'Coches de lujo, yates y aviones privados', v: dLux },
     { n: 'Impuesto a grandes inmuebles', s: 'Inmuebles de más de 1 M€ de valor catastral', v: dInm },
@@ -1003,7 +1035,7 @@ function calcPersona() {
     { n: 'Hipoteca sin comisiones', s: 'Amortización anticipada o paso a tipo fijo, hasta 2029', v: sv.hipoteca },
     { n: 'Leasing social de coche eléctrico', s: 'Escenario: ' + (state.leasingTipo === '150' ? '150' : '100') + ' € al mes con recarga', v: sv.leasing },
     { n: 'Permiso por nacimiento más largo', s: '3 semanas más pagadas, una sola vez', v: sv.nacimiento },
-    { n: 'Permiso parental retribuido', s: '4 semanas, una sola vez', v: sv.permiso },
+    { n: 'Permiso parental retribuido', s: '2 semanas pagadas más, hasta 4, una sola vez', v: sv.permiso },
   ];
   const visibles = rows.filter(x => Math.round(x.v) !== 0).sort((a, b) => Math.abs(b.v) - Math.abs(a.v)); // por relevancia
   const ocultas = rows.length - visibles.length;
@@ -1030,6 +1062,7 @@ function calcPersona() {
     ['Gravamen sobre bienes de lujo', H.lux - H.inm, F.lux - F.inm],
     ['Impuesto a grandes inmuebles', H.inm, F.inm],
     ['Sucesiones y donaciones', H.her.total, F.her.total],
+    ['Transacciones financieras (compras nuevas gravadas)', transacciones(d, false), transacciones(d, true)],
   ];
   const conRows = [['Luz', con.luz, cof.luz], ['Peluquería', con.pelu, cof.pelu], ['Veterinario', con.vet, cof.vet], ['Pañales', con.panal, cof.panal], ['Sin gluten', con.gluten, cof.gluten], ['Enseñanza privada', con.edu, cof.edu], ['Seguro médico', con.seguro, cof.seguro], ['Sobrecoste del gasóleo', con.diesel, cof.diesel]].filter(x => x[1] || x[2]);
   const tbl = (rs) => `<div class="tbl-wrap"><table><thead><tr><th>Concepto</th><th class="n">Hoy</th><th class="n">Propuesta</th></tr></thead><tbody>${rs.map(([a, b, c, s]) => `<tr class="${s ? 'strong' : ''}"><td>${a}</td><td class="n">${eur(b)}</td><td class="n">${eur(c)}</td></tr>`).join('')}</tbody></table></div>`;
@@ -1052,7 +1085,7 @@ function calcPersona() {
       <div class="arrow">→</div>
       <div><div class="l">Con la propuesta</div><div class="v num ${cls(netoF - netoH)}">${eur(netoF / pagas)}</div></div>
     </div>
-    <div class="note">${Math.round(netoF - netoH) === 0 ? (sit === 'pension' ? 'Tu pensión neta no cambia. El programa mantiene la subida con el IPC y sube las mínimas y no contributivas por encima de la inflación, sin fijar cuánto.' : 'Tu ingreso neto no cambia: la rebaja de IRPF se concentra entre el salario mínimo y 25.000 € y la subida empieza en 150.000 €.') : `Diferencia de ${sgn((netoF - netoH) / pagas)} por paga${J.iprBruto > 0 ? ', por la subida del IPREM' : J.smiBruto > 0 ? ', con la subida del salario base hasta el SMI incluida' : dBruto > 0 ? ', con la subida por jornada u horas extra incluida' : ''}.`}</div>
+    <div class="note">${Math.round(netoF - netoH) === 0 ? (sit === 'pension' ? 'Tu pensión ya supera el SMI (1.221 € en 14 pagas), así que su neto no cambia. Sigue subiendo con el IPC.' : 'Tu ingreso neto no cambia: la rebaja de IRPF se concentra entre el salario mínimo y 25.000 € y la subida empieza en 150.000 €.') : `Diferencia de ${sgn((netoF - netoH) / pagas)} por paga${J.penBruto > 0 ? ', al subir tu pensión hasta el SMI' : J.iprBruto > 0 ? ', por la subida del IPREM' : J.smiBruto > 0 ? ', con la subida del salario base hasta el SMI incluida' : dBruto > 0 ? ', con la subida por jornada u horas extra incluida' : ''}.`}</div>
   </div>`}
   ${sit === 'asal' && d.bruto > 0 ? `<div class="card">
     <h3>Tu tiempo</h3>
@@ -1064,6 +1097,18 @@ function calcPersona() {
     </div>
     <div class="note">${J.horasGanadas > 0 ? `Ganas <strong>${nf0.format(J.horasGanadas)} horas libres al año</strong> (unas ${nf0.format(J.horasGanadas / 7.5)} jornadas de 7,5 h) cobrando lo mismo. Tu hora pasa de ${nf1.format(J.horaHoy)} € a ${nf1.format(J.horaFA)} € brutos, un ${nf1.format((J.horaFA / J.horaHoy - 1) * 100)} % más. Ese tiempo no se suma al saldo en euros.` : d.parcial ? `Mantienes tus horas y tu hora pasa de ${nf1.format(J.horaHoy)} € a ${nf1.format(J.horaFA)} € brutos.` : 'Tu jornada ya está en 37,5 horas o por debajo.'}${d.hExtra > 0 ? ` Las ${nf0.format(d.hExtra * SEMANAS)} horas extra que hoy regalas pasan a cobrarse: ${eur(J.extrasBruto)} brutos y ${eur(jExtrasNeto)} netos al año.` : ''}${window.__hNac > 0 ? ` Además, las 3 semanas más de permiso por nacimiento son <strong>${nf0.format(window.__hNac)} horas</strong> que pasas con tu bebé cobrando, solo el año del nacimiento.` : ''}</div>
   </div>` : ''}
+  ${(sit === 'asal' || sit === 'auto') && H.ir.bruto > 0 && (state.edad || 0) < 65 ? (() => {
+    const antes = (state.cot65 || 0) < 38.5 ? 2 : 0;
+    const hAnio = sit === 'asal' && J.horasFA > 0 ? J.horasFA : 0;
+    return `<div class="card">
+    <h3>Tu jubilación</h3>
+    <div class="nomina">
+      <div><div class="l">Edad ordinaria hoy</div><div class="v num">${antes ? 67 : 65} años</div></div>
+      <div class="arrow">→</div>
+      <div><div class="l">Con la propuesta</div><div class="v num ${antes ? 'pos' : ''}">65 años</div></div>
+    </div>
+    <div class="note">${antes ? `Con ${(Number.isInteger(state.cot65 || 0) ? nf0 : nf1).format(state.cot65 || 0)} años cotizados a los 65, hoy tendrías que esperar a los 67. Con la propuesta te jubilas <strong>2 años antes</strong>${hAnio ? `, unas ${nf0.format(2 * hAnio)} horas de trabajo menos` : ''}. Hoy, irte a los 65 exige jubilación anticipada voluntaria, con al menos 35 años cotizados y un recorte de la pensión de por vida. La cuantía sigue dependiendo de lo cotizado. Ese tiempo no se suma al saldo en euros.` : 'Con 38 años y 6 meses cotizados o más ya puedes jubilarte a los 65. La propuesta fija esa edad como máxima para todo el mundo.'}</div>
+  </div>`; })() : ''}
   <div class="card">
     <h3>De dónde sale la diferencia</h3>
     ${visibles.length ? `<div class="rows">${rowsHTML(visibles)}</div>` : '<div class="note">Aquí verás qué medidas te hacen ganar o pagar más. Elige un ejemplo o rellena tus datos.</div>'}
@@ -1161,7 +1206,7 @@ const MEDIDAS = [
   ['Vivienda pública', 'Construir 100.000 viviendas públicas al año, con alquileres de 400 a 600 € en zonas tensionadas.', 's', 'Escenario opcional: se calcula con un alquiler de 500 € al mes.', 'vivpub'],
   ['Hipotecas', 'Nuevo Código de Buenas Prácticas permanente y de adhesión voluntaria para los bancos (más plazo, carencia, quitas, cuotas fijas temporales, paso a tipo fijo, dación en pago y alquiler tras la ejecución), con notaría y registro casi gratis y sin AJD y suspensión hasta 2029 de las comisiones por amortizar antes de tiempo y por pasar de variable a fijo.', 's', 'Solo hipotecas a tipo variable, sea cual sea su fecha. Se calcula la comisión que te ahorras: 0,25 % de lo que adelantas los 3 primeros años y 0,15 % hasta el quinto; pasar a fijo, 0,05 % del capital los 3 primeros años. Las hipotecas a tipo fijo mantienen sus comisiones. Las medidas del Código dependen de requisitos que fijará el Consejo de Ministros y no se calculan.', 'hipotecas'],
   ['Alquiler y pisos turísticos', 'Reducción por alquiler solo si la renta está bajo el índice. En pisos turísticos de zonas tensionadas, sin gastos financieros ni amortización, e imputación del 20 % cuando estén vacíos.', 'm', 'Se aplica con los datos de «Si alquilas viviendas». Imputación de hoy: 1,1 % del valor catastral.', 'alqtur'],
-  ['IVA de los pisos turísticos', 'Los alquileres de viviendas amuebladas de 30 días o menos, o con servicios de tipo hotelero, pagan IVA al 21 %.', 'x', 'Lo paga el turista en el precio. No cambia la renta de quien alquila si lo repercute, así que no se calcula.', 'ivatur'],
+  ['IVA de los pisos turísticos', 'Los alquileres de viviendas amuebladas de 30 días o menos, o con servicios de tipo hotelero, pagan IVA al 21 %.', 'x', 'Lo paga el turista en el precio. Influirá en una menor demanda de pisos turísticos, pero no se ha modelado para este simulador.', 'ivatur'],
   ['5 % a quien tenga 4 o más viviendas', 'Dentro del impuesto de grandes fortunas, una base inmobiliaria propia para quien tenga 4 o más viviendas por más de 500.000 €, con un mínimo exento de 500.000 € y un tipo del 5 %.', 'm', 'Según el articulado: las viviendas salen de la base general y tributan al 5 % por lo que pase de 500.000 €. La vivienda habitual está exenta hasta 300.000 €. Se descuenta el Patrimonio pagado. Sin el límite conjunto del 60 % con el IRPF. Las viviendas en sociedades también cuentan, pero el simulador no las separa.', 'viv5'],
   ['Bonificación del 40 % a sociedades que alquilan', 'Solo se mantiene si la renta de cada vivienda no supera el índice estatal de referencia, en los contratos firmados desde la reforma.', 'm', 'En la pestaña Empresa, con la casilla de alquiler por debajo del índice.', 'socalq'],
   ['__G', '2. Derechos sociales para una vida digna'],
@@ -1169,8 +1214,8 @@ const MEDIDAS = [
   ['Comedor escolar gratuito', 'Para todo el alumnado de Infantil y Primaria de la red pública.', 'm', 'Lo que pagas al mes por hijo de 3 a 11 años durante 9 meses lectivos.', 'comedor'],
   ['Educación de 0 a 3 años', 'Avanzar hacia la universalización de la educación de 0 a 3 años con más escuelas infantiles públicas.', 's', 'Si no tienes plaza pública y pagas una escuela infantil privada, ahorras esa cuota durante 11 meses por cada hijo de 0 a 3 años. Si ya tienes plaza pública, no hay ahorro.', 'infantil'],
   ['Permiso por nacimiento', 'Ampliar el permiso por nacimiento hasta las 20 semanas, con más flexibilidad a tiempo parcial desde la semana 16.', 's', '3 semanas más, valoradas a tu salario diario (con el tope de la base máxima de cotización) y exentas de IRPF. Solo cuenta ajena y autónomos, una vez.', 'nacimiento'],
-  ['Permiso parental retribuido', 'Pagar el permiso parental de cuidados hasta los 8 años, empezando por 4 semanas.', 's', '28 días de tu salario, una sola vez.', 'parental'],
-  ['IPREM a 700 €', 'Subir el IPREM en 100 euros, de 600 a 700 €.', 's', 'Sube un 16,7 % el subsidio por desempleo. La prestación contributiva depende de lo cotizado y no cambia. Pensiones: el programa sube mínimas y no contributivas por encima del IPC sin cifrarlo, así que no se calcula.', 'iprem'],
+  ['Permiso parental retribuido', 'Pagar el permiso parental de cuidados hasta los 8 años, empezando por 4 semanas.', 's', 'Hoy ya se pagan 2 semanas, así que se suman las 2 que faltan hasta 4: 14 días de tu salario, una sola vez.', 'parental'],
+  ['IPREM a 700 €', 'Subir el IPREM en 100 euros, de 600 a 700 €.', 's', 'Sube un 16,7 % el subsidio por desempleo. La prestación contributiva depende de lo cotizado y no cambia. Las pensiones mínimas suben hasta el SMI con la propuesta del 24 de octubre (ver más abajo).', 'iprem'],
   ['Audífonos', 'Financiar los audífonos a toda la población que los necesite.', 'm', '1.500 € de ayuda por audífono, una sola vez (detalle de los PGE 2026).', 'audif'],
   ['__G', '3. Una reforma fiscal en profundidad'],
   ['Sociedades: mínimo del 20 %', 'Tributación mínima del 20 % del resultado contable de las grandes empresas, sin subir la carga de las pymes.', 's', 'Grandes empresas: 20 M€ o más de cifra de negocios. También dejan de consolidar, pierden la exención de dividendos de fuera de la UE y solo compensan pérdidas de los últimos 4 años.', 'sociedades'],
@@ -1179,6 +1224,7 @@ const MEDIDAS = [
   ['Grandes fortunas', 'Gravar el patrimonio neto desde 1 M€ (hoy 3 M€) con un mínimo del 2 %, sin tocar el mínimo exento de 700.000 €.', 's', '2 % sobre la base entre 1 M€ y 5,35 M€ y los tipos actuales (2,1 % y 3,5 %) por encima, descontando el Patrimonio pagado. Con 4 o más viviendas, estas salen de esta base (fila siguiente).', 'fortunas'],
   ['Impuesto a las grandes herencias', 'Impuesto estatal para herencias de más de 1 M€ que grava la diferencia entre el mínimo estatal y lo que cobra cada comunidad, como el de grandes fortunas.', 's', 'Mínimo estatal: la escala estatal de Sucesiones con sus reducciones por parentesco y coeficientes por patrimonio previo. Si tu comunidad bonifica, pagas la diferencia. No se aplican reducciones por vivienda habitual ni empresa familiar.', 'herencias'],
   ['Impuesto a grandes inmuebles', 'Impuesto estatal que homogeneiza el IBI de las propiedades de más de 1 M€, progresivo según su valor catastral.', 's', 'Sin tipos en el programa: mínimo estatal por inmueble del 0,6 % del valor catastral hasta 2 M€, 0,8 % de 2 a 5 M€ y 1 % por encima, descontando el IBI que ya se paga.', 'inmuebles'],
+  ['Transacciones financieras', 'Ampliar el impuesto sobre las transacciones financieras a la renta fija privada (0,1 %), las acciones (0,2 %) y los derivados financieros (0,3 %).', 's', 'La compra de acciones españolas de más de 1.000 M€ de capitalización ya paga hoy el 0,2 % y no cambia. Pasan a pagar las demás acciones (0,2 %), los bonos de empresa (0,1 %) y los derivados (0,3 % del valor nocional). Supuesto: lo pagan las compras de residentes, como en la propuesta de la Comisión Europea de 2013, sin la deuda pública ni los repos. Las compras de empresas y fondos no se calculan en la pestaña Empresa.', 'ttf'],
   ['Base del ahorro', 'Escala del 19 % al 40 % en siete tramos.', 'm', 'Tabla del programa aplicada tal cual a intereses, dividendos y ganancias.', 'ahorro'],
   ['IRPF del trabajo hasta 25.000 €', 'Subir la reducción por rendimientos del trabajo para que el SMI no pague IRPF y extender la rebaja, decreciente, hasta 25.000 €.', 's', 'Reducción de 8.433 € en el SMI que baja en línea recta hasta cero a 25.000 € brutos. Se conserva la deducción actual de 590,89 €. También llega a pensiones y prestaciones por desempleo, que tributan como trabajo; a los autónomos, solo si lo marcas.', 'irpf25'],
   ['Nuevo tramo por encima de 150.000 €', 'Crear un tramo nuevo para rentas del trabajo de más de 150.000 €.', 's', '+2 puntos: 47 % de 150.000 a 300.000 € y 49 % por encima.', 'tramo150'],
@@ -1197,6 +1243,11 @@ const MEDIDAS = [
   ['__G', '5. Continuar el impulso de la transición ecológica'],
   ['Abono único de transporte', 'Cercanías a 20 € (10 € menores de 26, gratis menores de 16); bus y metro −75 % (−80 % menores de 26, gratis menores de 15); larga distancia recurrente −50 %.', 's', 'Se supone que lo que pagas hoy en bus y metro ya lleva un 40 % de descuento. El abono de media distancia (−60 %) no se calcula.', 'abono'],
   ['Leasing social de coche eléctrico', 'Alquiler con opción a compra de un coche eléctrico por 100 € al mes (urbano) o 150 € (familiar) para rentas bajas y medias, con bono de recarga.', 's', 'Escenario opcional: ahorras la diferencia entre lo que gastas hoy en coche y combustible y la cuota del leasing.', 'leasing'],
+  ['__G', 'Pensiones: propuesta del 24 de octubre de 2026'],
+  ['Pensión mínima igual al SMI', 'Que ninguna pensión esté por debajo del salario mínimo, hoy 1.221 € al mes, y que las mínimas suban al mismo ritmo que el SMI. El Frente Amplio la cifra en unos 10.000 M€ al año, pagados con la tributación mínima de las grandes empresas y el 2 % a los patrimonios de más de 1 M€.', 's', 'Tu pensión bruta sube hasta 17.094 € al año (1.221 € × 14), neta de IRPF. Se aplica a la pensión que introduces sin mirar otras rentas: la propuesta no dice si habrá límite de ingresos, como en los complementos a mínimos de hoy.', 'pensmin'],
+  ['Jubilación a los 65 años', 'Fijar los 65 años como edad máxima de jubilación, frente a los 67 que se aplican desde 2027 con menos de 38 años y 6 meses cotizados. El Frente Amplio la cifra en unos 10.000 M€ al año.', 's', 'Si a los 65 tendrás menos de 38,5 años cotizados, te jubilas 2 años antes. Se muestra en «Tu jubilación» y no se pasa a euros. La cuantía sigue dependiendo de lo cotizado.', 'jub65'],
+  ['Cotizar sin tope máximo', 'Eliminar de forma progresiva el tope máximo de cotización, que aportaría entre 7.000 y 8.500 M€ para pagar la jubilación a los 65.', 's', 'Situación final: el trabajador cotiza con sus tipos de hoy por todo el salario, también lo que pasa de 61.214 €, y desaparece la cuota de solidaridad. La pensión máxima no cambia. La parte de la empresa no se ve en la nómina y no se calcula.', 'destope'],
+  ['Aportación de las empresas más automatizadas', 'Una aportación de las empresas más automatizadas al Mecanismo de Equidad Intergeneracional, de 3.000 a 4.000 M€.', 'n', 'La propuesta no dice qué empresas ni con qué base, así que no se calcula.', 'mei'],
 ];
 document.getElementById('medidas').innerHTML = `<thead><tr><th>Medida</th><th>Qué dice el programa</th><th>En el simulador</th></tr></thead><tbody>${MEDIDAS.map(([a, b, s, c, id]) => a === '__G' ? `<tr class="grp"><td colspan="3">${b}</td></tr>` : `<tr id="m-${id}"><td>${a}</td><td>${b}</td><td><span class="st ${s}">${s === 'm' ? 'Modelada' : s === 's' ? 'Con supuesto' : 'No modelada'}</span><br>${c}</td></tr>`).join('')}</tbody>`;
 
