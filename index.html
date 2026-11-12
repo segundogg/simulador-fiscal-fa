@@ -832,7 +832,7 @@ const SEC_EMPRESA = [
 
 const PRESETS = {
   asal: [
-    ['Familia con 30.000 €', {}],
+    ['30.000 € y un bebé', { h03: 1, h311: 0, nacimiento: true, permiso: true, cPanal: 40 }],
     ['Salario mínimo', { bruto: 17094, hExtra: 3, complSMI: true, complImporte: 1800, h311: 0, alquiler: 700, hogarNeto: 1300, personas: 1, cLuz: 45, kwh: 150, tBus: 40, cPelu: 15, intereses: 0 }],
     ['22.000 € y 2 hijos', { bruto: 22000, h03: 1, h311: 1, maternidad: true, alquiler: 850, hogarNeto: 2100, personas: 4, cPanal: 40, cLuz: 80, kwh: 320, permiso: true, nacimiento: true }],
     ['Pensionista con 900 €', { situacion: 'pension', pensionBruta: 12600, pagasPen: '14', edad: 72, h311: 0, alquiler: 0, personas: 2, audif: 2, cLuz: 60, kwh: 220, tBus: 20, cPelu: 20, intereses: 600 }],
@@ -840,6 +840,8 @@ const PRESETS = {
     ['Tiempo parcial 20 h', { bruto: 10500, jornada: 20, parcial: true, h311: 1, alquiler: 750, hogarNeto: 1900, personas: 2 }],
     ['Rentista con 6 pisos', { situacion: 'desempleo', tipoDes: 'ninguna', edad: 58, h311: 0, alquiler: 0, personas: 1, cLuz: 90, kwh: 300, cPelu: 30, cSeguro: 90, tBus: 0, intereses: 3000, dividendos: 2000, alqRend: 36000, alqRed: '0.5', alqBajoIndice: false, turIngresos: 42000, turGastosFin: 15000, turVC: 220000, turVacio: 25, turN: 2, turIBI: 1800, patNeto: 2100000, patVH: 400000, nViv: 6, valOtras: 1500000, ipBonif: '0' }],
     ['Directivo con patrimonio', { bruto: 180000, edad: 52, h311: 0, h1217: 2, alquiler: 0, cEdu: 900, cSeguro: 180, cPelu: 60, cLuz: 160, kwh: 700, personas: 4, tBus: 0, dividendos: 40000, ganancias: 25000, intereses: 6000, pension: 1500, ttfAcc: 80000, ttfBon: 30000, ttfDer: 50000, patNeto: 4500000, patVH: 900000, nViv: 5, valOtras: 2200000, ipBonif: '1', alqRend: 30000, lujoCoche: 160000, lujoYate: 450000, inmN: 1, inmVC: 1400000, inmIBI: 4200 }],
+    // Profesional en el percentil 90 de salarios (43.382 € en la Encuesta de Estructura Salarial 2022, actualizado a 2024 con el salario mediano)
+    ['Profesional con 47.500 €', { bruto: 47500, edad: 36, h03: 0, h311: 0, h1217: 0, alquiler: 1100, tensionada: true, hogarNeto: 4800, personas: 2, cLuz: 70, kwh: 250, tBus: 40, cPelu: 25, intereses: 300, cot65: 35 }],
     // Gran fortuna que tributa a través de una sociedad patrimonial (perfil tipo de las grandes fortunas españolas de la lista
     // Forbes, con unos 1.500 M€: casi todo en participaciones de su empresa familiar a través de una sociedad patrimonial que
     // recibe los dividendos). Patrimonio personal no exento y bienes de lujo: supuestos propios.
@@ -865,7 +867,7 @@ const PRESETS = {
 // Primero los perfiles que ganan; al final, rentista y directivo con patrimonio
 {
   const byName = Object.fromEntries([...PRESETS.asal, ...PRESETS.auto].map(p => [p[0], p]));
-  PRESETS.persona = ['Familia con 30.000 €', 'Salario mínimo', 'Pensionista con 900 €', 'Autónomo con 18.000 €', 'Rentista con 6 pisos', 'Gran fortuna con sociedad patrimonial'].map(n => byName[n]);
+  PRESETS.persona = ['30.000 € y un bebé', 'Salario mínimo', 'Pensionista con 900 €', 'Autónomo con 18.000 €', 'Profesional con 47.500 €', 'Rentista con 6 pisos', 'Gran fortuna con sociedad patrimonial'].map(n => byName[n]);
 }
 let tab = 'persona'; // pestaña: 'persona' | 'emp'
 let mode = 'asal';    // modo de cálculo: 'asal' | 'auto' | 'emp'
