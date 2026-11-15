@@ -1103,7 +1103,7 @@ function readData() {
 
 // Cada bloque del simulador enlaza con sus medidas en «Medidas del programa económico»
 const SECLINK = {
-  trab: ['irpf25', 'tramo150', 'destope', 'jornada', 'smi', 'registro', 'iprem', 'desempleo', 'pensmin', 'jub65', 'jubant'],
+  trab: ['irpf25', 'tramo150', 'destope', 'jornada', 'smi', 'registro', 'iprem', 'desempleo', 'pensmin', 'jub65'],
   viv: ['tope', 'vivpub', 'hipotecas', 'hipneg', 'itp'],
   fam: ['crianza', 'comedor', 'infantil', 'nacimiento', 'parental'],
   mov: ['abono', 'audif', 'veo', 'dental', 'leasing'],
@@ -1469,7 +1469,6 @@ const MEDIDAS = [
   ['Tope al gas (excepción ibérica)', 'Recuperar la excepción ibérica y topar el precio del gas que se usa para generar electricidad, y limitar los márgenes de los carburantes.', 's', 'Se da por activado, porque el gas está alto. Solo con tarifa PVPC o indexada: se aplica el resultado del tope de 2022, un ahorro del 24,1 % de la factura. El límite a los márgenes de los carburantes no se calcula.', 'gas'],
   ['Pensión mínima ligada al SMI', 'Revalorizar las pensiones con el IPC real y ligar por ley la pensión mínima al SMI.', 's', 'Tu pensión bruta sube hasta el SMI de 2027 (18.000 € al año), neta de IRPF. Se aplica sin mirar otras rentas.', 'pensmin'],
   ['Jubilación a los 65 años', 'Recuperar la edad de jubilación a los 65 años.', 's', 'Se muestra en «Tu tiempo»: te jubilas 2 años antes (de 67 a 65), que en asalariados se pasa a horas de trabajo con tu jornada. No se suma al saldo en euros. Quien a los 65 tenga 38 años y 6 meses cotizados ya puede jubilarse hoy a esa edad.', 'jub65'],
-  ['Jubilación anticipada', 'Jubilación anticipada sin recorte para quien haya cotizado más de 40 años y se jubile antes sin quererlo, y a los 60 años en construcción, limpieza, ayuda a domicilio, camareras de piso y pesca.', 'x', 'No se calcula.', 'jubant'],
   ['Cotizar sin tope máximo', 'Elevar de forma progresiva el tope máximo de cotización, junto con la cotización de solidaridad, para financiar las pensiones.', 's', 'Se toma el final del camino: el trabajador cotiza con sus tipos de hoy por todo el salario y desaparece la cuota de solidaridad. La parte de la empresa no se calcula.', 'destope'],
   ['__G', '5. Continuar el impulso hacia una transición ecológica justa'],
   ['Abono único de transporte', 'Cercanías a 20 € (10 € menores de 26, gratis menores de 16); media distancia del −60 % al −70 % (gratis menores de 15); larga distancia recurrente −50 %; bus y metro −75 % (−80 % menores de 26, gratis menores de 15).', 's', 'Se supone que lo que pagas hoy en bus y metro ya lleva un 40 % de descuento. En media distancia se usa un 65 % de descuento.', 'abono'],
