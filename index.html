@@ -355,7 +355,8 @@ function migrate(){
 }
 function buildBank(){
   BANK = {};
-  MINE.forEach(m=>{ const g=m.group||"Mis preguntas", t=m.tag||""; BANK[m.id]={id:m.id,group:g,tag:t,topic:g+"|"+t,label:fullLabel(g,t),q:m.q,o:m.o,ref:m.n?("Pregunta n.º "+m.n):"",user:true}; });
+  const byQ={}; CLAUDE_DATA.forEach(L=>L.qs.forEach(r=>{ byQ[r[0]]={law:L.law,boe:L.boe,art:r[2],quote:r[3]}; }));
+  MINE.forEach(m=>{ const g=m.group||"Mis preguntas", t=m.tag||""; BANK[m.id]={id:m.id,group:g,tag:t,topic:g+"|"+t,label:fullLabel(g,t),q:m.q,o:m.o,ref:m.n?("Pregunta n.º "+m.n):"",user:true,expl:m.expl||"",src:byQ[m.q]||null}; });
   CLAUDE_DATA.forEach(L=>L.qs.forEach(r=>{ const id="c"+hash(L.g+"|"+r[0]); BANK[id]={id,group:L.g,tag:"",topic:L.g+"|",label:L.g,q:r[0],o:r[1],ref:"",src:{law:L.law,boe:L.boe,art:r[2],quote:r[3]}}; }));
 }
 function groupRank(g){ return g===G_CUAD?0 : g===G_LOZ?1 : /Claude$/.test(g)?3 : 2; }
@@ -691,7 +692,8 @@ function parseImport(text,keyText,defTag){
     if(isHead){ tag=niceTag(line); cur=null; return; }
     if(mo && cur){ const ok=CHECK.test(mo[2]); cur.o.push(mo[2].replace(CHECK," ").trim()); if(ok) cur.marks.push(cur.o.length-1); }
     else if(mq){ cur={n:+mq[1],q:mq[2].trim(),o:[],marks:[],tag}; qs.push(cur); }
-    else if(cur && !/^\(.*\)$/.test(line)){
+    else if(cur && /^\(.*\)$/.test(line)){ if(cur.o.length) cur.expl=line.slice(1,-1).trim(); }
+    else if(cur){
       if(cur.o.length){ const i=cur.o.length-1; if(CHECK.test(line)) cur.marks.push(i); cur.o[i]+=" "+line.replace(CHECK," ").trim(); }
       else cur.q+=" "+line;
     }
@@ -703,7 +705,9 @@ function parseImport(text,keyText,defTag){
     let c = q.marks.length===1 ? q.marks[0] : (q.n in key ? key[q.n] : -1);
     if(c<0||c>=q.o.length){ noKey.push(q.n); return; }
     const o=[q.o[c]].concat(q.o.filter((_,i)=>i!==c));
-    ok.push({id:"q"+hash(q.tag+"|"+q.n+"|"+q.q), tag:q.tag, n:q.n, q:q.q, o});
+    const item={id:"q"+hash(q.tag+"|"+q.n+"|"+q.q), tag:q.tag, n:q.n, q:q.q, o};
+    if(q.expl) item.expl=q.expl.slice(0,1200);
+    ok.push(item);
   });
   return {ok,noKey,bad,total:qs.length};
 }
@@ -1008,7 +1012,18 @@ const LAW = (()=>{
     if(others.length) s+='<span class="hint">¿No encaja? Ver '+others.join(" o ")+'</span>';
     return s+'</div><div class="law-note">Artículo localizado automáticamente en el texto oficial del BOE. Si no corresponde, prueba las otras opciones.</div></div>';
   }
-  return {html};
+  // Artículo concreto de la Constitución (p. ej. "Art. 30.1"): muestra su texto literal
+  function exact(q, lab){
+    const units=U.filter(u=>u.lab===lab || u.lab.startsWith(lab+"."));
+    if(!units.length) return "";
+    const ans=new Set(toks(q.o[0])), qs=new Set(toks(q.q));
+    const show=units.slice(0,4);
+    const name=lab.replace(/^Art\./,"art.");
+    return '<div class="law"><div class="law-head">Lo regula el <strong>'+esc(name)+'</strong> de la Constitución:</div>'+
+      show.map(u=>'<blockquote>'+extract(u,ans,qs)+'</blockquote>').join("")+(units.length>show.length?'<div class="hint">…</div>':'')+
+      '<div class="law-foot"><a href="'+boe(units[0])+'" target="_blank" rel="noopener">Ver en el BOE</a></div></div>';
+  }
+  return {html, exact};
 })();
 function srcBlock(q){
   const S=q.src, wrap=document.createElement("div");
@@ -1016,8 +1031,26 @@ function srcBlock(q){
   wrap.innerHTML='<div class="law"><div class="law-head">Lo regula el <strong>'+esc(art)+'</strong> de la '+esc(S.law)+':</div><blockquote>'+esc(S.quote)+'</blockquote><div class="law-foot"><a href="https://www.boe.es/buscar/act.php?id='+esc(S.boe)+'" target="_blank" rel="noopener">Ver la ley en el BOE</a></div></div>';
   return wrap;
 }
+function explBlock(q){
+  const E=q.expl, wrap=document.createElement("div");
+  const m=E.match(/^(Art(?:[íi]culo|\.)?\s*\d+(?:\.\d+)*(?:\.[a-zñ]|\.\dª)?(?:\s*(?:bis|ter))?)\s*(CE)?\s*(?:[:.]\s*«([\s\S]*)»)?\s*$/i);
+  if(m && m[3]){
+    const L=CLAUDE_DATA.find(L=>norm0(L.g)===norm0(q.group+" "+q.tag) || norm0(L.g)===norm0(q.tag) || norm0(L.g)===norm0(q.group));
+    wrap.innerHTML='<div class="law"><div class="law-head">Lo regula el <strong>'+esc(m[1].replace(/^Art(?:[íi]culo|\.)?\s*/i,"art. "))+'</strong>'+(L?' de la '+esc(L.law):'')+':</div><blockquote>'+esc(m[3])+'</blockquote>'+(L?'<div class="law-foot"><a href="https://www.boe.es/buscar/act.php?id='+esc(L.boe)+'" target="_blank" rel="noopener">Ver la ley en el BOE</a></div>':'')+'</div>';
+    return wrap;
+  }
+  if(m){
+    const lab="Art. "+m[1].replace(/^Art(?:[íi]culo|\.)?\s*/i,"").replace(/\s+/g,"");
+    const h=LAW.exact(q,lab);
+    if(h){ wrap.innerHTML=h; return wrap; }
+  }
+  wrap.innerHTML='<div class="law"><div class="law-head">Referencia: <strong>'+esc(E)+'</strong></div></div>';
+  return wrap;
+}
+function norm0(s){ return String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g," ").trim(); }
 function lawBlock(q){
   if(q.src) return srcBlock(q);
+  if(q.expl) return explBlock(q);
   const wrap=document.createElement("div"); wrap.innerHTML=LAW.html(q,0);
   wrap.addEventListener("click",e=>{ const b=e.target.closest(".law-alt"); if(!b) return; wrap.innerHTML=LAW.html(q,+b.dataset.pick); });
   return wrap;
