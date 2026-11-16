@@ -180,6 +180,10 @@ details.fold>summary .hint{font-size:13px;color:var(--muted);flex:1}
 details.fold>summary::after{content:"+";font:500 20px var(--f-mono);color:var(--verm-ink)}
 details.fold[open]>summary::after{content:"–"}
 details.fold[open]>summary{margin-bottom:14px}
+.btn-prog{display:inline-flex;align-items:center;gap:8px;margin:2px 0 18px;padding:12px 20px;border-radius:999px;background:var(--ink);color:var(--bg);font:700 15px var(--f-body);text-decoration:none}
+.btn-prog:hover{background:var(--verm);color:#fff}
+.btn-prog:focus-visible{outline:3px solid var(--verm);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .measures tr.grp td{font:600 11.5px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink);background:var(--panel);padding-top:10px}
 .flink{grid-column:1/-1;margin-top:-4px}
 .mlink{font-size:12.5px;font-weight:600;color:var(--verm-ink);text-decoration:underline;text-underline-offset:3px}
@@ -243,6 +247,7 @@ footer{padding-block:24px 90px;font-size:12.5px;color:var(--muted);border-top:1p
     <details class="fold" id="medidas-d">
       <summary><h2>Medidas del programa económico</h2><span class="hint">Qué dice el programa y cómo lo calcula el simulador</span></summary>
       <p class="lead">Ordenadas por los bloques del programa. Desde cada apartado del simulador, «Ver la medida en el programa» te trae a la que corresponde. «Modelada» aplica la cifra del programa o de la norma; «Con supuesto» cierra con un criterio propio lo que el texto no cifra; «No modelada» se explica pero no se calcula.</p>
+      <a class="btn-prog" href="https://frenteamplio.info/pdf/ProgramaFrenteAmplio.pdf" target="_blank" rel="noopener">Consultar el programa completo <span aria-hidden="true">↗</span><span class="sr">(PDF, se abre en otra pestaña)</span></a>
       <div class="tbl-wrap">
         <table class="measures" id="medidas"></table>
       </div>
@@ -254,8 +259,8 @@ footer{padding-block:24px 90px;font-size:12.5px;color:var(--muted);border-top:1p
   <div class="wrap">
     <p class="foot-lead">Simulador del programa económico del Frente Amplio.</p>
     <div class="foot-cols">
-      <p><strong>Responsable.</strong> El titular de este sitio web, en los términos de su <a href="/aviso-legal/">aviso legal</a>.</p>
-      <p><strong>Privacidad.</strong> Los datos que introduces se calculan en tu navegador: no se envían, no se guardan y no se usan cookies ni analítica. Más información en la <a href="/politica-de-privacidad/">política de privacidad</a>.</p>
+      <p><strong>Responsable.</strong> El titular de este sitio web, en los términos de su <a href="https://frenteamplio.info/legal/" target="_blank" rel="noopener">aviso legal</a>.</p>
+      <p><strong>Privacidad.</strong> Los datos que introduces se calculan en tu navegador: no se envían, no se guardan y no se usan cookies ni analítica. Más información en la <a href="https://frenteamplio.info/privacidad/" target="_blank" rel="noopener">política de privacidad</a>.</p>
       <p><strong>Estimación orientativa.</strong> El cálculo está basado en el programa electoral del Frente Amplio, la normativa vigente y los supuestos de cada medida si se aplicara en sus términos. No es un cálculo oficial ni supone asesoramiento fiscal.</p>
     </div>
   </div>
