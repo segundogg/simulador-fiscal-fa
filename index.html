@@ -510,7 +510,6 @@ function consumo(d, fa) {
   r.luz = fa ? baseLuz * (1 + ivaLuzFA(d.kwh, d.personas)) * m : d.cLuz * m;
   r.edu = d.cEdu * m * (fa ? 1.21 : 1);
   r.seguro = d.cSeguro * m * (fa ? 1.08 : 1);
-  r.diesel = fa ? d.dieselL * m * 0.094 * 1.21 : 0;
   // Tabaco al nivel de la media de la UE: impuesto especial de 211 € por 1.000 cigarrillos (media simple de la UE en 2026)
   // frente a 156,50 € en España: 1,09 € más por cajetilla de 20, más IVA
   r.tabaco = fa ? (d.tabacoPaq || 0) * m * (211 - 156.5) / 50 * 1.21 : 0;
@@ -854,7 +853,7 @@ const SEC_COMUNES = [
     N('cGluten', 'Productos sin gluten', 0, { u: '€/mes' }),
     L('ivabas'),
   ]},
-  { id: 'aho', title: 'Ahorro, inversiones y otros gastos', hint: 'Intereses, dividendos, enseñanza, seguro, gasóleo y tabaco', open: false, fields: [
+  { id: 'aho', title: 'Ahorro, inversiones y otros gastos', hint: 'Inversiones, intereses y gastos', open: false, fields: [
     N('intereses', 'Intereses de cuentas y depósitos', 200, { u: '€/año' }),
     N('dividendos', 'Dividendos', 0, { u: '€/año' }),
     N('ganancias', 'Ganancias por venta de acciones, fondos o inmuebles', 0, { u: '€/año' }),
@@ -866,11 +865,10 @@ const SEC_COMUNES = [
     N('ttfDer', 'Derivados que contratas (valor nocional)', 0, { u: '€/año', hint: 'Futuros, opciones o CFD: el 0,3 % sobre el valor del activo de referencia.' }),
     L('ttf'),
     SUB('Otros gastos que suben'),
-    N('cEdu', 'Enseñanza privada (colegio, academia)', 0, { u: '€/mes', hint: 'Deja de estar exenta de IVA: pasa a pagar el 21 %.' }),
+    N('cEdu', 'Enseñanza privada', 0, { u: '€/mes', hint: 'Deja de estar exenta de IVA: pasa a pagar el 21 %.' }),
     N('cSeguro', 'Seguro médico privado', 0, { u: '€/mes', hint: 'Deja de estar exento del Impuesto sobre las Primas de Seguros: pasa a pagar el 8 %.' }),
-    N('dieselL', 'Gasóleo que repostas', 0, { u: 'litros/mes', hint: 'Paga el mismo impuesto que la gasolina: unos 0,094 € más por litro, más IVA.' }),
     N('tabacoPaq', 'Cajetillas de tabaco que compras', 0, { u: 'nº/mes', hint: 'El impuesto sube hasta la media de la UE: unos 1,32 € más por cajetilla de 20, con IVA.' }),
-    L('ensenanza', 'gasoleo', 'tabaco'),
+    L('ensenanza', 'tabaco'),
   ]},
   { id: 'prop', title: 'Si alquilas viviendas', hint: 'Como propietario/a', open: false, fields: [
     SUB('Alquiler de vivienda habitual'),
@@ -1055,7 +1053,7 @@ function renderForm() {
   form.querySelectorAll('details.sec').forEach(d => openState[d.dataset.id] = d.open);
   const GRUPOS = mode === 'emp' ? {} : {
     0: ['Dónde ganas', 'Trabajo, vivienda, familia, movilidad y consumo asequible'],
-    5: ['Dónde pagas más', 'Ahorro, otros gastos, alquileres, patrimonio, herencias y lujo'],
+    5: ['Dónde pagas más', 'Inversión, otros gastos, alquileres, patrimonio, herencias y lujo'],
   };
   form.innerHTML = allSections().map((s, i) => {
     const open = s.id in openState ? openState[s.id] : s.open;
@@ -1108,7 +1106,7 @@ const SECLINK = {
   fam: ['crianza', 'comedor', 'infantil', 'nacimiento', 'parental'],
   mov: ['abono', 'audif', 'veo', 'dental', 'leasing'],
   cons: ['ivabas', 'ivaluz', 'luzgratis', 'gas', 'vulnerable'],
-  aho: ['ahorro', 'planes', 'ttf', 'ensenanza', 'gasoleo', 'tabaco'],
+  aho: ['ahorro', 'planes', 'ttf', 'ensenanza', 'tabaco'],
   prop: ['alqtur', 'ivatur', 'ibitur', 'ibivac', 'acumula'],
   pat: ['fortunas', 'zucman', 'acumula', 'lujo', 'herencias', 'inmuebles'],
   emp1: ['sociedades', 'socimi', 'contribviv', 'nocompartidos'], emp2: ['sociedades'], emp3: ['banca', 'energetico', 'alimentacion', 'socalq'],
@@ -1265,7 +1263,7 @@ function calcPersona() {
     ['Sucesiones y donaciones', H.her.total, F.her.total],
     ['Transacciones financieras (compras nuevas gravadas)', transacciones(d, false), transacciones(d, true)],
   ];
-  const conRows = [['Luz', con.luz, cof.luz], ['Peluquería', con.pelu, cof.pelu], ['Veterinario', con.vet, cof.vet], ['Pañales', con.panal, cof.panal], ['Sin gluten', con.gluten, cof.gluten], ['Enseñanza privada', con.edu, cof.edu], ['Seguro médico', con.seguro, cof.seguro], ['Sobrecoste del tabaco', con.tabaco, cof.tabaco], ['Sobrecoste del gasóleo', con.diesel, cof.diesel]].filter(x => x[1] || x[2]);
+  const conRows = [['Luz', con.luz, cof.luz], ['Peluquería', con.pelu, cof.pelu], ['Veterinario', con.vet, cof.vet], ['Pañales', con.panal, cof.panal], ['Sin gluten', con.gluten, cof.gluten], ['Enseñanza privada', con.edu, cof.edu], ['Seguro médico', con.seguro, cof.seguro], ['Sobrecoste del tabaco', con.tabaco, cof.tabaco]].filter(x => x[1] || x[2]);
   const tbl = (rs) => `<div class="tbl-wrap"><table><thead><tr><th>Concepto</th><th class="n">Hoy</th><th class="n">Propuesta</th></tr></thead><tbody>${rs.map(([a, b, c, s]) => `<tr class="${s ? 'strong' : ''}"><td>${a}</td><td class="n">${eur(b)}</td><td class="n">${eur(c)}</td></tr>`).join('')}</tbody></table></div>`;
 
   const netoH = H.netoTrab, netoF = F.netoTrab;
@@ -1460,7 +1458,6 @@ const MEDIDAS = [
   ['Tres horas de luz gratis', 'Tres horas de electricidad gratuita al día para todos los hogares, en la franja de más producción solar.', 's', 'Se supone que esas tres horas son el 15 % de tu consumo y que la energía es el 75 % de la factura: ahorras un 11,25 % de la factura sin impuestos, más su IVA.', 'luzgratis'],
   ['Ayuda a hogares vulnerables', 'Ayuda directa de 1.000 € al año durante dos años a los hogares vulnerables, financiada con el gravamen a las energéticas.', 's', 'Se considera vulnerable al hogar con bono social eléctrico. Se valora un año.', 'vulnerable'],
   ['Gravamen sobre bienes de lujo', 'Gravamen de solidaridad ambiental sobre aviones privados, yates, coches de lujo y otros bienes suntuarios.', 's', 'Sin tipos en el programa: 1 % anual del valor de los coches de más de 100.000 € y 2 % del de yates de más de 8 m y aviones o helicópteros privados.', 'lujo'],
-  ['Gasóleo', 'Equiparar el diésel con el resto de combustibles fósiles en el Impuesto sobre Hidrocarburos.', 'm', '+0,094 €/litro más IVA (diferencia con la gasolina).', 'gasoleo'],
   ['__G', '4. Salarios y pensiones dignos y precios asequibles'],
   ['Jornada de 37,5 horas', 'Jornada máxima de 37,5 horas en 2026 sin rebaja de sueldo, 35 horas en el sector público, sin compensarla con horas extra, y diálogo social para llegar a 32 horas.', 's', 'Se calcula con 37,5 horas. Se muestran las horas libres ganadas (45,65 semanas efectivas al año). A tiempo parcial se mantienen las horas y el sueldo sube en proporción (40/37,5).', 'jornada'],
   ['Registro digital de jornada', 'Registro horario digital, fiable e interoperable, con acceso de la Inspección, para acabar con las horas extra que no se pagan.', 's', 'Las horas extra que hoy no se pagan pasan a cobrarse al valor de la hora ordinaria, con su cotización e IRPF.', 'registro'],
